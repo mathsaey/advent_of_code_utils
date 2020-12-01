@@ -1,8 +1,8 @@
 defmodule AOC.Helpers do
   @moduledoc false
 
-  def day, do: Application.get_env(:advent_of_code_utils, :day, Date.utc_today().day)
-  def year, do: Application.get_env(:advent_of_code_utils, :year, Date.utc_today().year)
+  def day, do: Application.get_env(:advent_of_code_utils, :day, NaiveDateTime.local_now().day)
+  def year, do: Application.get_env(:advent_of_code_utils, :year, NaiveDateTime.local_now().year)
 
   def module_name(year, day) do
     mod_year = "Y#{year}" |> String.to_atom()
