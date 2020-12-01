@@ -27,18 +27,18 @@ import AOC
 
 aoc 2020, 1 do
 
-  def p1() do
+  def p1 do
   end
 
-  def p2() do
+  def p2 do
   end
 end
 ```
 
 In this generated module, you access the contents of the fetched input by using
 `input_path()`, `input_string()` or `input_stream()`.
-While solving your challenge in `iex`, you can use the `AOC.p1()` and `AOC.p2()`
-helpers to quickly test your solution so far.
+While solving your challenge, you can use the `AOC.p1()` and `AOC.p2()` helpers
+in `iex` to quickly test your solution so far.
 
 All of this is configurable so that you can adjust this project to fit your own
 workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils) for
