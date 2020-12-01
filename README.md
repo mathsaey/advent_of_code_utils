@@ -51,7 +51,7 @@ more information!
 ```elixir
 def deps do
   [
-    {:advent_of_code_utils, "~> 0.1.0"}
+    {:advent_of_code_utils, "~> 0.1.1"}
   ]
 end
 ```
@@ -67,3 +67,6 @@ config :advent_of_code_utils, session: "<your cookie>"
   can be passed in various ways, so this project is still highly useful when
   you're catching up on older challenges.
 
+- Add `import AOC` to your
+  [`iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
+  _(optional)_
