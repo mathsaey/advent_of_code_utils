@@ -111,7 +111,7 @@ defmodule AOC do
       def _aoc_day, do: unquote(day)
       def _aoc_year, do: unquote(year)
 
-      def input_path, do: Path.expand(AOC.Helpers.input_path(_aoc_day(), _aoc_year()))
+      def input_path, do: Path.expand(AOC.Helpers.input_path(_aoc_year(), _aoc_day()))
       def input_string, do: File.read!(input_path())
       def input_stream, do: input_path() |> File.stream!() |> Stream.map(&String.trim/1)
 
