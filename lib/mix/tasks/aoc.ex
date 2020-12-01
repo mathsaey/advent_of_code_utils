@@ -75,6 +75,7 @@ defmodule Mix.Tasks.Aoc do
         :error ->
           error("Could not fetch input. Please verify:")
           error("- Your cookie is set up correctly")
+          error("- The challenge is available")
           error("- There is an input today")
       end
     end
