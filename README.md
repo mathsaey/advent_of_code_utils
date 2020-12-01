@@ -41,7 +41,7 @@ While solving your challenge, you can use the `AOC.p1()` and `AOC.p2()` helpers
 in `iex` to quickly test your solution so far.
 
 All of this is configurable so that you can adjust this project to fit your own
-workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils) for
+workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
 more information!
 
 ## Installation & Use
@@ -69,4 +69,5 @@ config :advent_of_code_utils, session: "<your cookie>"
 
 - Add `import AOC` to your
   [`iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
-  _(optional)_
+  This allows you to use the utilities defined in `AOC` without
+  specifying the module name. _(optional)_
