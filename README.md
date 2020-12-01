@@ -1,5 +1,9 @@
 # Advent of Code Utils
 
+[![hex.pm](https://img.shields.io/hexpm/v/advent_of_code_utils.svg)](https://hex.pm/packages/advent_of_code_utils)
+[![hexdocs.pm](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/advent_of_code_utils/)
+[![hex.pm](https://img.shields.io/hexpm/l/advent_of_code_utils.svg)](https://hex.pm/packages/advent_of_code_utils)
+
 Input fetching and boilerplate generation for [Advent of Code](https://adventofcode.com/).
 
 The goal of this project is to eliminate most of the manual labor involved with
