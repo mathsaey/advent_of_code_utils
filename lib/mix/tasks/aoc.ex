@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Aoc do
-  @doc """
+  @moduledoc """
   Fetch input and create a code skeleton for a given day / year.
 
   This mix task:
