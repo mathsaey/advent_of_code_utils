@@ -71,3 +71,12 @@ config :advent_of_code_utils, session: "<your cookie>"
   [`iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
   This allows you to use the utilities defined in `AOC` without
   specifying the module name. _(optional)_
+
+## Issues
+
+This project grew from a collection of utilities I wrote for myself when working
+on advent of code.
+I polished these utilities, but it is very likely that some bugs are still
+present.
+If you run into any issue, feel free to create an issue on
+[GitHub](https://github.com/mathsaey/advent_of_code_utils).
