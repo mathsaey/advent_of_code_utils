@@ -100,6 +100,10 @@ defmodule AOC do
   `Application.get_env/3`). If the value is present, it is used, otherwise, the current day or
   year is used. Since the application environment is used, you can override day or year in your
   `config/config.exs` file.
+
+  If `auto_reload?` is set to `true` in the `:advent_of_code_utils` application configuration,
+  running `p1()` or `p2()` will recompile the current mix project (with `IEx.Helpers.recompile/1`)
+  before calling `p1` or `p2`.
   """
   import AOC.Helpers
 
@@ -167,6 +171,8 @@ defmodule AOC do
 
   `day` and `year` are fetched from the `:advent_of_code_utils` application environment. The
   current day / year is used if these are not set.
+
+  Recompiles the current mix project is `auto_reload?` is enabled.
   """
   def p1(), do: p1(day(), year())
 
@@ -175,6 +181,8 @@ defmodule AOC do
 
   `day` and `year` are fetched from the `:advent_of_code_utils` application environment. The
   current day / year is used if these are not set.
+
+  Recompiles the current mix project is `auto_reload?` is enabled.
   """
   def p2(), do: p2(day(), year())
 
@@ -183,6 +191,8 @@ defmodule AOC do
 
   `day` is passed as a parameter, `year` is fetched from the `:advent_of_code_utils` application
   environment. If it is not set, the current year is used.
+
+  Recompiles the current mix project is `auto_reload?` is enabled.
   """
   def p1(day), do: p1(day, year())
 
@@ -191,12 +201,28 @@ defmodule AOC do
 
   `day` is passed as a parameter, `year` is fetched from the `:advent_of_code_utils` application
   environment. If it is not set, the current year is used.
+
+  Recompiles the current mix project is `auto_reload?` is enabled.
   """
   def p2(day), do: p2(day, year())
 
-  @doc "Call `Y<year>.D<day>.p1()`"
-  def p1(day, year), do: module_name(year, day).p1()
+  @doc """
+  Call `Y<year>.D<day>.p1()`
 
-  @doc "Call `Y<year>.D<day>.p2()`"
-  def p2(day, year), do: module_name(year, day).p2()
+  Recompiles the current mix project is `auto_reload?` is enabled.
+  """
+  def p1(day, year) do
+    maybe_reload()
+    module_name(year, day).p1()
+  end
+
+  @doc """
+  Call `Y<year>.D<day>.p2()`
+
+  Recompiles the current mix project is `auto_reload?` is enabled.
+  """
+  def p2(day, year) do
+    maybe_reload()
+    module_name(year, day).p2()
+  end
 end

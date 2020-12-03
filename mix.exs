@@ -7,7 +7,7 @@ defmodule AdventOfCodeUtils.MixProject do
     [
       app: :advent_of_code_utils,
       name: "Advent of Code Utilities",
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.11",
       source_url: @source_url,
       start_permanent: Mix.env() == :prod,
@@ -26,7 +26,7 @@ defmodule AdventOfCodeUtils.MixProject do
 
   def application do
     [
-      extra_applications: [:inets]
+      extra_applications: [:inets, :iex]
     ]
   end
 

@@ -39,6 +39,7 @@ In this generated module, you access the contents of the fetched input by using
 `input_path()`, `input_string()` or `input_stream()`.
 While solving your challenge, you can use the `AOC.p1()` and `AOC.p2()` helpers
 in `iex` to quickly test your solution so far.
+These helpers can also be set up to automatically recompile your mix project.
 
 All of this is configurable so that you can adjust this project to fit your own
 workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
@@ -71,6 +72,13 @@ config :advent_of_code_utils, session: "<your cookie>"
   [`iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
   This allows you to use the utilities defined in `AOC` without
   specifying the module name. _(optional)_
+
+- Set `auto_reload?` in your `config/config.exs` if you want the various
+  `AOC.p*` to recompile your project:
+
+```elixir
+config :advent_of_code_utils, auto_reload?: true
+```
 
 ## Issues
 
