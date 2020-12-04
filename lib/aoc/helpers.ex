@@ -25,14 +25,4 @@ defmodule AOC.Helpers do
     |> String.replace(":year", Integer.to_string(year))
     |> String.replace(":day", Integer.to_string(day))
   end
-
-  defp mix_started? do
-    Application.started_applications()
-    |> Enum.find(false, fn {name, _, _} -> name == :mix end)
-  end
-
-  def maybe_reload() do
-    reload? = Application.get_env(:advent_of_code_utils, :auto_reload?, false)
-    if(reload? and mix_started?(), do: IEx.Helpers.recompile())
-  end
 end
