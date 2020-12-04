@@ -6,8 +6,8 @@ defmodule AdventOfCodeUtils.MixProject do
   def project do
     [
       app: :advent_of_code_utils,
-      name: "Advent of Code Utilities",
-      version: "0.1.3",
+      name: "Advent of Code Utils",
+      version: "0.2.0",
       elixir: "~> 1.11",
       source_url: @source_url,
       start_permanent: Mix.env() == :prod,
