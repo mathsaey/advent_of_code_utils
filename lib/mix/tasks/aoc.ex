@@ -129,7 +129,7 @@ defmodule Mix.Tasks.Aoc do
 
   defp get_input(session, year, day) do
     start_applications()
-    resp = :httpc.request(:get, {"#{url(year, day)}/input", [cookie(session)]}, [], [])
+    resp = :httpc.request(:get, {'#{url(year, day)}/input', [cookie(session)]}, [], [])
 
     case resp do
       {:ok, {{'HTTP/1.1', 200, 'OK'}, _headers, body}} -> {:ok, body}
