@@ -54,11 +54,9 @@ defmodule AOC do
 
   This module defines various functions such as `input_path/2`, `input_string/2` and
   `input_stream/2`. Inside the generated module, helpers are inserted which call these functions
-  with the module's day / year. Note that the generated functions are overridable, i.e. you can
-  define your own version of these functions which will overwrite the generated function.
-
-  Thus, if you call `input_path()` inside your solution module, it will call `input_path/2` for
-  you with the module's day and year, obtaining the path to the appropriate input file.
+  with the module's day / year.  Thus, if you call `input_path()` inside your solution module, it
+  will call `input_path/2` for you with the module's day and year, obtaining the path to the
+  appropriate input file.
 
   The following table provides an overview of the inserted functions and their counterparts in
   this module:
@@ -68,6 +66,13 @@ defmodule AOC do
   | `input_path/0`   | `input_path/2`   |
   | `input_string/0` | `input_string/2` |
   | `input_stream/0` | `input_stream/2` |
+
+  The generated functions are overridable, i.e. you can define your own version of these functions
+  which will overwrite the generated function. This is handy to do something like the following:
+
+  ```
+  def input_stream, do: super() |> Stream.map(&String.to_integer/1)
+  ```
   """
   alias AOC.Helpers
 
