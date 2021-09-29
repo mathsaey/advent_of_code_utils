@@ -33,8 +33,8 @@ aoc 2020, 1 do
 end
 ```
 
-In this generated module, you access the contents of the fetched input by using
-`input_path()`, `input_string()` or `input_stream()`.
+In this generated module, you can access the contents of the fetched input by
+using `input_path()`, `input_string()` or `input_stream()`.
 While solving your challenge, you can use the `AOC.p1()` and `AOC.p2()` helpers
 in `iex` to quickly test your solution so far.
 These helpers can also be set up to automatically recompile your mix project.
