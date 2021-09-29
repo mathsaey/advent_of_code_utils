@@ -25,4 +25,19 @@ defmodule AOC.Helpers do
     |> String.replace(":year", Integer.to_string(year))
     |> String.replace(":day", Integer.to_string(day))
   end
+
+  def parse_args!(args) do
+    switches = [session: :string, year: :integer, day: :integer]
+    aliases = [s: :session, y: :year, d: :day]
+
+    opts =
+      case OptionParser.parse(args, aliases: aliases, strict: switches) do
+        {opts, [], []} -> opts
+        {_, [], any} -> Mix.raise("Invalid option(s): #{inspect(any)}")
+        {_, any, _} -> Mix.raise("Unexpected argument(s): #{inspect(any)}")
+      end
+
+    session = Application.get_env(:advent_of_code_utils, :session, nil)
+    {opts[:session] || session, opts[:year] || year(), opts[:day] || day()}
+  end
 end
