@@ -1,6 +1,6 @@
 defmodule AOC do
   @moduledoc """
-  Advent of Code solution module macro.
+  Advent of Code solution module macro and helpers.
 
   This module contains the `aoc/3` macro, which should be used to write a solution module for a
   given advent of code challenge. The intended use is to write your solution for day `<day>`, year
@@ -88,7 +88,6 @@ defmodule AOC do
   import AOC
 
   aoc 2020, 1 do
-
     def some_function do
       :foo
     end
@@ -118,7 +117,6 @@ defmodule AOC do
     end
   end
 
-
   defmacro __using__(opts) do
     day = Keyword.fetch!(opts, :day)
     year = Keyword.fetch!(opts, :year)
@@ -138,7 +136,7 @@ defmodule AOC do
   Get the input path for `year`, `day`.
 
   Obtains the path where `mix aoc.input` stores the input for `year`, `day`. This path defaults to
-  `input/<year>_<day>.txt`, but can be customized. Please refer to the `mix aoc.input`
+  `input/<year>_<day>.txt`, but can be customized. Please refer to the `mix aoc.get`
   documentation for more information.
   """
   def input_path(year, day), do: Helpers.input_path(year, day)

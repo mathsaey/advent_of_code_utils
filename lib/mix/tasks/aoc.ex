@@ -37,7 +37,7 @@ defmodule Mix.Tasks.Aoc do
     Mix.shell().info("Today's challenge can be found at: #{url(year, day)}")
   end
 
-  def do_try(mod, name, args) do
+  defp do_try(mod, name, args) do
     try do
       mod.run(args)
     rescue
@@ -45,5 +45,6 @@ defmodule Mix.Tasks.Aoc do
     end
   end
 
+  @doc false
   def url(year, day), do: to_charlist("http://adventofcode.com/#{year}/day/#{day}")
 end

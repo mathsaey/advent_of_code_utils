@@ -3,10 +3,10 @@ defmodule AOC.IEx do
   IEx helpers for advent of code.
 
   This module contains various helpers that make it easy to call procedures in your solution
-  modules. This is particularly useful when you are testing your solutions from within `iex`.
+  modules. This is particularly useful when you are testing your solutions from within iex.
 
   In order to avoid prefixing all calls with `AOC.IEx`, we recommend adding `import AOC.IEx` to
-  your [`iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
+  your [`.iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
 
   ## Requirements and `AOC.aoc/3`
 
@@ -55,7 +55,7 @@ defmodule AOC.IEx do
   project (with `IEx.Helpers.recompile/1`) before calling `p1` or `p2` when `:auto_compile?` is
   set to `true` in the `:advent_of_code_utils` application environment.
 
-  Thus, auto reload can be enabled by adding the following to your `config/config.exs`:
+  Auto reload can be enabled by adding the following to your `config/config.exs`:
 
   ```
   import Config

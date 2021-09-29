@@ -14,9 +14,8 @@ first of December 2020:
 
 ```
 $ mix aoc
-Creating code path: lib/2020/1.ex
-Fetching input...
-Stored input: input/2020_1.txt
+* Creating: lib/2020/1.ex
+* Creating: input/2020_1.txt
 Today's challenge can be found at: https://adventofcode.com/2020/day/1
 ```
 
@@ -26,7 +25,6 @@ Afterwards, `lib/2020/1.ex` will look as follows:
 import AOC
 
 aoc 2020, 1 do
-
   def p1 do
   end
 
@@ -52,7 +50,7 @@ more information!
 ```elixir
 def deps do
   [
-    {:advent_of_code_utils, "~> 0.1"}
+    {:advent_of_code_utils, "~> 1.0"}
   ]
 end
 ```
@@ -65,12 +63,12 @@ config :advent_of_code_utils, session: "<your cookie>"
 ```
 
 - Use `mix aoc` to work on today's challenge. The day and year of a challenge
-  can be passed in various ways, so this project is still highly useful when
-  you're catching up on older challenges.
+  can be passed in various ways, so this project can still be used when working
+  on older challenges.
 
-- Add `import AOC` to your
-  [`iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
-  This allows you to use the utilities defined in `AOC` without
+- Add `import AOC.IEx` to your
+  [`.iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
+  This allows you to use the utilities defined in `AOC.IEx` without
   specifying the module name. _(optional)_
 
 - Set `auto_reload?` in your `config/config.exs` if you want the various
@@ -84,7 +82,6 @@ config :advent_of_code_utils, auto_reload?: true
 
 This project grew from a collection of utilities I wrote for myself when working
 on advent of code.
-I polished these utilities, but it is very likely that some bugs are still
-present.
+I polished these utilities, but it is possible some bugs are still present.
 If you run into any issue, feel free to create an issue on
 [GitHub](https://github.com/mathsaey/advent_of_code_utils).
