@@ -122,9 +122,9 @@ defmodule AOC do
     year = Keyword.fetch!(opts, :year)
 
     quote do
-      defp input_path, do: unquote(__MODULE__).input_path(unquote(year), unquote(day))
-      defp input_string, do: unquote(__MODULE__).input_string(unquote(year), unquote(day))
-      defp input_stream, do: unquote(__MODULE__).input_stream(unquote(year), unquote(day))
+      def input_path, do: unquote(__MODULE__).input_path(unquote(year), unquote(day))
+      def input_string, do: unquote(__MODULE__).input_string(unquote(year), unquote(day))
+      def input_stream, do: unquote(__MODULE__).input_stream(unquote(year), unquote(day))
 
       defoverridable input_path: 0
       defoverridable input_stream: 0
