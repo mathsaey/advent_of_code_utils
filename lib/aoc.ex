@@ -194,6 +194,7 @@ defmodule AOC do
   """
   def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
 
-  defp path_to_string(path), do: File.read!(path)
+  # TODO: add |> String.trim_trailing/1 for 2.0 (backward incompatible)
+  defp path_to_string(path), do: path |> File.read!()
   defp path_to_stream(path), do: path |> File.stream!() |> Stream.map(&String.trim/1)
 end
