@@ -31,13 +31,13 @@ defmodule Mix.Tasks.Aoc.Get do
 
   ## Example input
 
-  Since there is no api available to fetch the example input for a given day, example inputs may
-  not always be correct. When this is the case, it is recommended to edit the file with the
-  generated example input by hand.
+  The example input of a given day is fetched by parsing the challenge webpage of a given day and
+  returning the first code example found on that page. This is generally the example input of that
+  day. As this method is not foolproof, it is sometimes necessary to modify the example file by
+  hand.
 
-  The example input is fetched by finding the first `<pre><code>` tags in the challenge
-  description. Example inputs can be disabled by using the `--no-example` flag, or by setting
-  `fetch_example` to false.
+  If you do not wish to fetch example input, you can pass the `--no-example` flag to this task, or
+  you can set `fetch_example` to `false` in the `advent_of_code_utils` application configuration.
 
   ## Command-line arguments
 
@@ -59,8 +59,8 @@ defmodule Mix.Tasks.Aoc.Get do
     input_path = Helpers.input_path(year, day)
 
     start_applications()
-    if example, do: do_if_file_does_not_exists(example_path, fn -> fetch_example(year, day) end)
     do_if_file_does_not_exists(input_path, fn -> fetch_input(session, year, day) end)
+    if example, do: do_if_file_does_not_exists(example_path, fn -> fetch_example(year, day) end)
   end
 
   defp do_if_file_does_not_exists(path, fun) do

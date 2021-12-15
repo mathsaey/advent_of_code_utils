@@ -16,6 +16,7 @@ first of December 2020:
 $ mix aoc
 * Creating: lib/2020/1.ex
 * Creating: input/2020_1.txt
+* Creating: input/2020_1_example.txt
 Today's challenge can be found at: https://adventofcode.com/2020/day/1
 ```
 
@@ -35,6 +36,8 @@ end
 
 In this generated module, you can access the contents of the fetched input by
 using `input_path()`, `input_string()` or `input_stream()`.
+Example input is available through `example_path()`, `example_string()` or
+`example_stream()`.
 While solving your challenge, you can use the `AOC.p1()` and `AOC.p2()` helpers
 in `iex` to quickly test your solution so far.
 These helpers can also be set up to automatically recompile your mix project.
@@ -50,7 +53,7 @@ more information!
 ```elixir
 def deps do
   [
-    {:advent_of_code_utils, "~> 1.0"}
+    {:advent_of_code_utils, "~> 1.1"}
   ]
 end
 ```
@@ -81,6 +84,18 @@ config :advent_of_code_utils, session: "<your cookie>"
 ```elixir
 config :advent_of_code_utils, auto_reload?: true
 ```
+
+## Example Input
+
+Besides fetching input, `mix aoc.get` and `mix aoc` will also attempt to fetch
+example input for the given day.
+This is done by reading the first code example on the challenge webpage, which
+is generally that day's example input.
+
+Since this method is not 100% reliable, you may you wish to disable this
+behaviour.
+This can be done by passing the `--no-example` flag to `mix aoc` or `mix
+aoc.get` or by setting `fetch_example` to false in your `config.exs` file.
 
 ## Issues
 
