@@ -10,20 +10,22 @@ defmodule AOC.Helpers do
     Module.concat(mod_year, mod_day)
   end
 
-  def input_path(year, day) do
-    template = Application.get_env(:advent_of_code_utils, :input_path, "input/:year_:day.txt")
-
+  defp expand_template(template, year, day) do
     template
     |> String.replace(":year", Integer.to_string(year))
     |> String.replace(":day", Integer.to_string(day))
   end
 
-  def code_path(year, day) do
-    template = Application.get_env(:advent_of_code_utils, :code_path, "lib/:year/:day.ex")
+  def input_path(year, day) do
+    :advent_of_code_utils
+    |> Application.get_env(:input_path, "input/:year_:day.txt")
+    |> expand_template(year, day)
+  end
 
-    template
-    |> String.replace(":year", Integer.to_string(year))
-    |> String.replace(":day", Integer.to_string(day))
+  def code_path(year, day) do
+    :advent_of_code_utils
+    |> Application.get_env(:code_path, "lib/:year/:day.ex")
+    |> expand_template(year, day)
   end
 
   def parse_args!(args) do
