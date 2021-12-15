@@ -35,7 +35,7 @@ defmodule AOC.Helpers do
   end
 
   def parse_args!(args) do
-    switches = [session: :string, year: :integer, day: :integer]
+    switches = [session: :string, year: :integer, day: :integer, example: :boolean]
     aliases = [s: :session, y: :year, d: :day]
 
     opts =
@@ -46,6 +46,7 @@ defmodule AOC.Helpers do
       end
 
     session = Application.get_env(:advent_of_code_utils, :session, nil)
-    {opts[:session] || session, opts[:year] || year(), opts[:day] || day()}
+    example = Keyword.get(opts, :example,  Application.get_env(:advent_of_code_utils, :fetch_example, true))
+    {opts[:session] || session, opts[:year] || year(), opts[:day] || day(), example}
   end
 end

@@ -1,19 +1,20 @@
 defmodule Mix.Tasks.Aoc.Get do
   @moduledoc """
-  Fetch the input of the AOC challenge for a given day / year.
+  Fetch the input and example input of the AOC challenge for a given day / year.
 
-  This mix task fetches the inputs for the advent of code challenge of a specific day. The day and
-  year of the challenge can be passed as command-line arguments or be set in the
+  This mix task fetches the input and example input for the advent of code challenge of a specific
+  day. The day and year of the challenge can be passed as command-line arguments or be set in the
   `advent_of_code_utils` application configuration. When neither is present, the current date is
   used.
 
-  By default, this task stores the fetched data in `input/<year>_<day>.txt`. If this file already
-  exists, no input is fetched. The destination path can be modified by setting the value of
-  `:input_path` in the `advent_of_code_utils` application. This value should be set to a string
-  which may contain `:year` and `:day`. These values will be replaced by the day and year of
-  which the input is fetched.
+  By default, this task stores the fetched input data in `input/<year>_<day>.txt`. The fetched
+  example is stored in `input/<year>_<day>_example.txt`. If a file already exists, the matching
+  input is not fetched. The destination paths can be modified by setting the value of
+  `:input_path` or `:example_path` in the `advent_of_code_utils` application configuration. These
+  values should be set to a string which may contain `:year` and `:day`. These values will be
+  replaced by the day and year of which the input is fetched.
 
-  For instance, the following configuration will store the fetched data in
+  For instance, the following configuration will store the fetched input data in
   `my_input/<year>/<day>.input`:
 
   ```
@@ -28,6 +29,16 @@ defmodule Mix.Tasks.Aoc.Get do
   `config, :advent_of_code_utils, :session, "<your cookie here>"`) or it can be passed as a
   command-line argument.  If no cookie is present, the input can not be fetched.
 
+  ## Example input
+
+  Since there is no api available to fetch the example input for a given day, example inputs may
+  not always be correct. When this is the case, it is recommended to edit the file with the
+  generated example input by hand.
+
+  The example input is fetched by finding the first `<pre><code>` tags in the challenge
+  description. Example inputs can be disabled by using the `--no-example` flag, or by setting
+  `fetch_example` to false.
+
   ## Command-line arguments
 
   The options below take precedence over values defined in the application configuration.
@@ -35,33 +46,66 @@ defmodule Mix.Tasks.Aoc.Get do
   - `-s` or `--session`: Specify the session cookie.
   - `-y` or `--year`: Specify the year.
   - `-d` or `--day`: Specify the day.
+  - `--no-example`: Do not fetch example input
+  - `--example`: Fetch example input
   """
   @shortdoc "Fetch AOC input"
   use Mix.Task
   alias AOC.Helpers
 
   def run(args) do
-    {session, year, day} = Helpers.parse_args!(args)
-    path = Helpers.input_path(year, day)
+    {session, year, day, example} = Helpers.parse_args!(args)
+    example_path = Helpers.example_path(year, day)
+    input_path = Helpers.input_path(year, day)
 
-    cond do
-      File.exists?(path) ->
-        Mix.shell().info([:yellow, "* Skipping ", :reset, path, " (already exists)"])
+    start_applications()
+    if example, do: do_if_file_does_not_exists(example_path, fn -> fetch_example(year, day) end)
+    do_if_file_does_not_exists(input_path, fn -> fetch_input(session, year, day) end)
+  end
 
-      session == nil ->
-        Mix.raise("No session cookie was set")
-
-      true ->
-        fetch(session, year, day, path)
+  defp do_if_file_does_not_exists(path, fun) do
+    if File.exists?(path) do
+      Mix.shell().info([:yellow, "* skipping ", :reset, path, " (already exists)"])
+    else
+      contents = fun.()
+      Mix.shell().info([:green, "* creating ", :reset, path])
+      path |> Path.dirname() |> File.mkdir_p!()
+      File.write(path, contents)
     end
   end
 
-  defp fetch(session, year, day, path) do
-    case get_input(session, year, day) do
+  defp fetch_example(year, day) do
+    case fetch('#{Mix.Tasks.Aoc.url(year, day)}') do
       {:ok, input} ->
-        Mix.shell().info([:green, "* Creating ", :reset, path])
-        path |> Path.dirname() |> File.mkdir_p!()
-        File.write(path, input)
+        find_example(input)
+
+      :error ->
+        Mix.raise("Could not fetch example input. Please ensure the challenge is available.")
+    end
+  end
+
+  def find_example(html) do
+    with {:ok, html} <- Floki.parse_document(html),
+         [{"code", [], [str | _]} | _] when is_binary(str) <- Floki.find(html, "pre code") do
+      str
+    else
+      _ ->
+        Mix.shell().info([
+          :red, "! ", :reset, "Something went wrong while parsing the challenge", "\n",
+          :red, "! ", :reset, "Example input will be empty"
+        ])
+        ""
+    end
+  end
+
+  defp fetch_input(nil, _, _) do
+    Mix.raise("Could not fetch input: no session cookie was set")
+  end
+
+  defp fetch_input(session, year, day) do
+    case fetch('#{Mix.Tasks.Aoc.url(year, day)}/input', [cookie(session)]) do
+      {:ok, input} ->
+        input
 
       :error ->
         Mix.raise("""
@@ -73,18 +117,18 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
-  defp get_input(session, year, day) do
-    start_applications()
-    url = Mix.Tasks.Aoc.url(year, day)
-    ca_path = Application.get_env(:advent_of_code_utils, :ca_cert_path, "/etc/sl/cert.pem")
+  defp fetch(url, headers \\ []) do
+    ca_path = Application.get_env(:advent_of_code_utils, :ca_cert_path, "/etc/ssl/cert.pem")
     opts = if(File.exists?(ca_path), do: [ssl: [verify: :verify_peer, cacertfile: ca_path]], else: [])
-    resp = :httpc.request(:get, {'#{url}/input', [cookie(session)]}, opts, [])
+    resp = :httpc.request(:get, {url, headers}, opts, [])
 
     case resp do
       {:ok, {{'HTTP/1.1', 200, 'OK'}, _headers, body}} -> {:ok, body}
       _ -> :error
     end
   end
+
+  defp cookie(session), do: {'Cookie', to_charlist("session=#{session}")}
 
   defp start_applications do
     :ok = Application.ensure_started(:inets)
@@ -93,6 +137,4 @@ defmodule Mix.Tasks.Aoc.Get do
     :ok = Application.ensure_started(:public_key)
     :ok = Application.ensure_started(:ssl)
   end
-
-  defp cookie(session), do: {'Cookie', to_charlist("session=#{session}")}
 end

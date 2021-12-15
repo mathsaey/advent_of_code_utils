@@ -7,7 +7,7 @@ defmodule AdventOfCodeUtils.MixProject do
     [
       app: :advent_of_code_utils,
       name: "Advent of Code Utils",
-      version: "1.0.1",
+      version: "1.0.2",
       elixir: "~> 1.11",
       source_url: @source_url,
       start_permanent: Mix.env() == :prod,
@@ -32,7 +32,8 @@ defmodule AdventOfCodeUtils.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
+      {:floki, "~> 0.32.0"}
     ]
   end
 
