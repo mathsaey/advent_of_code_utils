@@ -76,7 +76,7 @@ defmodule Mix.Tasks.Aoc.Get do
   defp get_input(session, year, day) do
     start_applications()
     url = Mix.Tasks.Aoc.url(year, day)
-    ca_path = Application.get_env(:advent_of_code_utils, :ca_cert_path, "/etc/sl/cert.pem")
+    ca_path = Application.get_env(:advent_of_code_utils, :ca_cert_path, "/etc/ssl/cert.pem")
     opts = if(File.exists?(ca_path), do: [ssl: [verify: :verify_peer, cacertfile: ca_path]], else: [])
     resp = :httpc.request(:get, {'#{url}/input', [cookie(session)]}, opts, [])
 
