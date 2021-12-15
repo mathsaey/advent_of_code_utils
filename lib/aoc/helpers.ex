@@ -22,6 +22,12 @@ defmodule AOC.Helpers do
     |> expand_template(year, day)
   end
 
+  def example_path(year, day) do
+    :advent_of_code_utils
+    |> Application.get_env(:example_path, "input/:year_:day_example.txt")
+    |> expand_template(year, day)
+  end
+
   def code_path(year, day) do
     :advent_of_code_utils
     |> Application.get_env(:code_path, "lib/:year/:day.ex")

@@ -22,7 +22,7 @@ defmodule AOC do
 
   Defining a module with the `aoc/3` macro has a few advantages:
 
-  - Helper functions to access the input (if it is present) are inserted into the generated
+  - Helper functions to access the input and examples (if present) are inserted into the generated
   module.
   - The `AOC.IEx` functions can be used to call your solutions in the module, making your life a
   bit easier.
@@ -52,20 +52,24 @@ defmodule AOC do
 
   ## Helper functions
 
-  This module defines various functions such as `input_path/2`, `input_string/2` and
-  `input_stream/2`. Inside the generated module, helpers are inserted which call these functions
-  with the module's day / year.  Thus, if you call `input_path()` inside your solution module, it
-  will call `input_path/2` for you with the module's day and year, obtaining the path to the
-  appropriate input file.
+  This module defines various functions such as `input_path/2`, `input_string/2`,
+  `input_stream/2` and their `example_*/2` counter parts. Inside the generated module, helpers are
+  inserted which call these functions with the module's day / year.  Thus, if you call
+  `input_path()` inside your solution module, it will call `input_path/2` for you with the
+  module's day and year, obtaining the path to the appropriate input file.
 
   The following table provides an overview of the inserted functions and their counterparts in
   this module:
 
-  | Generated        | Calls            |
-  |------------------|------------------|
-  | `input_path/0`   | `input_path/2`   |
-  | `input_string/0` | `input_string/2` |
-  | `input_stream/0` | `input_stream/2` |
+  | Generated          | Calls              |
+  |--------------------|--------------------|
+  | `input_path/0`     | `input_path/2`     |
+  | `input_string/0`   | `input_string/2`   |
+  | `input_stream/0`   | `input_stream/2`   |
+  | `example_path/0`   | `example_path/2`   |
+  | `example_string/0` | `example_string/2` |
+  | `example_stream/0` | `example_stream/2` |
+
 
   The generated functions are overridable, i.e. you can define your own version of these functions
   which will overwrite the generated function. This is handy to do something like the following:
@@ -126,27 +130,51 @@ defmodule AOC do
       def input_string, do: unquote(__MODULE__).input_string(unquote(year), unquote(day))
       def input_stream, do: unquote(__MODULE__).input_stream(unquote(year), unquote(day))
 
+      def example_path, do: unquote(__MODULE__).example_path(unquote(year), unquote(day))
+      def example_string, do: unquote(__MODULE__).example_string(unquote(year), unquote(day))
+      def example_stream, do: unquote(__MODULE__).example_stream(unquote(year), unquote(day))
+
       defoverridable input_path: 0
       defoverridable input_stream: 0
       defoverridable input_string: 0
+
+      defoverridable example_path: 0
+      defoverridable example_stream: 0
+      defoverridable example_string: 0
     end
   end
 
   @doc """
   Get the input path for `year`, `day`.
 
-  Obtains the path where `mix aoc.input` stores the input for `year`, `day`. This path defaults to
-  `input/<year>_<day>.txt`, but can be customized. Please refer to the `mix aoc.get`
-  documentation for more information.
+  Obtains the path where `mix aoc.get` stores the input for `year`, `day`. This path defaults to
+  `input/<year>_<day>.txt`, but can be customized. Please refer to the `mix aoc.get` documentation
+  for more information.
   """
   def input_path(year, day), do: Helpers.input_path(year, day)
+
+  @doc """
+  Get the example path for `year`, `day`.
+
+  Obtains the path where `mix aoc.get` stores the input for `year`, `day`. This path defaults to
+  `input/<year>_<day>_example.txt`, but can be customized. Please refer to the `mix aoc.get`
+  documentation for more information.
+  """
+  def example_path(year, day), do: Helpers.example_path(year, day)
 
   @doc """
   Get the input contents of `year`, `day`.
 
   Obtained by calling `File.read!/1` on the path returned by `input_path/2`.
   """
-  def input_string(year, day), do: File.read!(input_path(year, day))
+  def input_string(year, day), do: input_path(year, day) |> path_to_string()
+
+  @doc """
+  Get the example contents of `year`, `day`.
+
+  Obtained by calling `File.read!/1` on the path returned by `example_path/2`.
+  """
+  def example_string(year, day), do: example_path(year, day) |> path_to_string()
 
   @doc """
   Stream the contents of the input for `year`, `day`.
@@ -155,7 +183,17 @@ defmodule AOC do
   Afterwards, `String.trim/1` is mapped over the stream (using `Stream.map/2`), to remove trailing
   newlines and whitespace.
   """
-  def input_stream(year, day) do
-    input_path(year, day) |> File.stream!() |> Stream.map(&String.trim/1)
-  end
+  def input_stream(year, day), do: input_path(year, day) |> path_to_stream()
+
+  @doc """
+  Stream the contents of the example for `year`, `day`.
+
+  The stream is created by calling `File.stream!/1` on the path returned by `example_path/2`.
+  Afterwards, `String.trim/1` is mapped over the stream (using `Stream.map/2`), to remove trailing
+  newlines and whitespace.
+  """
+  def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
+
+  defp path_to_string(path), do: File.read!(path)
+  defp path_to_stream(path), do: path |> File.stream!() |> Stream.map(&String.trim/1)
 end
