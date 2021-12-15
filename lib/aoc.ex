@@ -135,7 +135,7 @@ defmodule AOC do
   @doc """
   Get the input path for `year`, `day`.
 
-  Obtains the path where `mix aoc.input` stores the input for `year`, `day`. This path defaults to
+  Obtains the path where `mix aoc.get` stores the input for `year`, `day`. This path defaults to
   `input/<year>_<day>.txt`, but can be customized. Please refer to the `mix aoc.get`
   documentation for more information.
   """
