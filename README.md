@@ -35,12 +35,11 @@ end
 ```
 
 In this generated module, you can access the contents of the fetched input by
-using `input_path()`, `input_string()` or `input_stream()`.
-Example input is available through `example_path()`, `example_string()` or
-`example_stream()`.
-While solving your challenge, you can use the `AOC.p1()` and `AOC.p2()` helpers
-in `iex` to quickly test your solution so far.
-These helpers can also be set up to automatically recompile your mix project.
+using `input_path/0`, `input_string/0` or `input_stream/0`.  Example input is
+available through `example_path/0`, `example_string/0` or `example_stream/0`.
+While solving your challenge, you can use the `AOC.IEx.p1/0` and `AOC.IEx.p2/0`
+helpers in `iex` to quickly test your solution so far.  These helpers can also
+be set up to automatically recompile your mix project.
 
 All of this is configurable so that you can adjust this project to fit your own
 workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
