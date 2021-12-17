@@ -87,8 +87,8 @@ config :advent_of_code_utils, auto_reload?: true
 
 ## Example Input
 
-Besides fetching input, `mix aoc.get` and `mix aoc` will also attempt to fetch
-example input for the given day.
+Besides fetching input, `mix aoc.get` and `mix aoc` will also fetch example
+input for the given day.
 This is done by reading the first code example on the challenge webpage, which
 is generally that day's example input.
 
