@@ -13,16 +13,19 @@ defmodule Mix.Tasks.Aoc do
 
   ## `mix aoc.get`
 
-  This task fetches the input for a given day and year and stores it in `input/<year>_<day>.txt`.
-  In order for this task to work, your session cookie should be passed as a command line argument
-  or set up in the `:advent_of_code_utils` application environment. Please refer to the
-  `mix aoc.get` documenntation for more information.
+  This task fetches the input and example input for a given day and year and stores it in
+  `input/<year>_<day>.txt` and `input/<year>_<day>_example.txt`. In order for this task to work,
+  your session cookie should be passed as a command line argument or set up in the
+  `:advent_of_code_utils` application environment.  Please refer to the `mix aoc.get`
+  documentation for more information.
 
   ## Command-line arguments
 
   - `-s` or `--session`: Specify the session cookie.
   - `-y` or `--year`: Specify the year.
   - `-d` or `--day`: Specify the day.
+  - `--example`: Fetch example input (the default)
+  - `--no-example`: Do not fetch example input
 
   All of these options take precedence over their application environment counterparts.
   """
@@ -31,7 +34,7 @@ defmodule Mix.Tasks.Aoc do
   alias AOC.Helpers
 
   def run(args) do
-    {_, year, day} = Helpers.parse_args!(args)
+    {_, year, day, _} = Helpers.parse_args!(args)
     do_try(Mix.Tasks.Aoc.Gen, "gen", args)
     do_try(Mix.Tasks.Aoc.Get, "get", args)
     Mix.shell().info("Today's challenge can be found at: #{url(year, day)}")

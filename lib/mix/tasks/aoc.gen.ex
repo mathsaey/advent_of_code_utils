@@ -35,7 +35,7 @@ defmodule Mix.Tasks.Aoc.Gen do
   alias AOC.Helpers
 
   def run(args) do
-    {_, year, day} = Helpers.parse_args!(args)
+    {_, year, day, _} = Helpers.parse_args!(args)
     path = Helpers.code_path(year, day)
     dir = Path.dirname(path)
 
