@@ -72,6 +72,8 @@ config :advent_of_code_utils, session: "<your cookie>"
     without generating any code, use `mix aoc.get` instead of `mix aoc` and
     ignore the following steps.
 
+  - You probably want to add `input/` to your `.gitignore` file if you use git.
+
 - Add `import AOC.IEx` to your
   [`.iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
   This allows you to use the utilities defined in `AOC.IEx` without
