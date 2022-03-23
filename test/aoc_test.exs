@@ -12,14 +12,14 @@ defmodule AOCTest do
   test "input_string/2" do
     assert AOC.input_string(1991, 8) == """
            first line
-           second line
+           second line\
            """
   end
 
   test "example_string/2" do
     assert AOC.example_string(1991, 8) == """
            example line
-           other line
+           other line\
            """
   end
 

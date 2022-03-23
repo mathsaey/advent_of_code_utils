@@ -166,6 +166,7 @@ defmodule AOC do
   Get the input contents of `year`, `day`.
 
   Obtained by calling `File.read!/1` on the path returned by `input_path/2`.
+  `String.trim_trailing/1` is called on the resulting string to remove trailing whitespace.
   """
   def input_string(year, day), do: input_path(year, day) |> path_to_string()
 
@@ -173,6 +174,7 @@ defmodule AOC do
   Get the example contents of `year`, `day`.
 
   Obtained by calling `File.read!/1` on the path returned by `example_path/2`.
+  `String.trim_trailing/1` is called on the resulting string to remove trailing whitespace.
   """
   def example_string(year, day), do: example_path(year, day) |> path_to_string()
 
@@ -194,7 +196,6 @@ defmodule AOC do
   """
   def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
 
-  # TODO: add |> String.trim_trailing/1 for 2.0 (backward incompatible)
-  defp path_to_string(path), do: path |> File.read!()
+  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing()
   defp path_to_stream(path), do: path |> File.stream!() |> Stream.map(&String.trim/1)
 end

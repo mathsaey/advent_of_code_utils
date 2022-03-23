@@ -1,3 +1,8 @@
+# 2.0
+
+- `input_string` and `example_string` now both call `String.trim_trailing/1` on
+  the returned string.
+
 ## 1.1
 
 ### 1.1.0
