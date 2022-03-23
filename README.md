@@ -52,7 +52,7 @@ more information!
 ```elixir
 def deps do
   [
-    {:advent_of_code_utils, "~> 1.1"}
+    {:advent_of_code_utils, "~> 2.0"}
   ]
 end
 ```
