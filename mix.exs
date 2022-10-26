@@ -34,8 +34,8 @@ defmodule AdventOfCodeUtils.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
-      {:floki, "~> 0.32.0"}
+      {:ex_doc, "~> 0.29", only: :dev, runtime: false},
+      {:floki, "~> 0.33.0"}
     ]
   end
 
