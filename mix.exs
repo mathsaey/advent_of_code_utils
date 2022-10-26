@@ -14,6 +14,7 @@ defmodule AdventOfCodeUtils.MixProject do
       deps: deps(),
       docs: docs(),
       package: package(),
+      dialyzer: dialyzer(),
       description: description()
     ]
   end
@@ -32,6 +33,7 @@ defmodule AdventOfCodeUtils.MixProject do
 
   defp deps do
     [
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.23", only: :dev, runtime: false},
       {:floki, "~> 0.32.0"}
     ]
@@ -50,6 +52,13 @@ defmodule AdventOfCodeUtils.MixProject do
     [
       licenses: ["MIT"],
       links: %{GitHub: @source_url}
+    ]
+  end
+
+  defp dialyzer do
+    [
+      plt_add_apps: [:mix, :iex, :eex],
+      plt_local_path: "_build/dialyzer/"
     ]
   end
 end

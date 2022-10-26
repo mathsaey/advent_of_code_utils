@@ -126,12 +126,22 @@ defmodule AOC do
     year = Keyword.fetch!(opts, :year)
 
     quote do
+      @spec input_path() :: Path.t()
       def input_path, do: unquote(__MODULE__).input_path(unquote(year), unquote(day))
+
+      @spec input_string() :: String.t()
       def input_string, do: unquote(__MODULE__).input_string(unquote(year), unquote(day))
+
+      @spec input_stream() :: Enumerable.t()
       def input_stream, do: unquote(__MODULE__).input_stream(unquote(year), unquote(day))
 
+      @spec example_path() :: Path.t()
       def example_path, do: unquote(__MODULE__).example_path(unquote(year), unquote(day))
+
+      @spec example_string() :: String.t()
       def example_string, do: unquote(__MODULE__).example_string(unquote(year), unquote(day))
+
+      @spec example_stream() :: Enumerable.t()
       def example_stream, do: unquote(__MODULE__).example_stream(unquote(year), unquote(day))
 
       defoverridable input_path: 0
@@ -151,6 +161,7 @@ defmodule AOC do
   `input/<year>_<day>.txt`, but can be customized. Please refer to the `mix aoc.get` documentation
   for more information.
   """
+  @spec input_path(pos_integer(), pos_integer()) :: Path.t()
   def input_path(year, day), do: Helpers.input_path(year, day)
 
   @doc """
@@ -160,6 +171,7 @@ defmodule AOC do
   `input/<year>_<day>_example.txt`, but can be customized. Please refer to the `mix aoc.get`
   documentation for more information.
   """
+  @spec example_path(pos_integer(), pos_integer()) :: Path.t()
   def example_path(year, day), do: Helpers.example_path(year, day)
 
   @doc """
@@ -168,6 +180,7 @@ defmodule AOC do
   Obtained by calling `File.read!/1` on the path returned by `input_path/2`.
   `String.trim_trailing/1` is called on the resulting string to remove trailing whitespace.
   """
+  @spec input_string(pos_integer(), pos_integer()) :: String.t()
   def input_string(year, day), do: input_path(year, day) |> path_to_string()
 
   @doc """
@@ -176,6 +189,7 @@ defmodule AOC do
   Obtained by calling `File.read!/1` on the path returned by `example_path/2`.
   `String.trim_trailing/1` is called on the resulting string to remove trailing whitespace.
   """
+  @spec example_string(pos_integer(), pos_integer()) :: String.t()
   def example_string(year, day), do: example_path(year, day) |> path_to_string()
 
   @doc """
@@ -185,6 +199,7 @@ defmodule AOC do
   Afterwards, `String.trim/1` is mapped over the stream (using `Stream.map/2`), to remove trailing
   newlines and whitespace.
   """
+  @spec input_stream(pos_integer(), pos_integer()) :: Enumerable.t()
   def input_stream(year, day), do: input_path(year, day) |> path_to_stream()
 
   @doc """
@@ -194,6 +209,7 @@ defmodule AOC do
   Afterwards, `String.trim/1` is mapped over the stream (using `Stream.map/2`), to remove trailing
   newlines and whitespace.
   """
+  @spec example_stream(pos_integer(), pos_integer()) :: Enumerable.t()
   def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
 
   defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing()

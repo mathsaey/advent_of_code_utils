@@ -84,6 +84,7 @@ defmodule AOC.IEx do
       iex> mod(1991, 8)
       Y1991.D8
   """
+  @spec mod(pos_integer(), pos_integer()) :: module()
   def mod(year, day) do
     maybe_compile()
     Helpers.module_name(year, day)
@@ -106,6 +107,7 @@ defmodule AOC.IEx do
       iex> mod(3)
       Y2000.D3
   """
+  @spec mod(pos_integer()) :: module()
   def mod(day) do
     maybe_compile()
     Helpers.module_name(Helpers.year(), day)
@@ -131,6 +133,7 @@ defmodule AOC.IEx do
       iex> mod()
       Y2000.D3
   """
+  @spec mod() :: module()
   def mod do
     maybe_compile()
     Helpers.module_name(Helpers.year(), Helpers.day())
@@ -145,6 +148,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
+  @spec p1() :: any()
   def p1(), do: p1(Helpers.year(), Helpers.day())
 
   @doc """
@@ -156,6 +160,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
+  @spec p2() :: any()
   def p2(), do: p2(Helpers.year(), Helpers.day())
 
   @doc """
@@ -167,6 +172,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
+  @spec p1(pos_integer()) :: any()
   def p1(day), do: p1(Helpers.year(), day)
 
   @doc """
@@ -178,6 +184,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
+  @spec p2(pos_integer()) :: any()
   def p2(day), do: p2(Helpers.year(), day)
 
   @doc """
@@ -185,6 +192,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
+  @spec p1(pos_integer(), pos_integer()) :: any()
   def p1(year, day), do: mod(year, day).p1()
 
   @doc """
@@ -192,5 +200,6 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
+  @spec p2(pos_integer(), pos_integer()) :: any()
   def p2(year, day), do: mod(year, day).p2()
 end
