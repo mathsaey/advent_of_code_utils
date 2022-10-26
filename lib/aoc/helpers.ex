@@ -46,7 +46,14 @@ defmodule AOC.Helpers do
       end
 
     session = Application.get_env(:advent_of_code_utils, :session, nil)
-    example = Keyword.get(opts, :example,  Application.get_env(:advent_of_code_utils, :fetch_example, true))
+
+    example =
+      Keyword.get(
+        opts,
+        :example,
+        Application.get_env(:advent_of_code_utils, :fetch_example, true)
+      )
+
     {opts[:session] || session, opts[:year] || year(), opts[:day] || day(), example}
   end
 end

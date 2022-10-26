@@ -44,19 +44,19 @@ defmodule Mix.Tasks.Aoc.Gen do
     else
       Mix.shell().info([:green, "* Creating ", :reset, path])
       File.mkdir_p!(dir)
-      File.write(path, aoc_template([year: year, day: day]))
+      File.write(path, aoc_template(year: year, day: day))
     end
   end
 
   embed_template(:aoc, """
-    import AOC
+  import AOC
 
-    aoc <%= @year %>, <%= @day %> do
-      def p1 do
-      end
-
-      def p2 do
-      end
+  aoc <%= @year %>, <%= @day %> do
+    def p1 do
     end
-    """)
+
+    def p2 do
+    end
+  end
+  """)
 end
