@@ -33,7 +33,7 @@ defmodule AdventOfCodeUtils.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.23", only: :dev, runtime: false},
-      {:floki, "~> 0.32.0"}
+      {:floki, "~> 0.33.1"}
     ]
   end
 
