@@ -103,7 +103,7 @@ defmodule AOC do
 
   ```
   defmodule Y2020.D1 do
-    use AOC
+    use AOC, year: 2020, day: 1
 
     def some_function do
       :foo
