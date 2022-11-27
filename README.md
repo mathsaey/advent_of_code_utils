@@ -79,11 +79,11 @@ config :advent_of_code_utils, session: "<your cookie>"
   This allows you to use the utilities defined in `AOC.IEx` without
   specifying the module name. _(optional)_
 
-- Set `auto_reload?` in your `config/config.exs` if you want the various
+- Set `auto_compile?` in your `config/config.exs` if you want the various
   `AOC.p*` to recompile your project _(optional)_:
 
 ```elixir
-config :advent_of_code_utils, auto_reload?: true
+config :advent_of_code_utils, auto_compile?: true
 ```
 
 ## Example Input
