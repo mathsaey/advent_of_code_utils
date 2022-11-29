@@ -81,7 +81,6 @@ config :advent_of_code_utils, session: "<your cookie>"
 
 - Set `auto_compile?` in your `config/config.exs` if you want the various
   `AOC.p*` to recompile your project _(optional)_:
-
 ```elixir
 config :advent_of_code_utils, auto_compile?: true
 ```
