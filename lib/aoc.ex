@@ -95,7 +95,6 @@ defmodule AOC do
     def some_function do
       :foo
     end
-
   end
   ```
 
