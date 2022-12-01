@@ -27,7 +27,7 @@ defmodule Mix.Tasks.Aoc.Gen do
   - `-y` or `--year`: Specify the year.
   - `-d` or `--day`: Specify the day.
   """
-  @shortdoc "Generate AOC code skeletons"
+  @shortdoc "Generate AOC code skeleton"
 
   use Mix.Task
   import Mix.Generator
