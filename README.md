@@ -26,23 +26,26 @@ Afterwards, `lib/2020/1.ex` will look as follows:
 import AOC
 
 aoc 2020, 1 do
-  def p1 do
+  def p1(input) do
   end
 
-  def p2 do
+  def p2(input) do
   end
 end
 ```
 
-In this generated module, you can access the contents of the fetched input by
-using `input_path/0`, `input_string/0` or `input_stream/0`.  Example input is
-available through `example_path/0`, `example_string/0` or `example_stream/0`.
-While solving your challenge, you can use the `AOC.IEx.p1/0` and `AOC.IEx.p2/0`
-helpers in `iex` to quickly test your solution so far.  These helpers can also
-be set up to automatically recompile your mix project.
+While solving your challenge, you can use the `AOC.IEx.p1e/1` and
+`AOC.IEx.p2e/1` helpers in `iex` to test your solution so far with the example
+input. Once ready, you can use `AOC.IEx.p1i/1` and `AOC.IEx.p2i/1` to run your
+solution on your puzzle input. These helpers can also be set up to
+automatically recompile your mix project.
 
 All of this is configurable so that you can adjust this project to fit your own
-workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
+workflow. For instance, you can forego the `iex` helpers, and instead access
+the contents of the fetched input by using `input_path/0`, `input_string/0` or
+`input_stream/0`. Example input is available through `example_path/0`,
+`example_string/0` or `example_stream/0`.
+Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
 more information!
 
 ## Setup & Use
@@ -51,7 +54,7 @@ more information!
   ```elixir
   def deps do
     [
-      {:advent_of_code_utils, "~> 2.0"}
+      {:advent_of_code_utils, "~> 3.0"}
     ]
   end
   ```
