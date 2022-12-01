@@ -1,5 +1,9 @@
 # 2.0
 
+# 2.0.2
+
+- Pass user agent when using `mix aoc.get`
+
 # 2.0.1
 
 - Update ex_doc, add typepsecs to public functions.
