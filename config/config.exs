@@ -6,6 +6,7 @@ case Mix.env() do
       input_path: "test/input/:year_:day.txt",
       example_path: "test/example/:year_:day.txt",
       code_path: "test/generated/:year/:day.ex"
+
   _ ->
     nil
 end

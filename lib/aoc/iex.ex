@@ -131,7 +131,7 @@ defmodule AOC.IEx do
       iex> mod()
       Y2000.D3
   """
-  @spec mod([year: pos_integer(), day: pos_integer()]) :: module()
+  @spec mod(year: pos_integer(), day: pos_integer()) :: module()
   def mod(opts \\ []) do
     maybe_compile()
     {y, d} = fetch_year_day(opts)
@@ -154,7 +154,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1(String.t() | nil, [year: pos_integer(), day: pos_integer()]) :: any()
+  @spec p1(String.t() | nil, year: pos_integer(), day: pos_integer()) :: any()
   def p1(input \\ nil, opts \\ []) do
     mod = mod(opts)
 
@@ -181,7 +181,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2(String.t() | nil, [year: pos_integer(), day: pos_integer()]) :: any()
+  @spec p2(String.t() | nil, year: pos_integer(), day: pos_integer()) :: any()
   def p2(input \\ nil, opts \\ []) do
     mod = mod(opts)
 
@@ -204,7 +204,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1e([year: pos_integer(), day: pos_integer()]) :: any()
+  @spec p1e(year: pos_integer(), day: pos_integer()) :: any()
   def p1e(opts \\ []), do: p1(example_string(opts), opts)
 
   @doc """
@@ -218,7 +218,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1i([year: pos_integer(), day: pos_integer()]) :: any()
+  @spec p1i(year: pos_integer(), day: pos_integer()) :: any()
   def p1i(opts \\ []), do: p1(input_string(opts), opts)
 
   @doc """
@@ -233,7 +233,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2e([year: pos_integer(), day: pos_integer()]) :: any()
+  @spec p2e(year: pos_integer(), day: pos_integer()) :: any()
   def p2e(opts \\ []), do: p2(example_string(opts), opts)
 
   @doc """
@@ -247,7 +247,7 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2i([year: pos_integer(), day: pos_integer()]) :: any()
+  @spec p2i(year: pos_integer(), day: pos_integer()) :: any()
   def p2i(opts \\ []), do: p2(input_string(opts), opts)
 
   @doc """
@@ -259,7 +259,7 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec input_path([year: pos_integer(), day: pos_integer()]) :: Path.t()
+  @spec input_path(year: pos_integer(), day: pos_integer()) :: Path.t()
   def input_path(opts \\ []) do
     {y, d} = fetch_year_day(opts)
     AOC.input_path(y, d)
@@ -274,7 +274,7 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec example_path([year: pos_integer(), day: pos_integer()]) :: Path.t()
+  @spec example_path(year: pos_integer(), day: pos_integer()) :: Path.t()
   def example_path(opts \\ []) do
     {y, d} = fetch_year_day(opts)
     AOC.example_path(y, d)
@@ -289,7 +289,7 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec input_string([year: pos_integer(), day: pos_integer()]) :: String.t()
+  @spec input_string(year: pos_integer(), day: pos_integer()) :: String.t()
   def input_string(opts \\ []) do
     {y, d} = fetch_year_day(opts)
     AOC.input_string(y, d)
@@ -304,7 +304,7 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec example_string([year: pos_integer(), day: pos_integer()]) :: String.t()
+  @spec example_string(year: pos_integer(), day: pos_integer()) :: String.t()
   def example_string(opts \\ []) do
     {y, d} = fetch_year_day(opts)
     AOC.example_string(y, d)
@@ -319,7 +319,7 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec input_stream([year: pos_integer(), day: pos_integer()]) :: Enumerable.t()
+  @spec input_stream(year: pos_integer(), day: pos_integer()) :: Enumerable.t()
   def input_stream(opts \\ []) do
     {y, d} = fetch_year_day(opts)
     AOC.input_stream(y, d)
@@ -334,7 +334,7 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec example_stream([year: pos_integer(), day: pos_integer()]) :: Enumerable.t()
+  @spec example_stream(year: pos_integer(), day: pos_integer()) :: Enumerable.t()
   def example_stream(opts \\ []) do
     {y, d} = fetch_year_day(opts)
     AOC.example_stream(y, d)
