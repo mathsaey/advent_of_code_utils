@@ -7,7 +7,7 @@ defmodule AdventOfCodeUtils.MixProject do
     [
       app: :advent_of_code_utils,
       name: "Advent of Code Utils",
-      version: "2.0.2",
+      version: "3.0.0",
       elixir: "~> 1.11",
       source_url: @source_url,
       start_permanent: Mix.env() == :prod,
@@ -42,7 +42,7 @@ defmodule AdventOfCodeUtils.MixProject do
   defp docs do
     [
       main: "readme",
-      extras: ["README.md"],
+      extras: ["README.md", "CHANGELOG.md"],
       authors: ["Mathijs Saey"],
       api_reference: false
     ]
