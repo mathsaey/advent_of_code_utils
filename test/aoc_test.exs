@@ -1,5 +1,5 @@
 defmodule AOCTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "input_path/2" do
     assert AOC.input_path(1991, 8) == "test/input/1991_8.txt"

@@ -52,10 +52,10 @@ defmodule Mix.Tasks.Aoc.Gen do
   import AOC
 
   aoc <%= @year %>, <%= @day %> do
-    def p1 do
+    def p1(input) do
     end
 
-    def p2 do
+    def p2(input) do
     end
   end
   """)
