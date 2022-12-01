@@ -127,6 +127,7 @@ defmodule Mix.Tasks.Aoc.Get do
 
   defp fetch(url, headers \\ []) do
     ca_path = Application.get_env(:advent_of_code_utils, :ca_cert_path, "/etc/ssl/cert.pem")
+    headers = [user_agent() | headers]
 
     opts =
       if(File.exists?(ca_path), do: [ssl: [verify: :verify_peer, cacertfile: ca_path]], else: [])
@@ -139,6 +140,12 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
+  @ua_name Mix.Project.config()[:app]
+  @ua_version Mix.Project.config()[:version]
+  @ua_contact "github.com/mathsaey/advent_of_code_utils by contact@mathsaey.be"
+  @ua_charlist to_charlist("#{@ua_name}/#{@ua_version} #{@ua_contact}")
+
+  defp user_agent, do: {'User-Agent', @ua_charlist}
   defp cookie(session), do: {'Cookie', to_charlist("session=#{session}")}
 
   defp start_applications do
