@@ -45,57 +45,77 @@ All of this is configurable so that you can adjust this project to fit your own
 workflow. Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
 more information!
 
-## Installation & Use
+## Setup & Use
 
 - Add `advent_of_code_utils` to your list of dependencies in `mix.exs`:
+  ```elixir
+  def deps do
+    [
+      {:advent_of_code_utils, "~> 2.0"}
+    ]
+  end
+  ```
 
-```elixir
-def deps do
-  [
-    {:advent_of_code_utils, "~> 2.0"}
-  ]
-end
-```
+- Configure your Advent of Code project in `config/config.exs`:
 
-- Store your session cookie in `config/config.exs`. You can find this by
-  inspecting your cookies after logging in to the advent of code website.
+  - Store your session cookie in `config/config.exs`. You can find this by
+    inspecting your cookies after logging in to the advent of code website.
 
-```elixir
-config :advent_of_code_utils, session: "<your cookie>"
-```
+    ```elixir
+    config :advent_of_code_utils, session: "<your cookie>"
+    ```
 
-- Use `mix aoc` to work on today's challenge. The day and year of a challenge
-  can be passed in various ways, so this project can still be used when working
-  on older challenges.
+  - _(Optional)_ Set `auto_compile?` to `true` if you want the various `AOC.IEx.p*` helpers
+    to recompile your project:
 
-  - If you just want to use this application to fetch the input of a challenge,
-    without generating any code, use `mix aoc.get` instead of `mix aoc` and
-    ignore the following steps.
+    ```elixir
+    config :advent_of_code_utils, auto_compile?: true
+    ```
 
-  - You probably want to add `input/` to your `.gitignore` file if you use git.
+  - _(Optional)_ Configure `iex` to display charlists as lists. This will prevent lists like
+    `[99, 97, 116]` to show up as `'cat'`:
 
-- Add `import AOC.IEx` to your
+    ```elixir
+    config :iex, inspect: [charlists: :as_lists]
+    ```
+
+  - If you follow these steps, your `config/config.exs` should look as follows:
+
+    ```elixir
+    import Config
+
+    config :advent_of_code_utils,
+      auto_compile?: true,
+      session: "<your session cookie>"
+
+    config :iex,
+      inspect: [charlists: :as_lists]
+    ```
+
+- _(Optional)_ Add `import AOC.IEx` to your
   [`.iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
   This allows you to use the utilities defined in `AOC.IEx` without
-  specifying the module name. _(optional)_
+  specifying the module name.
 
-- Set `auto_compile?` in your `config/config.exs` if you want the various
-  `AOC.p*` to recompile your project _(optional)_:
-```elixir
-config :advent_of_code_utils, auto_compile?: true
-```
+- _(Optional)_ Add `input/` to your `.gitignore` file if you use git.
+
+Now that you are set up, you can use `mix aoc` to work on today's challenge.
+The day and year of a challenge can be passed in various ways, so this project
+can still be used when working on older challenges.
+
+If you only want to use this application to fetch the input of  challenge,
+without generating any code, you can use `mix aoc.get` instead of `mix aoc`.
+Additionally, you can skip most of the optional steps above.
 
 ## Example Input
 
 Besides fetching input, `mix aoc.get` and `mix aoc` will also fetch example
-input for the given day.
-This is done by reading the first code example on the challenge webpage, which
-is generally that day's example input.
+input for the given day.  This is done by reading the first code example on the
+challenge webpage, which is generally that day's example input.
 
 Since this method is not 100% reliable, you may you wish to disable this
-behaviour.
-This can be done by passing the `--no-example` flag to `mix aoc` or `mix
-aoc.get` or by setting `fetch_example` to false in your `config.exs` file.
+behaviour. This can be done by passing the `--no-example` flag to `mix aoc` or
+`mix aoc.get` or by setting `fetch_example` to false in your `config.exs` file.
 
 ## Issues
 
