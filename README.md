@@ -82,7 +82,7 @@ more information!
     config :iex, inspect: [charlists: :as_lists]
     ```
 
-  - _(Optional)_ Set `time_zone?` to `:aoc` if you want the determination of the current
+  - _(Optional)_ Set `time_zone` to `:aoc` if you want the determination of the current
     puzzle to align with the actual time the AOC website publishes them (midnight US Eastern
     Standard Time). The default is `:local` which means it switches midnight in your system
     time. You can also supply a valid time zone string instead:
