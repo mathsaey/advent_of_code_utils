@@ -2,6 +2,14 @@
 
 ## 3.0.0
 
+- Timezone support: the project now accepts a `time_zone` configuration setting
+  which can be used to specify the time zone used by the input fetcher and iex
+  helpers. This can be set to a time zone string, to `:aoc` or to `:local` (the
+  default). `:local` uses the system time, as before, while `:aoc` uses the
+  advent of code time zone (i.e. EST).
+
+## 3.0.0
+
 - `AOC.IEx` has been reworked.
   - All functions accept an `opts` keyword list used to specify year or day
     when needed.
