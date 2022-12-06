@@ -229,6 +229,14 @@ defmodule AOC do
   @spec example_stream(pos_integer(), pos_integer()) :: Enumerable.t()
   def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
 
-  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing()
-  defp path_to_stream(path), do: path |> File.stream!() |> Stream.map(&String.trim/1)
+  defp path_to_string(path) do
+    path
+    |> File.read!
+  end
+
+  defp path_to_stream(path) do
+    path
+    |> File.stream!()
+    |> Stream.map(fn line -> String.trim_trailing(line, "\n") end)
+  end
 end
