@@ -1,12 +1,20 @@
 defmodule AOC.Helpers do
   @moduledoc false
 
-  def time_zone, do: Application.get_env(:advent_of_code_utils, :time_zone, "EST")
+  @aoc_time_zone "EST"
+
+  def time_zone do
+    case Application.get_env(:advent_of_code_utils, :time_zone, :local) do
+      :local -> nil
+      :aoc -> @aoc_time_zone
+      zone -> zone
+    end
+  end
 
   def now do
-    case DateTime.now(time_zone(), Tz.TimeZoneDatabase) do
-      {:ok, datetime} -> datetime
-      _ -> NaiveDateTime.local_now()
+    case time_zone() do
+      nil -> NaiveDateTime.local_now()
+      zone -> DateTime.now!(zone, Tz.TimeZoneDatabase)
     end
   end
 
