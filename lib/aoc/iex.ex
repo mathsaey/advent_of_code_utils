@@ -44,8 +44,9 @@ defmodule AOC.IEx do
   The functions in this module all select a puzzle (or more specifically, its solution module,
   input or example) based on the current time. For instance, the `p1/2` function calls the `p1`
   function of the solution module that corresponds to the current day. The current day (and year)
-  is determined by `NaiveDateTime.local_now/0`. If it is past midnight, or if you wish to solve an
-  older challenge, there are a few options at your disposal:
+  is determined by `NaiveDateTime.local_now/0`, or by `DateTime.now/2` if a time zone was set as
+  described in the README. If it is past midnight, or if you wish to solve an older challenge,
+  there are a few options at your disposal:
 
   - Each function in this module accepts an optional keyword list through which the year and day
     can be specified. For instance, if you wish to run part 1 of of 8 december 1991, you could
@@ -73,7 +74,7 @@ defmodule AOC.IEx do
   1. If year or day is passed as part of the keyword list argument, it is always used.
   2. If `:year` or `:day` is present in the `:advent_of_code_utils` application environment, it is
   used.
-  3. The `year` or `day` returned by `NaiveDateTime.local_now/0` is used.
+  3. The `year` or `day` returned by `NaiveDateTime.local_now/0` or `DateTime.now/2` is used.
 
   ## Automatic recompilation
 

@@ -120,6 +120,28 @@ Since this method is not 100% reliable, you may you wish to disable this
 behaviour. This can be done by passing the `--no-example` flag to `mix aoc` or
 `mix aoc.get` or by setting `fetch_example` to false in your `config.exs` file.
 
+## Time Zones
+
+By default, this project uses your system time (as determined by
+`NaiveDateTime.local_now/0`), to determine the current "day". Said otherwise,
+if your computer says it is currently the 8th of December, `mix aoc.get`,
+`AOC.IEx.p1/2`, and other functions which reason about time will assume it is
+the 8th day of December. This can be problematic if you live in a time zone
+which does not align well with the publication time of the AOC puzzles
+(midnight US Eastern Standard Time).
+
+This problem can be solved by setting the `time_zone` option of
+`advent_of_code_utils`. When this option is set to `:aoc`, the project will
+determine the current day based on EST, the time zone of the advent of code
+servers. When it is said to `:local` (the default), your system time will be
+used. Alternatively, a valid time zone string can be supplied, in which case
+the project will use determine the current day based on the provided time zone.
+
+```elixir
+# Use the aoc timezone instead of local time
+config :advent_of_code_utils, time_zone: :aoc
+```
+
 ## Issues
 
 This project grew from a collection of utilities I wrote for myself when working

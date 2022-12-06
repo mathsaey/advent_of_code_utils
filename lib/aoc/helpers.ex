@@ -1,8 +1,24 @@
 defmodule AOC.Helpers do
   @moduledoc false
+  @aoc_time_zone "EST"
 
-  def day, do: Application.get_env(:advent_of_code_utils, :day, NaiveDateTime.local_now().day)
-  def year, do: Application.get_env(:advent_of_code_utils, :year, NaiveDateTime.local_now().year)
+  defp time_zone do
+    case Application.get_env(:advent_of_code_utils, :time_zone, :local) do
+      :local -> :local
+      :aoc -> @aoc_time_zone
+      zone when is_binary(zone) -> zone
+    end
+  end
+
+  defp now do
+    case time_zone() do
+      :local -> NaiveDateTime.local_now()
+      zone -> DateTime.now!(zone, Tz.TimeZoneDatabase)
+    end
+  end
+
+  def day, do: Application.get_env(:advent_of_code_utils, :day, now().day)
+  def year, do: Application.get_env(:advent_of_code_utils, :year, now().year)
 
   def module_name(year, day) do
     mod_year = "Y#{year}" |> String.to_atom()
