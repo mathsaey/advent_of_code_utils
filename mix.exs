@@ -36,7 +36,7 @@ defmodule AdventOfCodeUtils.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:floki, "~> 0.34"},
-      {:tz, "~> 0.24.0"}
+      {:tz, "~> 0.24"}
     ]
   end
 
