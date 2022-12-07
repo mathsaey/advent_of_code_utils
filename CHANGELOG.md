@@ -1,6 +1,11 @@
 # Changelog
 
-## 3.0.0
+## 3.1.1
+
+- `input_stream` and `example_stream` now only trim trailing newlines, not
+  significant whitespace.
+
+## 3.1.0
 
 - Timezone support: the project now accepts a `time_zone` configuration setting
   which can be used to specify the time zone used by the input fetcher and iex
