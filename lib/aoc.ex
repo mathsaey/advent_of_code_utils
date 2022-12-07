@@ -223,12 +223,15 @@ defmodule AOC do
   Stream the contents of the example for `year`, `day`.
 
   The stream is created by calling `File.stream!/1` on the path returned by `example_path/2`.
-  Afterwards, `String.trim/1` is mapped over the stream (using `Stream.map/2`), to remove trailing
-  newlines and whitespace.
+  Afterwards, `String.trim_trailing(&1, "\n")` is mapped over the stream (using `Stream.map/2`),
+  to remove trailing newlines.
   """
   @spec example_stream(pos_integer(), pos_integer()) :: Enumerable.t()
   def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
 
   defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing()
-  defp path_to_stream(path), do: path |> File.stream!() |> Stream.map(&String.trim/1)
+
+  defp path_to_stream(path) do
+    path |> File.stream!() |> Stream.map(&String.trim_trailing(&1, "\n"))
+  end
 end
