@@ -2,8 +2,8 @@
 
 ## 3.1.1
 
-- `input_stream` and `example_stream` now only trim trailing newlines, not
-  significant whitespace.
+- `input_stream`, `input_string`, `example_stream` and `example_string` now
+  only trim trailing newlines, not significant whitespace.
 
 ## 3.1.0
 

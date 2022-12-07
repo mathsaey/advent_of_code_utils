@@ -195,7 +195,8 @@ defmodule AOC do
   Get the input contents of `year`, `day`.
 
   Obtained by calling `File.read!/1` on the path returned by `input_path/2`.
-  `String.trim_trailing/1` is called on the resulting string to remove trailing whitespace.
+  `String.trim_trailing(string, "\n")` is called on the resulting string to remove trailing
+  whitespace.
   """
   @spec input_string(pos_integer(), pos_integer()) :: String.t()
   def input_string(year, day), do: input_path(year, day) |> path_to_string()
@@ -204,7 +205,8 @@ defmodule AOC do
   Get the example contents of `year`, `day`.
 
   Obtained by calling `File.read!/1` on the path returned by `example_path/2`.
-  `String.trim_trailing/1` is called on the resulting string to remove trailing whitespace.
+  `String.trim_trailing(string, "\n")` is called on the resulting string to remove trailing
+  whitespace.
   """
   @spec example_string(pos_integer(), pos_integer()) :: String.t()
   def example_string(year, day), do: example_path(year, day) |> path_to_string()
@@ -213,8 +215,8 @@ defmodule AOC do
   Stream the contents of the input for `year`, `day`.
 
   The stream is created by calling `File.stream!/1` on the path returned by `input_path/2`.
-  Afterwards, `String.trim/1` is mapped over the stream (using `Stream.map/2`), to remove trailing
-  newlines and whitespace.
+  Afterwards, `String.trim_trailing(&1, "\n")` is mapped over the stream (using `Stream.map/2`),
+  to remove trailing newlines.
   """
   @spec input_stream(pos_integer(), pos_integer()) :: Enumerable.t()
   def input_stream(year, day), do: input_path(year, day) |> path_to_stream()
@@ -229,7 +231,7 @@ defmodule AOC do
   @spec example_stream(pos_integer(), pos_integer()) :: Enumerable.t()
   def example_stream(year, day), do: example_path(year, day) |> path_to_stream()
 
-  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing()
+  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
 
   defp path_to_stream(path) do
     path |> File.stream!() |> Stream.map(&String.trim_trailing(&1, "\n"))
