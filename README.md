@@ -149,3 +149,18 @@ on advent of code.
 I polished these utilities, but it is possible some bugs are still present.
 If you run into any issue, feel free to create an issue on
 [GitHub](https://github.com/mathsaey/advent_of_code_utils).
+
+## AoC Automation Guidelines
+
+This tool follows the [automation guidelines](https://www.reddit.com/r/adventofcode/wiki/faqs/automation)
+on the /r/adventofcode community wiki. The following information is intended to
+specify how we follow these guidelines:
+
+* All code that communicates with the AoC servers is located in
+  `lib/mix/tasks/aoc.get.ex`.
+* This tool only communicates with the AoC servers at the request of the user
+  (i.e. when they use `mix aoc.get` or `mix aoc`).
+* Fetched inputs are stored locally and are never retrieved again unless the
+  user deletes the retrieved file manually (`do_if_file_does_not_exist/2`).
+* The `User-Agent` header is set in `fetch/2` and contains my personal contact
+  information and a reference to this repository.
