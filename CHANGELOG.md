@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.2
+
+- `AOC.IEx.mod/1` now calls `Code.ensure_loaded!/1` to ensure the target module
+  is loaded. This is done to prevent issues where `p1e` and `p1i` complain that
+  the target module does not exist.
+
 ## 3.1.1
 
 - `input_stream`, `input_string`, `example_stream` and `example_string` now
