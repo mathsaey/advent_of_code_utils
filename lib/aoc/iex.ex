@@ -137,6 +137,7 @@ defmodule AOC.IEx do
     maybe_compile()
     {y, d} = fetch_year_day(opts)
     Helpers.module_name(y, d)
+    |> Code.ensure_loaded!()
   end
 
   @doc """
