@@ -40,9 +40,9 @@ defmodule Mix.Tasks.Aoc.Gen do
     dir = Path.dirname(path)
 
     if File.exists?(path) do
-      Mix.shell().info([:yellow, "* Skipping ", :reset, path, " (already exists)"])
+      Mix.shell().info([:yellow, "* skipping ", :reset, path, " (already exists)"])
     else
-      Mix.shell().info([:green, "* Creating ", :reset, path])
+      Mix.shell().info([:green, "* creating ", :reset, path])
       File.mkdir_p!(dir)
       File.write(path, aoc_template(year: year, day: day))
     end
