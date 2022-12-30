@@ -161,11 +161,15 @@ defmodule AOC.IEx do
   def p1(input \\ nil, opts \\ []) do
     mod = mod(opts)
 
-    cond do
-      function_exported?(mod, :p1, 1) -> mod.p1(input)
-      function_exported?(mod, :p1, 0) -> mod.p1()
-      true -> raise_undefined_function!(mod, :p1)
-    end
+    {microsec, out} = :timer.tc(fn ->
+      cond do
+        function_exported?(mod, :p1, 1) -> mod.p1(input)
+        function_exported?(mod, :p1, 0) -> mod.p1()
+        true -> raise_undefined_function!(mod, :p1)
+      end
+    end)
+    IO.inspect(out, charlist: :as_lists, limit: :infinity, label: "Output")
+    IO.inspect(microsec/1000, label: "Runtime (ms)")
   end
 
   @doc """
@@ -188,11 +192,15 @@ defmodule AOC.IEx do
   def p2(input \\ nil, opts \\ []) do
     mod = mod(opts)
 
-    cond do
-      function_exported?(mod, :p2, 1) -> mod.p2(input)
-      function_exported?(mod, :p2, 0) -> mod.p2()
-      true -> raise_undefined_function!(mod, :p2)
-    end
+    {microsec, out} = :timer.tc(fn ->
+      cond do
+        function_exported?(mod, :p2, 1) -> mod.p2(input)
+        function_exported?(mod, :p2, 0) -> mod.p2()
+        true -> raise_undefined_function!(mod, :p2)
+      end
+    end)
+    IO.inspect(out, charlist: :as_lists, limit: :infinity, label: "Output")
+    IO.inspect(microsec/1000, label: "Runtime (ms)")
   end
 
   @doc """
