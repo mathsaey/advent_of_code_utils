@@ -40,7 +40,7 @@
 
 ## 2.0.1
 
-- Update ex_doc, add typepsecs to public functions.
+- Update ex_doc, add typespecs to public functions.
 
 ## 2.0.0
 
