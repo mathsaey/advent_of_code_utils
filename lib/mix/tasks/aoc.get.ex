@@ -84,7 +84,7 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
-  def find_example(html) do
+  defp find_example(html) do
     with {:ok, html} <- Floki.parse_document(html),
          [{"code", [], [str | _]} | _] when is_binary(str) <- Floki.find(html, "pre code") do
       str
