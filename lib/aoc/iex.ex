@@ -88,6 +88,19 @@ defmodule AOC.IEx do
 
   config :advent_of_code_utils, auto_compile?: true
   ```
+
+  ## Elapsed time
+
+  Some developers are interested in the runtime of their solutions. When the `time_calls?` options
+  is set in the `:advent_of_code_utils` application environment, the runtime of a solution will be
+  shown when calling `p1/2`, `p2/2`, `p1i/1`, `p1e/1`, `p2i/1` and `p2e/1`. By default, this
+  feature is disabled.
+
+  ```
+  import Config
+
+  config :advent_of_code_utils, time_calls?: true
+  ```
   """
   alias AOC.Helpers
 
@@ -107,13 +120,22 @@ defmodule AOC.IEx do
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
 
   defp call_p_fun_if_exported(p, input, opts) do
+    timed? = Application.get_env(:advent_of_code_utils, :time_calls?, false)
     mod = opts |> mod() |> Code.ensure_loaded!()
 
     cond do
-      function_exported?(mod, p, 1) -> apply(mod, p, [input])
-      function_exported?(mod, p, 0) -> apply(mod, p, [])
+      function_exported?(mod, p, 1) -> maybe_timed_call(timed?, mod, p, [input])
+      function_exported?(mod, p, 0) -> maybe_timed_call(timed?, mod, p, [])
       true -> raise_undefined_function!(mod, p)
     end
+  end
+
+  defp maybe_timed_call(false, mod, fun, input), do: apply(mod, fun, input)
+
+  defp maybe_timed_call(true, mod, fun, input) do
+    {time, res} = :timer.tc(mod, fun, input)
+    IO.puts "⏱️ #{time / 1000} ms"
+    res
   end
 
   @doc """
