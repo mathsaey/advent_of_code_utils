@@ -75,6 +75,13 @@ more information!
     config :advent_of_code_utils, auto_compile?: true
     ```
 
+  - _(Optional)_ Set `time_calls?` to `true` if you want the various `AOC.IEx.p*` helpers
+    to show the runtime of calling a solution.
+
+    ```elixir
+    config :advent_of_code_utils, time_calls?: true
+    ```
+
   - _(Optional)_ Configure `iex` to display charlists as lists. This will prevent lists like
     `[99, 97, 116]` to show up as `'cat'`:
 
@@ -89,6 +96,7 @@ more information!
 
     config :advent_of_code_utils,
       auto_compile?: true,
+      time_calls?: true,
       session: "<your session cookie>"
 
     config :iex,

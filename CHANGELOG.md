@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.3
+
+- Optionally show the elapsed time when calling a `p1`, `p2`, `p1i`, `p1e`,
+  `p2i` and `p2e`. This is done when the `time_calls?` configuration option is
+  set to true.
+
 ## 3.1.2
 
 - `AOC.IEx.mod/1` now calls `Code.ensure_loaded!/1` to ensure the target module
