@@ -196,7 +196,7 @@ defmodule AOC do
 
   Obtained by calling `File.read!/1` on the path returned by `input_path/2`.
   `String.trim_trailing(string, "\n")` is called on the resulting string to remove trailing
-  whitespace.
+  newlines.
   """
   @spec input_string(pos_integer(), pos_integer()) :: String.t()
   def input_string(year, day), do: input_path(year, day) |> path_to_string()
@@ -206,7 +206,7 @@ defmodule AOC do
 
   Obtained by calling `File.read!/1` on the path returned by `example_path/2`.
   `String.trim_trailing(string, "\n")` is called on the resulting string to remove trailing
-  whitespace.
+  newlines.
   """
   @spec example_string(pos_integer(), pos_integer()) :: String.t()
   def example_string(year, day), do: example_path(year, day) |> path_to_string()
