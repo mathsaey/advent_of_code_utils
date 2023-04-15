@@ -106,6 +106,16 @@ defmodule AOC.IEx do
 
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
 
+  defp call_p_fun_if_exported(p, input, opts) do
+    mod = opts |> mod() |> Code.ensure_loaded!()
+
+    cond do
+      function_exported?(mod, p, 1) -> apply(mod, p, [input])
+      function_exported?(mod, p, 0) -> apply(mod, p, [])
+      true -> raise_undefined_function!(mod, p)
+    end
+  end
+
   @doc """
   Get the module name for the currently configured puzzle.
 
@@ -138,7 +148,6 @@ defmodule AOC.IEx do
     {y, d} = fetch_year_day(opts)
 
     Helpers.module_name(y, d)
-    |> Code.ensure_loaded!()
   end
 
   @doc """
@@ -158,15 +167,7 @@ defmodule AOC.IEx do
   This function may cause recompilation if `auto_compile?` is enabled.
   """
   @spec p1(String.t() | nil, year: pos_integer(), day: pos_integer()) :: any()
-  def p1(input \\ nil, opts \\ []) do
-    mod = mod(opts)
-
-    cond do
-      function_exported?(mod, :p1, 1) -> mod.p1(input)
-      function_exported?(mod, :p1, 0) -> mod.p1()
-      true -> raise_undefined_function!(mod, :p1)
-    end
-  end
+  def p1(input \\ nil, opts \\ []), do: call_p_fun_if_exported(:p1, input, opts)
 
   @doc """
   Call part 2 of the current puzzle with the given input.
@@ -185,15 +186,7 @@ defmodule AOC.IEx do
   This function may cause recompilation if `auto_compile?` is enabled.
   """
   @spec p2(String.t() | nil, year: pos_integer(), day: pos_integer()) :: any()
-  def p2(input \\ nil, opts \\ []) do
-    mod = mod(opts)
-
-    cond do
-      function_exported?(mod, :p2, 1) -> mod.p2(input)
-      function_exported?(mod, :p2, 0) -> mod.p2()
-      true -> raise_undefined_function!(mod, :p2)
-    end
-  end
+  def p2(input \\ nil, opts \\ []), do: call_p_fun_if_exported(:p2, input, opts)
 
   @doc """
   Call part 1 of the current puzzle with its example input.

@@ -35,8 +35,8 @@ defmodule AOC.IExTest do
   end
 
   test "call undefined" do
-    assert_raise UndefinedFunctionError, fn -> p1(nil, year: 2001, day: 3) end
-    assert_raise UndefinedFunctionError, fn -> p2(nil, year: 2001, day: 3) end
+    assert_raise ArgumentError, fn -> p1(nil, year: 2001, day: 3) end
+    assert_raise ArgumentError, fn -> p2(nil, year: 2001, day: 3) end
   end
 
   test "call with example input" do
