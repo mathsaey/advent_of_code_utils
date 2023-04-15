@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Aoc.Get do
   `my_input/<year>/<day>.input`:
 
   ```
-  config :advent_of_code_utils, :code_path, "my_input/:year/:day.input"
+  config :advent_of_code_utils, :input_path, "my_input/:year/:day.input"
   ```
 
   ## Session cookie
