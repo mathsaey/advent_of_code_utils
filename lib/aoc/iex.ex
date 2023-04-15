@@ -134,7 +134,7 @@ defmodule AOC.IEx do
 
   defp maybe_timed_call(true, mod, fun, input) do
     {time, res} = :timer.tc(mod, fun, input)
-    IO.puts "⏱️ #{time / 1000} ms"
+    IO.puts("⏱️ #{time / 1000} ms")
     res
   end
 
