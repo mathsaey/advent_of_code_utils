@@ -45,8 +45,10 @@ workflow. For instance, you can forego the `iex` helpers, and instead access
 the contents of the fetched input by using `input_path/0`, `input_string/0` or
 `input_stream/0`. Example input is available through `example_path/0`,
 `example_string/0` or `example_stream/0`.
-Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for
-more information!
+Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for more
+information or the
+[cheatsheet](https://hexdocs.pm/advent_of_code_utils/cheatsheet.html), if
+you're impatient.
 
 ## Setup & Use
 

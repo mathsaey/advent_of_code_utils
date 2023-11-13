@@ -1,0 +1,226 @@
+# Cheatsheet
+
+This document provides an at-a-glance overview on how to use "Advent of Code
+Utils". In-depth information on each topic can be found in the relevant docs.
+
+## The Basics
+{: .col-3}
+
+### Solution modules
+
+A solution for a day is written in a _solution module_. These modules are
+written using the `AOC.aoc/3` macro.
+
+```
+import aoc
+
+aoc <year>, <day> do
+  def p1(input) do
+    # part 1 solution goes here
+  end
+
+  def p2(input) do
+    # part 2 solution goes here
+  end
+
+  def another_function do
+    # arbitrary code goes here
+  end
+
+  # any code that is valid in an
+  # elixir module is valid here
+end
+```
+This generates a standard elixir module named `Y<year>.D<day>`.
+
+### iex interaction
+
+Inside iex, you can use the functions described in `AOC.IEx` to test your
+solution:
+
+#### Test solutions
+- `AOC.IEx.p1e/1`
+- `AOC.IEx.p1i/1`
+- `AOC.IEx.p2e/1`
+- `AOC.IEx.p2i/1`
+
+#### Get module (to test helpers)
+- `AOC.IEx.mod/1`
+
+#### Get puzzle / example data
+- `AOC.IEx.input_path/1`
+- `AOC.IEx.example_path/1`
+- `AOC.IEx.input_string/1`
+- `AOC.IEx.example_string/1`
+- `AOC.IEx.input_stream/1`
+- `AOC.IEx.example_stream/1`
+
+### Mix tasks
+
+mix is used to fetch the input for a puzzle and to create boilerplate code.
+
+#### Fetch input / example
+* `mix aoc.get`
+
+#### Generate code skeleton
+* `mix aoc.gen`
+
+#### Fetch + Generate
+* `mix aoc`
+
+## Specifying time and date
+{: .col-2}
+
+### In iex
+
+```
+iex> p1i()
+# Runs p1 of the current day
+# with the input string of that day
+iex> p1i(day: 8)
+# Runs p1 of day 8 of the current
+# year with the input string of that day
+iex> p1i(day: 8, year: 1991)
+# Runs p1 of day 8 of 1991
+# with the input string of that day
+iex> p1i(year: 1991)
+# Uses the current day of the month,
+# but in 1991
+```
+A day can be specified like this for all `AOC.IEx` functions.
+The only exception are the `AOC.IEx.p1/2` and `AOC.IEx.p2/2` functions:
+
+```
+iex> p1(nil, day: 8)
+# Calls Y<current year>.D8.p1()
+iex> p1(something, day: 8)
+# Calls Y<current year>.D8.p1(something)
+```
+This is done to maintain backwards compatibility with the alternative solution
+module style described below.
+
+### Specifying year or day in `config.exs`
+
+Year or day may also be specified in the `config/config.exs` file:
+
+```
+import Config
+
+config :advent_of_code_utils,
+  day: 8,
+  year: 1991
+```
+
+Setting the year is, for instance, useful when going back to finish previous
+years.
+
+### When using mix tasks
+
+* `mix aoc --day <day> --year <year>`
+  * Generates code + fetches input for the given year and day.
+* `mix aoc -d <day> -y <year>`
+  * Same as above, but shorter.
+* `mix aoc --day <day>`
+  * Generates code + fetches input for the current year with the given day.
+* `mix aoc --year <year>`
+  * Generates code + fetches input for the given year with the current day.
+
+The same options can be passed to `mix aoc.gen` and `mix aoc.get`.
+
+### Precedence
+
+Mix tasks and the `AOC.IEx` helpers use the year and date from the following
+sources, using the first that matches.
+
+1. Options passed as argument to a function or as a flag to a mix task.
+2. Year or day as specified in the application configuration (i.e. in
+   `config/config.exs`).
+3. The local year and month of day.
+
+## Configuration & Setup
+
+We recommend going through the full [Setup & Use](readme.html#setup-use)
+section of the [readme](readme.html).
+
+### Available configuration options
+
+| Option | Default | Description |
+| ------ | ------- | ----------- |
+| `session` | | Session cookie, needed to fetch input. |
+| `auto_compile?` | `false` | Recompile solution module when calling `AOC.IEx.p*` or `AOC.IEx.mod/1`. |
+| `time_calls?` | `false` | Time runtime when calling `AOC.IEx.p*`. |
+| `time_zone` | `:local` | Determine day / year based on system time (`:local`), aoc server time (`aoc`) or use an arbitrary time zone (any valid timezone string, e.g. `"Europe/Brussels"`). |
+| `year` | Current year | Year to use when fetching input of running `AOC.IEx` functions. |
+| `day` | Current day of month | Day to use when fetching input of running `AOC.IEx` functions. |
+| `code_path` | `"lib/:year/:day.ex"` | Path where a generated solution module is stored. |
+| `input_path` | `"input/:year_:day.txt"` | Path where puzzle input is stored. |
+| `example_path` | `"input/:year_:day_example.txt"` | Path where puzzle example is stored. |
+
+
+### Other recommended tweaks
+
+* Add `import AOC.IEx` to
+  [the `.iex.exs` file](https://hexdocs.pm/iex/IEx.html#module-the-iex-exs-file).
+  This allows you to call `AOC.IEx.p1i/1` and similar in iex without the need
+  to prefix it.
+* Add `config :iex, inspect: [charlists: :as_lists]` to `config/config.exs`.
+  This prevents elixir from displaying lists of integers as strings.
+
+## Alternative solution module style
+{: .col-2}
+
+In older versions of "Advent of Code utils", the `p1` and `p2` functions inside
+solution modules did not accept the input as an argument; instead, helper
+functions were used to obtain and process the puzzle input. These helpers were
+inserted by the `AOC.aoc/3` macro and are described in the `AOC` module docs.
+
+We recommend the use of the new style described above, as it makes it easier to
+test solutions and to experiment in iex. The old, alternative style, is still
+supported, however, for backwards compatibility and for those who prefer it.
+
+### Solution modules
+
+```
+import aoc
+
+aoc <year>, <day> do
+  def p1 do
+    input_stream() # or others
+    |> # part 1 solution goes here
+  end
+
+  def p2 do
+    example_stream() # or others
+    |> # part 2 solution goes here
+  end
+
+  # Overriding is possible to avoid boilerplate
+  def input_stream, do
+    super() |> Stream.map(&String.to_integer/1)
+  end
+end
+```
+
+### Helpers
+
+The generated helpers all call a function defined in `AOC` with the year and day
+of the solution module.
+
+| Helper             | Calls              |
+|--------------------|--------------------|
+| `input_path/0`     | `AOC.input_path/2`     |
+| `input_string/0`   | `AOC.input_string/2`   |
+| `input_stream/0`   | `AOC.input_stream/2`   |
+| `example_path/0`   | `AOC.example_path/2`   |
+| `example_string/0` | `AOC.example_string/2` |
+| `example_stream/0` | `AOC.example_stream/2` |
+
+### iex interaction
+
+#### Test solutions
+- `AOC.IEx.p1/2`
+- `AOC.IEx.p2/2`
+
+#### Get module (to test helpers)
+- `AOC.IEx.mod/1`
+

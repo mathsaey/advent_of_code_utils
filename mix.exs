@@ -43,9 +43,9 @@ defmodule AdventOfCodeUtils.MixProject do
   defp docs do
     [
       main: "readme",
-      extras: ["README.md", "CHANGELOG.md"],
+      extras: ["README.md", "CHANGELOG.md", "cheatsheet.cheatmd"],
       authors: ["Mathijs Saey"],
-      api_reference: false
+      source_ref: "master"
     ]
   end
 
