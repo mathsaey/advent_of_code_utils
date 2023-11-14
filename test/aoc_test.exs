@@ -59,4 +59,40 @@ defmodule AOCTest do
     assert Y1991.D8.example_string() == AOC.example_string(1991, 8)
     assert Y1991.D8.example_stream() == AOC.example_stream(1991, 8)
   end
+
+  describe "aoc_test" do
+    import AOC
+
+    test "generates tags on doctests" do
+      aoc_test 2009, 12
+      [%ExUnit.Test{tags: tags} | _] = Y2009.D12.AOCTest.__ex_unit__().tests
+      assert {:date, ~D[2009-12-12]} in tags
+      assert {:year, 2009} in tags
+      assert {:day, 12} in tags
+    end
+
+    test "can add to body" do
+      aoc_test 2009, 12 do
+        def added_test_func, do: :works
+      end
+
+      assert Y2009.D12.AOCTest.added_test_func() == :works
+    end
+
+    test "inserted code can access helpers" do
+      aoc_test 2009, 12 do
+        def test_example_path, do: example_path()
+      end
+
+      assert Y2009.D12.AOCTest.test_example_path() == "test/example/2009_12.txt"
+    end
+
+    test "can modify ExUnit options" do
+      aoc_test 2009, 12, exunit: [async: false] do
+      end
+
+      [%ExUnit.Test{tags: tags} | _] = Y2009.D12.AOCTest.__ex_unit__().tests
+      assert tags.async == false
+    end
+  end
 end

@@ -15,7 +15,8 @@ defmodule AdventOfCodeUtils.MixProject do
       docs: docs(),
       package: package(),
       dialyzer: dialyzer(),
-      description: description()
+      description: description(),
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -62,4 +63,7 @@ defmodule AdventOfCodeUtils.MixProject do
       plt_local_path: "_build/dialyzer/"
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end

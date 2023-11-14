@@ -26,6 +26,11 @@ defmodule AOC.Helpers do
     Module.concat(mod_year, mod_day)
   end
 
+  def test_module_name(year, day) do
+    module_name(year, day)
+    |> Module.concat(AOCTest)
+  end
+
   defp expand_template(template, year, day) do
     template
     |> String.replace(":year", Integer.to_string(year))

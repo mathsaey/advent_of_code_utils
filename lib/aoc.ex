@@ -172,6 +172,148 @@ defmodule AOC do
   end
 
   @doc """
+  Like `aoc_test/3`, but with additional customization
+
+  This module works like `aoc_test/3`, but enables additional customization. The following options
+  are accepted:
+
+  * `module`: specifies the module to import and to run doctests on (default: `Y<year>.D<day>`).
+  * `exunit`: specifies the options passed to `use ExUnit` (default: `async: true`)
+
+  `aoc_test(2009, 12, [module: Foo, exunit: []], do: nil)` will expand to:
+
+  ```
+  defmodule Y2009.D12.AOCTest do
+    use ExUnit.Case, []
+
+    @moduletag date: ~D[2009-12-12]
+    @moduletag year: 2009
+    @moduletag day: 12
+
+    import Foo
+    doctest Foo
+  end
+  ```
+
+  """
+  defmacro aoc_test(year, day, opts, do: body) do
+    target_module = opts[:module] || Helpers.module_name(year, day)
+    exunit_opts = opts[:exunit] || [async: true]
+
+    quote do
+      defmodule unquote(Helpers.test_module_name(year, day)) do
+        use ExUnit.Case, unquote(exunit_opts)
+
+        @moduletag date: unquote(Macro.escape(Date.new!(year, 12, day)))
+        @moduletag year: unquote(year)
+        @moduletag day: unquote(day)
+
+        import unquote(target_module)
+        unquote(body)
+        doctest unquote(target_module)
+      end
+    end
+  end
+
+  @doc """
+  Generate an ExUnit test case for a given year and day.
+
+  The generated test module will be named `Y<year>.D<day>.AOCTest`. It will automatically import
+  module `Y<year>.D<day>` and call `ExUnit.DocTest.doctest/2` on the same module. This makes it
+  easy to test your solution module using doctests. Since `Y<year>.D<day>` is imported, you can
+  use the [helper functions](AOC.html#module-helper-functions) in your doctests.
+
+  ## Example
+
+  Using this macro, you can write your solution module as follows:
+
+  ```
+  aoc 2009, 12 do
+    @doc \"\"\"
+      iex> p1(example_string())
+      <answer from the aoc site goes here>
+      iex> p1(input_string())
+      <your personal answer goes here>
+    \"\"\"
+    def p1(input), do: # solve p1 here
+    @doc \"\"\"
+      iex> p2(example_string())
+      <answer from the aoc site goes here>
+    \"\"\"
+    def p2(input), do: # solve p2 here
+  end
+  ```
+
+  Afterwards, you can generate a test module using `aoc_test 2009, 12`. This will allow you to run
+  `mix test` to run your tests.
+
+  When the `aoc_test 2009, 12` macro is expanded, the following code will be generated:
+
+  ```
+  defmodule Y2009.D12.AOCTest do
+    use ExUnit.Case, async: true
+
+    @moduletag date: ~D[2009-12-12]
+    @moduletag year: 2009
+    @moduletag day: 12
+
+    import Y2009.D12
+    doctest Y2009.D12
+  end
+  ```
+
+  The generated [moduletags](https://hexdocs.pm/ex_unit/ExUnit.Case.html#module-tags) enable you
+  to specify which tests to run when using `mix test`.
+  """
+  defmacro aoc_test(year, day) do
+    quote do
+      aoc_test(unquote(year), unquote(day), [], do: nil)
+    end
+  end
+
+  @doc """
+  Like `aoc_test/2`, but add additional code to the test module
+
+  This macro works like `aoc_test/2`, but enables you to add custom code to the generated test
+  module.
+
+  ## Example
+
+  ```
+  aoc_test 2009, 12 do
+    import Enum
+
+    def custom_function, do: 42
+  end
+  ```
+
+  Will expand to:
+
+  ```
+  defmodule Y2009.D12.AOCTest do
+    use ExUnit.Case, async: true
+
+    @moduletag date: ~D[2009-12-12]
+    @moduletag year: 2009
+    @moduletag day: 12
+
+    import Y2009.D12
+
+    import Enum
+
+    def custom_function, do: 42
+
+    doctest Y2009.D12
+  ```
+
+  """
+  defmacro aoc_test(year, day, do: body) do
+    quote do
+      aoc_test(unquote(year), unquote(day), [], do: unquote(body))
+    end
+  end
+
+  @doc """
   Get the input path for `year`, `day`.
 
   Obtains the path where `mix aoc.get` stores the input for `year`, `day`. This path defaults to
