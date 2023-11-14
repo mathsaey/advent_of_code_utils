@@ -75,7 +75,7 @@ defmodule Mix.Tasks.Aoc.Get do
   end
 
   defp fetch_example(year, day) do
-    case fetch('#{Mix.Tasks.Aoc.url(year, day)}') do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}") do
       {:ok, input} ->
         find_example(input)
 
@@ -111,7 +111,7 @@ defmodule Mix.Tasks.Aoc.Get do
   end
 
   defp fetch_input(session, year, day) do
-    case fetch('#{Mix.Tasks.Aoc.url(year, day)}/input', [cookie(session)]) do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}/input", [cookie(session)]) do
       {:ok, input} ->
         input
 
@@ -135,7 +135,7 @@ defmodule Mix.Tasks.Aoc.Get do
     resp = :httpc.request(:get, {url, headers}, opts, [])
 
     case resp do
-      {:ok, {{'HTTP/1.1', 200, 'OK'}, _headers, body}} -> {:ok, body}
+      {:ok, {{~c"HTTP/1.1", 200, ~c"OK"}, _headers, body}} -> {:ok, body}
       _ -> :error
     end
   end
@@ -145,8 +145,8 @@ defmodule Mix.Tasks.Aoc.Get do
   @ua_contact "github.com/mathsaey/advent_of_code_utils by contact@mathsaey.be"
   @ua_charlist to_charlist("#{@ua_name}/#{@ua_version} #{@ua_contact}")
 
-  defp user_agent, do: {'User-Agent', @ua_charlist}
-  defp cookie(session), do: {'Cookie', to_charlist("session=#{session}")}
+  defp user_agent, do: {~c"User-Agent", @ua_charlist}
+  defp cookie(session), do: {~c"Cookie", to_charlist("session=#{session}")}
 
   defp start_applications do
     :ok = Application.ensure_started(:inets)
