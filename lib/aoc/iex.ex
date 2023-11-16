@@ -16,28 +16,20 @@ defmodule AOC.IEx do
   used).
 
   Furthermore, it is expected that the solutions for part 1 and part 2 are defined in non-private
-  functions named `p1` and `p2`. These functions must either accept one argument (the puzzle
-  input, provided as a string) or no inputs at all.
+  functions named `p1` and `p2`. These functions must accept one argument: the puzzle input,
+  represented as a string.
 
   ## Functions in this module
 
-  This module provides the `p1/2` and `p2/2` functions to call the `p1` and `p2` functions of your
-  solution module from within iex. It is assumed that the `p1` and `p2` functions either accept
-  one argument or no arguments at all:
-
-  * If `p1` or `p2` accept the puzzle input encoded as a string as an argument, `p1e/1`, `p2e/1`,
-    `p1i/1` and `p2i/1` can be used to call these functions with the example (`p1e/1`, `p2e/1`) or
-    puzzle input (`p1i/1`, `p2i/1`). These functions call `p1/2` or `p2/2` with the result of
-    `example_string/1` and `input_string/1` internally. `p1/2` and `p2/2` can also be used
-    directly to call `p1` or `p2` with alternative input (e.g. with additional example input).
-  * If `p1` and `p2` accept no arguments, `p1/2` and `p2/2` can still be used. They will ignore
-    the provided input and call `p1` or `p2` directly.
+  This module provides the `p1e/1`, `p1i/1`, `p2e/1` and `p2i/1` functions, which call your part
+  one or part two solution with the example (`p1e/1`, `p2e/1`) or puzzle input (`p1i/1`, `p2i/1`)
+  from within iex.  You can also use `p1/2` and `p2/2` to call the `p1` and `p2` functions of your
+  solution module directly.
 
   `mod/1` can be used to obtain the current solution module, which is useful if you wish to test
   other functions in your solution module. Moreover, `example_path/1`, `input_path/1`,
-  `example_string/1`, `input_string/1`, `example_stream/1` and `input_stream/1` can be used to
-  experiment with the puzzle input and example input retrieved by `mix aoc.get` or `mix aoc`
-  inside iex.
+  `example_string/1`, and `input_string/1`, can be used to experiment with the puzzle input and
+  example input retrieved by `mix aoc.get` or `mix aoc` inside iex.
 
   ## Specifying the puzzle date
 
@@ -45,8 +37,8 @@ defmodule AOC.IEx do
   input or example) based on the current time. For instance, the `p1/2` function calls the `p1`
   function of the solution module that corresponds to the current day. The current day (and year)
   is determined by `NaiveDateTime.local_now/0`, or by `DateTime.now/2` if a time zone was set as
-  described in the README. If it is past midnight, or if you wish to solve an older challenge,
-  there are a few options at your disposal:
+  described in the [README](readme.html#time-zones). If it is past midnight, or if you wish to
+  solve an older challenge, there are a few options at your disposal:
 
   - Each function in this module accepts an optional keyword list through which the year and day
     can be specified. For instance, if you wish to run part 1 of of 8 december 1991, you could
@@ -113,29 +105,20 @@ defmodule AOC.IEx do
     if(compile? and mix_started?(), do: IEx.Helpers.recompile())
   end
 
-  defp raise_undefined_function!(mod, fun) do
-    raise UndefinedFunctionError.exception(module: mod, function: fun, arity: 1)
-  end
-
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
 
-  defp call_p_fun_if_exported(p, input, opts) do
-    timed? = Application.get_env(:advent_of_code_utils, :time_calls?, false)
-    mod = opts |> mod() |> Code.ensure_loaded!()
-
-    cond do
-      function_exported?(mod, p, 1) -> maybe_timed_call(timed?, mod, p, [input])
-      function_exported?(mod, p, 0) -> maybe_timed_call(timed?, mod, p, [])
-      true -> raise_undefined_function!(mod, p)
-    end
+  defp call_p_fun(p, input, opts) do
+    opts |> mod() |> Code.ensure_loaded!() |> maybe_timed_call(p, [input])
   end
 
-  defp maybe_timed_call(false, mod, fun, input), do: apply(mod, fun, input)
-
-  defp maybe_timed_call(true, mod, fun, input) do
-    {time, res} = :timer.tc(mod, fun, input)
-    IO.puts("⏱️ #{time / 1000} ms")
-    res
+  defp maybe_timed_call(mod, fun, input) do
+    if Application.get_env(:advent_of_code_utils, :time_calls?, false) do
+      apply(mod, fun, input)
+    else
+      {time, res} = :timer.tc(mod, fun, input)
+      IO.puts("⏱️ #{time / 1000} ms")
+      res
+    end
   end
 
   @doc """
@@ -175,12 +158,7 @@ defmodule AOC.IEx do
   @doc """
   Call part 1 of the current puzzle with the given input.
 
-  If available, `Y<year>.D<day>.p1/1` is called with `input`. Otherwise, the input is ignored and
-  `Y<year>.D<day>.p1()` is called. If neither is available, an error is raised.
-
-  The input may be omitted, in which case it defaults to `nil`. This is useful when `p1` does not
-  accept any arguments. If you wish to omit the input but provide a year or day, you need to
-  manually pass `nil` as input.
+  Calls, `Y<year>.D<day>.p1/1` is called with `input`.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -188,18 +166,13 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1(String.t() | nil, year: pos_integer(), day: pos_integer()) :: any()
-  def p1(input \\ nil, opts \\ []), do: call_p_fun_if_exported(:p1, input, opts)
+  @spec p1(String.t(), year: pos_integer(), day: pos_integer()) :: any()
+  def p1(input, opts \\ []), do: call_p_fun(:p1, input, opts)
 
   @doc """
   Call part 2 of the current puzzle with the given input.
 
-  If available, `Y<year>.D<day>.p2/1` is called with `input`. Otherwise, the input is ignored and
-  `Y<year>.D<day>.p2()` is called. If neither is available, an error is raised.
-
-  The input may be omitted, in which case it defaults to `nil`. This is useful when `p1` does not
-  accept any arguments. If you wish to omit the input but provide a year or day, you need to
-  manually pass `nil` as input.
+  Calls, `Y<year>.D<day>.p2/1` is called with `input`.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -207,14 +180,14 @@ defmodule AOC.IEx do
 
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2(String.t() | nil, year: pos_integer(), day: pos_integer()) :: any()
-  def p2(input \\ nil, opts \\ []), do: call_p_fun_if_exported(:p2, input, opts)
+  @spec p2(String.t(), year: pos_integer(), day: pos_integer()) :: any()
+  def p2(input, opts \\ []), do: call_p_fun(:p2, input, opts)
 
   @doc """
   Call part 1 of the current puzzle with its example input.
 
-  Uses `p1/3` and `example_path/1` to call `Y<year>.D<day>.p1/1` with the example input of <year>
-  and <day>.
+  Uses `p1/2` and `example_string/1` to call `Y<year>.D<day>.p1/1` with the example input of
+  `year` and `day`.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -228,7 +201,8 @@ defmodule AOC.IEx do
   @doc """
   Call part 1 of the current puzzle with its input.
 
-  Uses `p1/3` and `input_path/1` to call `Y<year>.D<day>.p1/1` with the input of <year> and <day>.
+  Uses `p1/2` and `input_string/1` to call `Y<year>.D<day>.p1/1` with the input of `year` and
+  `day`.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -242,8 +216,8 @@ defmodule AOC.IEx do
   @doc """
   Call part 2 of the current puzzle with its example input.
 
-  Uses `p2/3` and `example_path/1` to call `Y<year>.D<day>.p2/1` with the example input of <year>
-  and <day>.
+  Uses `p2/2` and `example_string/1` to call `Y<year>.D<day>.p2/1` with the example input of
+  `year` and `day`.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -257,7 +231,8 @@ defmodule AOC.IEx do
   @doc """
   Call part 2 of the current puzzle with its input.
 
-  Uses `p2/3` and `input_path/1` to call `Y<year>.D<day>.p2/1` with the input of <year> and <day>.
+  Uses `p2/2` and `input_string/1` to call `Y<year>.D<day>.p2/1` with the input of `year` and
+  `day`.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -271,8 +246,6 @@ defmodule AOC.IEx do
   @doc """
   Obtain the path of the input for the current puzzle.
 
-  Calls `AOC.input_path/2` with <day> and <year>.
-
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
   information.
@@ -280,13 +253,11 @@ defmodule AOC.IEx do
   @spec input_path(year: pos_integer(), day: pos_integer()) :: Path.t()
   def input_path(opts \\ []) do
     {y, d} = fetch_year_day(opts)
-    AOC.input_path(y, d)
+    Helpers.input_path(y, d)
   end
 
   @doc """
   Obtain the path of the example input of the current puzzle.
-
-  Calls `AOC.example_path/2` with <day> and <year>.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -295,13 +266,11 @@ defmodule AOC.IEx do
   @spec example_path(year: pos_integer(), day: pos_integer()) :: Path.t()
   def example_path(opts \\ []) do
     {y, d} = fetch_year_day(opts)
-    AOC.example_path(y, d)
+    Helpers.example_path(y, d)
   end
 
   @doc """
   Obtain the puzzle input of the current puzzle as a string.
-
-  Calls `AOC.input_string/2` with <day> and <year>.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -310,13 +279,11 @@ defmodule AOC.IEx do
   @spec input_string(year: pos_integer(), day: pos_integer()) :: String.t()
   def input_string(opts \\ []) do
     {y, d} = fetch_year_day(opts)
-    AOC.input_string(y, d)
+    Helpers.input_string(y, d)
   end
 
   @doc """
   Obtain the example input of the current puzzle as a string.
-
-  Calls `AOC.example_string/2` with <day> and <year>.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
@@ -325,36 +292,6 @@ defmodule AOC.IEx do
   @spec example_string(year: pos_integer(), day: pos_integer()) :: String.t()
   def example_string(opts \\ []) do
     {y, d} = fetch_year_day(opts)
-    AOC.example_string(y, d)
-  end
-
-  @doc """
-  Obtain the puzzle input of the current puzzle as a stream.
-
-  Calls `AOC.input_stream/2` with <day> and <year>.
-
-  If not present in the options list, `day` and `year` are fetched from the application
-  environment or based on the local time. Refer to the module documentation for additional
-  information.
-  """
-  @spec input_stream(year: pos_integer(), day: pos_integer()) :: Enumerable.t()
-  def input_stream(opts \\ []) do
-    {y, d} = fetch_year_day(opts)
-    AOC.input_stream(y, d)
-  end
-
-  @doc """
-  Obtain the example input of the current puzzle as a stream.
-
-  Calls `AOC.example_stream/2` with <day> and <year>.
-
-  If not present in the options list, `day` and `year` are fetched from the application
-  environment or based on the local time. Refer to the module documentation for additional
-  information.
-  """
-  @spec example_stream(year: pos_integer(), day: pos_integer()) :: Enumerable.t()
-  def example_stream(opts \\ []) do
-    {y, d} = fetch_year_day(opts)
-    AOC.example_stream(y, d)
+    Helpers.example_string(y, d)
   end
 end

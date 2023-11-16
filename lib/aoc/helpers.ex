@@ -55,6 +55,14 @@ defmodule AOC.Helpers do
     |> expand_template(year, day)
   end
 
+  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
+
+  @spec input_string(pos_integer(), pos_integer()) :: String.t()
+  def input_string(year, day), do: input_path(year, day) |> path_to_string()
+
+  @spec example_string(pos_integer(), pos_integer()) :: String.t()
+  def example_string(year, day), do: example_path(year, day) |> path_to_string()
+
   def parse_args!(args) do
     switches = [session: :string, year: :integer, day: :integer, example: :boolean]
     aliases = [s: :session, y: :year, d: :day]

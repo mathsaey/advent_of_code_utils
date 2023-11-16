@@ -43,6 +43,8 @@ solution:
 - `AOC.IEx.p1i/1`
 - `AOC.IEx.p2e/1`
 - `AOC.IEx.p2i/1`
+- `AOC.IEx.p1/2`
+- `AOC.IEx.p2/2`
 
 #### Get module (to test helpers)
 - `AOC.IEx.mod/1`
@@ -52,9 +54,6 @@ solution:
 - `AOC.IEx.example_path/1`
 - `AOC.IEx.input_string/1`
 - `AOC.IEx.example_string/1`
-- `AOC.IEx.input_stream/1`
-- `AOC.IEx.example_stream/1`
-
 ### Mix tasks
 
 mix is used to fetch the input for a puzzle and to create boilerplate code.
@@ -165,62 +164,3 @@ section of the [readme](readme.html).
   to prefix it.
 * Add `config :iex, inspect: [charlists: :as_lists]` to `config/config.exs`.
   This prevents elixir from displaying lists of integers as strings.
-
-## Alternative solution module style
-{: .col-2}
-
-In older versions of "Advent of Code utils", the `p1` and `p2` functions inside
-solution modules did not accept the input as an argument; instead, helper
-functions were used to obtain and process the puzzle input. These helpers were
-inserted by the `AOC.aoc/3` macro and are described in the `AOC` module docs.
-
-We recommend the use of the new style described above, as it makes it easier to
-test solutions and to experiment in iex. The old, alternative style, is still
-supported, however, for backwards compatibility and for those who prefer it.
-
-### Solution modules
-
-```
-import aoc
-
-aoc <year>, <day> do
-  def p1 do
-    input_stream() # or others
-    |> # part 1 solution goes here
-  end
-
-  def p2 do
-    example_stream() # or others
-    |> # part 2 solution goes here
-  end
-
-  # Overriding is possible to avoid boilerplate
-  def input_stream, do
-    super() |> Stream.map(&String.to_integer/1)
-  end
-end
-```
-
-### Helpers
-
-The generated helpers all call a function defined in `AOC` with the year and day
-of the solution module.
-
-| Helper             | Calls              |
-|--------------------|--------------------|
-| `input_path/0`     | `AOC.input_path/2`     |
-| `input_string/0`   | `AOC.input_string/2`   |
-| `input_stream/0`   | `AOC.input_stream/2`   |
-| `example_path/0`   | `AOC.example_path/2`   |
-| `example_string/0` | `AOC.example_string/2` |
-| `example_stream/0` | `AOC.example_stream/2` |
-
-### iex interaction
-
-#### Test solutions
-- `AOC.IEx.p1/2`
-- `AOC.IEx.p2/2`
-
-#### Get module (to test helpers)
-- `AOC.IEx.mod/1`
-
