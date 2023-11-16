@@ -1,6 +1,4 @@
-defmodule Y2009.D12 do
-  use AOC, year: 2009, day: 12
-
+defmodule Y1991.D8 do
   @doc """
       iex> p1(5)
       5

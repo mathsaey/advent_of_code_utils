@@ -1,98 +1,74 @@
-defmodule AOCTest do
-  use ExUnit.Case, async: true
+defmodule AocTest do
+  use AOCUtilsCase, async: true
+  import AOC
 
-  test "input_path/2" do
-    assert AOC.input_path(1991, 8) == "test/input/1991_8.txt"
+  aoc 2009, 12 do
+    def p1(_), do: nil
+    def p2(_), do: nil
+    def foo, do: :bar
   end
 
-  test "example_path/2" do
-    assert AOC.example_path(1991, 8) == "test/example/1991_8.txt"
+  test "module is generated with correct name" do
+    assert Code.ensure_loaded(Y2009.D12)
   end
 
-  test "input_string/2" do
-    assert AOC.input_string(1991, 8) == """
-           first line
-           second line\
-           """
-  end
-
-  test "example_string/2" do
-    assert AOC.example_string(1991, 8) == """
-           example line
-           other line\
-           """
-  end
-
-  test "input_stream/2" do
-    assert AOC.input_stream(1991, 8) |> Enum.to_list() == ["first line", "second line"]
-  end
-
-  test "example_stream/2" do
-    assert AOC.example_stream(1991, 8) |> Enum.to_list() == ["example line", "other line"]
-  end
-
-  test "generated functions" do
-    defmodule Test do
-      use AOC, year: 1991, day: 8
-    end
-
-    assert Test.input_path() == AOC.input_path(1991, 8)
-    assert Test.input_string() == AOC.input_string(1991, 8)
-    assert Test.input_stream() == AOC.input_stream(1991, 8)
-
-    assert Test.example_path() == AOC.example_path(1991, 8)
-    assert Test.example_string() == AOC.example_string(1991, 8)
-    assert Test.example_stream() == AOC.example_stream(1991, 8)
-  end
-
-  test "aoc/3" do
-    import AOC
-
-    aoc 1991, 8 do
-    end
-
-    assert Y1991.D8.input_path() == AOC.input_path(1991, 8)
-    assert Y1991.D8.input_string() == AOC.input_string(1991, 8)
-    assert Y1991.D8.input_stream() == AOC.input_stream(1991, 8)
-
-    assert Y1991.D8.example_path() == AOC.example_path(1991, 8)
-    assert Y1991.D8.example_string() == AOC.example_string(1991, 8)
-    assert Y1991.D8.example_stream() == AOC.example_stream(1991, 8)
+  test "aoc/3 does not modify body" do
+    assert function_exported?(Y2009.D12, :p1, 1)
+    assert function_exported?(Y2009.D12, :p2, 1)
+    assert function_exported?(Y2009.D12, :foo, 0)
   end
 
   describe "aoc_test" do
-    import AOC
-
-    test "generates tags on doctests" do
-      aoc_test 2009, 12
-      [%ExUnit.Test{tags: tags} | _] = Y2009.D12.AOCTest.__ex_unit__().tests
-      assert {:date, ~D[2009-12-12]} in tags
-      assert {:year, 2009} in tags
-      assert {:day, 12} in tags
-    end
-
-    test "can add to body" do
-      aoc_test 2009, 12 do
-        def added_test_func, do: :works
+    test "generates tags" do
+      aoc_test 1991, 8 do
       end
 
-      assert Y2009.D12.AOCTest.added_test_func() == :works
+      [%ExUnit.Test{tags: tags} | _] = Y1991.D8.AOCTest.__ex_unit__().tests
+      assert {:date, ~D[1991-12-08]} in tags
+      assert {:year, 1991} in tags
+      assert {:day, 8} in tags
     end
 
-    test "inserted code can access helpers" do
-      aoc_test 2009, 12 do
-        def test_example_path, do: example_path()
+    test "can add functions to body" do
+      aoc_test 1991, 8 do
+        def foo, do: :bar
       end
 
-      assert Y2009.D12.AOCTest.test_example_path() == "test/example/2009_12.txt"
+      assert Y1991.D8.AOCTest.foo() == :bar
+    end
+
+    test "can add tests to body" do
+      aoc_test 1991, 8 do
+        test "foos the bar" do
+        end
+      end
+
+      assert Enum.any?(Y1991.D8.AOCTest.__ex_unit__().tests, &(&1.name == :"test foos the bar"))
+    end
+
+    test "defines helpers" do
+      aoc_test 1991, 8 do
+      end
+
+      assert Y1991.D8.AOCTest.input_path() == "test/input/1991_8.txt"
+      assert Y1991.D8.AOCTest.example_path() == "test/example/1991_8.txt"
+      assert Y1991.D8.AOCTest.input_string() == "input line"
+      assert Y1991.D8.AOCTest.example_string() == "example line"
     end
 
     test "can modify ExUnit options" do
-      aoc_test 2009, 12, exunit: [async: false] do
+      aoc_test 1991, 8, async: true do
       end
 
-      [%ExUnit.Test{tags: tags} | _] = Y2009.D12.AOCTest.__ex_unit__().tests
-      assert tags.async == false
+      [%ExUnit.Test{tags: tags} | _] = Y1991.D8.AOCTest.__ex_unit__().tests
+      assert tags.async == true
+    end
+
+    test "without doctest" do
+      aoc_test 1991, 8, doctest?: false do
+      end
+
+      assert Enum.empty?(Y1991.D8.AOCTest.__ex_unit__().tests)
     end
   end
 end
