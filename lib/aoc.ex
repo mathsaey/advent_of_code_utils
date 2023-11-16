@@ -133,13 +133,15 @@ defmodule AOC do
     target = Helpers.module_name(year, day)
     opts = opts ++ [year: year, day: day]
 
-    maybe_import = if Keyword.get(opts, :import?, true) do
-      quote(do: import unquote(target))
-    end
+    maybe_import =
+      if Keyword.get(opts, :import?, true) do
+        quote(do: import(unquote(target)))
+      end
 
-    maybe_doctest = if Keyword.get(opts, :doctest?, true) do
-      quote(do: doctest(unquote(target)))
-    end
+    maybe_doctest =
+      if Keyword.get(opts, :doctest?, true) do
+        quote(do: doctest(unquote(target)))
+      end
 
     quote do
       defmodule unquote(Helpers.test_module_name(year, day)) do
