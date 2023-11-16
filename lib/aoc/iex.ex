@@ -272,6 +272,8 @@ defmodule AOC.IEx do
   @doc """
   Obtain the puzzle input of the current puzzle as a string.
 
+  Trailing newlines are stripped from the puzzle input string.
+
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
   information.
@@ -284,6 +286,8 @@ defmodule AOC.IEx do
 
   @doc """
   Obtain the example input of the current puzzle as a string.
+
+  Trailing newlines are stripped from the example input string.
 
   If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
