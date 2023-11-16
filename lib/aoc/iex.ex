@@ -113,11 +113,11 @@ defmodule AOC.IEx do
 
   defp maybe_timed_call(mod, fun, input) do
     if Application.get_env(:advent_of_code_utils, :time_calls?, false) do
-      apply(mod, fun, input)
-    else
       {time, res} = :timer.tc(mod, fun, input)
       IO.puts("⏱️ #{time / 1000} ms")
       res
+    else
+      apply(mod, fun, input)
     end
   end
 
