@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.0
+
+- Rename `fetch_example` configuration to `fetch_example?` for consistency.
+
 ## 3.1.3
 
 - Optionally show the elapsed time when calling a `p1`, `p2`, `p1i`, `p1e`,

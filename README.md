@@ -128,7 +128,8 @@ challenge webpage, which is generally that day's example input.
 
 Since this method is not 100% reliable, you may you wish to disable this
 behaviour. This can be done by passing the `--no-example` flag to `mix aoc` or
-`mix aoc.get` or by setting `fetch_example` to false in your `config.exs` file.
+`mix aoc.get` or by setting `fetch_example?` to false in your `config.exs`
+file.
 
 ## Time Zones
 

@@ -72,7 +72,7 @@ defmodule AOC.Helpers do
       Keyword.get(
         opts,
         :example,
-        Application.get_env(:advent_of_code_utils, :fetch_example, true)
+        Application.get_env(:advent_of_code_utils, :fetch_example?, true)
       )
 
     {opts[:session] || session, opts[:year] || year(), opts[:day] || day(), example}

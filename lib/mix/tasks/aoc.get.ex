@@ -37,7 +37,7 @@ defmodule Mix.Tasks.Aoc.Get do
   hand.
 
   If you do not wish to fetch example input, you can pass the `--no-example` flag to this task, or
-  you can set `fetch_example` to `false` in the `advent_of_code_utils` application configuration.
+  you can set `fetch_example?` to `false` in the `advent_of_code_utils` application configuration.
 
   ## Command-line arguments
 
