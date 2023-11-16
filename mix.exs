@@ -59,7 +59,7 @@ defmodule AdventOfCodeUtils.MixProject do
 
   defp dialyzer do
     [
-      plt_add_apps: [:mix, :iex, :eex],
+      plt_add_apps: [:mix, :iex, :eex, :ex_unit],
       plt_local_path: "_build/dialyzer/"
     ]
   end

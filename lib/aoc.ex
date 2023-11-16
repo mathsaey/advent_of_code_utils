@@ -39,9 +39,13 @@ defmodule AOC do
   @doc """
   Part 2 solution.
 
-  Must accept a string which represents the puzzle or example input.
+  Must accept a string which represents the puzzle or example input. This callback is marked as
+  optional as day 25 does not have a second part; this also prevents warnings while working on
+  part 1.
   """
   @callback p2(String.t()) :: any()
+
+  @optional_callbacks p2: 1
 
   @doc """
   Generate an advent of code solution module for a given year and day.
@@ -84,45 +88,65 @@ defmodule AOC do
   end
 
   @doc """
-  Like `aoc_test/3`, but with additional customization
+  Generate an advent of code test module for a given year and day.
 
-  This module works like `aoc_test/3`, but enables additional customization. The following options
-  are accepted:
+  The generated module will be named `Y<year>.D<day>.AOCTest`. It will be tagged with the year,
+  day and date of the puzzle, and will contain helper functions, `input_path/0`, `example_path/0`,
+  `input_string/0` and `example_string/0` which can be used to access the example and puzzle
+  input, as described in `AOC.Case`.
 
-  * `module`: specifies the module to import and to run doctests on (default: `Y<year>.D<day>`).
-  * `exunit`: specifies the options passed to `use ExUnit` (default: `async: true`)
+  The generated module will import the solution module of the same date (unless `import?: false`
+  is provided as an option) and automatically calls `ExUnit.DocTest.doctest/1` on the solution
+  module, unless `doctest?: false` is provided as an option. Any other options (such as `async:
+  true`) are passed to ExUnit.
 
-  `aoc_test(2009, 12, [module: Foo, exunit: []], do: nil)` will expand to:
+
+  ## Examples
 
   ```
-  defmodule Y2009.D12.AOCTest do
-    use ExUnit.Case, []
+  import AOC
 
-    @moduletag date: ~D[2009-12-12]
-    @moduletag year: 2009
-    @moduletag day: 12
-
-    import Foo
-    doctest Foo
+  aoc_test 2020,1, async: true do
+    test "does my helper work?" do
+      assert some_helper(:foo) == 42
+    end
   end
   ```
 
+  Is equivalent to:
+
+  ```
+  defmodule Y2020.D1.AOCTest do
+    use AOC.Case, year: 2020, day: 1, async: true
+
+    import Y2020.D1
+
+    test "does my helper work?" do
+      assert some_helper(:foo) == 42
+    end
+
+    doctest Y2020.D1
+  end
+  ```
   """
-  defmacro aoc_test(year, day, opts, do: body) do
-    target_module = opts[:module] || Helpers.module_name(year, day)
-    exunit_opts = opts[:exunit] || [async: true]
+  defmacro aoc_test(year, day, opts \\ [], do: body) do
+    target = Helpers.module_name(year, day)
+    opts = opts ++ [year: year, day: day]
+
+    maybe_import = if Keyword.get(opts, :import?, true) do
+      quote(do: import unquote(target))
+    end
+
+    maybe_doctest = if Keyword.get(opts, :doctest?, true) do
+      quote(do: doctest(unquote(target)))
+    end
 
     quote do
       defmodule unquote(Helpers.test_module_name(year, day)) do
-        use ExUnit.Case, unquote(exunit_opts)
-
-        @moduletag date: unquote(Macro.escape(Date.new!(year, 12, day)))
-        @moduletag year: unquote(year)
-        @moduletag day: unquote(day)
-
-        import unquote(target_module)
+        use AOC.Case, unquote(opts)
+        unquote(maybe_import)
         unquote(body)
-        doctest unquote(target_module)
+        unquote(maybe_doctest)
       end
     end
   end
