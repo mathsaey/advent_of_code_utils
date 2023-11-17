@@ -2,6 +2,61 @@
 
 ## 4.0.0
 
+### Overview
+
+#### Dropping support for helper functions in solution modules
+
+This update makes the "puzzle input" method introduced in 3.0.0 the only way
+to write solution modules. The old, "helper function" method is no longer
+supported.
+
+The helper function method worked as follows:
+
+```
+aoc year, day do
+  def p1, do: input_string() |> # Solve puzzle
+end
+```
+
+The puzzle input method works as follows:
+
+```
+aoc year, day do
+  def p1(input), do: input |> # solve puzzle
+end
+```
+
+Input is provided through the use of the helpers in `AOC.IEx`.
+
+The input method is preferred as it makes it easier to test your solution using
+different inputs without the need to modify any code. It also makes it
+significantly easier to write tests for your solution module.
+
+Users who wish to keep using the helper method are advised to stick to version
+3 of Advent of Code Utils.
+
+#### `aoc_test/4`
+
+This update adds optional support for generating unit test modules for your
+solution modules. You can now write:
+
+```
+aoc_test year, day do
+end
+```
+
+Which will create an `ExUnit.Case` which tests your solution module. The
+generated case will automatically call the doctests of your solution module.
+
+`mix aoc.gen` can now also generate this test code and add doctests to your
+solution module.
+
+### Detailed Changelog
+
+- Introduce `AOC.aoc_test/4`, `AOC.Case`.
+- Remove `example_path/1`, `input_path/1`, `example_string/1`,
+  `input_string/1`, `example_stream/1`, `input_stream/1` from `AOC` module.
+- Remove `example_stream/1`, `input_stream/1` from `AOC.IEx`.
 - Rename `fetch_example` configuration to `fetch_example?` for consistency.
 
 ## 3.1.3

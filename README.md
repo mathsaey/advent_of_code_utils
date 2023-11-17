@@ -37,18 +37,15 @@ end
 While solving your challenge, you can use the `AOC.IEx.p1e/1` and
 `AOC.IEx.p2e/1` helpers in `iex` to test your solution so far with the example
 input. Once ready, you can use `AOC.IEx.p1i/1` and `AOC.IEx.p2i/1` to run your
-solution on your puzzle input. These helpers can also be set up to
-automatically recompile your mix project.
+solution on your puzzle input.
 
-All of this is configurable so that you can adjust this project to fit your own
-workflow. For instance, you can forego the `iex` helpers, and instead access
-the contents of the fetched input by using `input_path/0`, `input_string/0` or
-`input_stream/0`. Example input is available through `example_path/0`,
-`example_string/0` or `example_stream/0`.
-Check out the [docs](https://hexdocs.pm/advent_of_code_utils/) for more
-information or the
-[cheatsheet](https://hexdocs.pm/advent_of_code_utils/cheatsheet.html), if
-you're impatient.
+The project also optionally supports automatically recompiling your mix project
+when using the aforementioned helpers, timing your solutions and boilerplate
+generation for unit testing your solution modules. It also supports working on
+puzzles from previous days or years. Check out the
+[docs](https://hexdocs.pm/advent_of_code_utils/) or the
+[cheatsheet](https://hexdocs.pm/advent_of_code_utils/cheatsheet.html) for more
+information.
 
 ## Setup & Use
 
@@ -56,15 +53,15 @@ you're impatient.
   ```elixir
   def deps do
     [
-      {:advent_of_code_utils, "~> 3.1"}
+      {:advent_of_code_utils, "~> 4.0"}
     ]
   end
   ```
 
 - Configure your Advent of Code project in `config/config.exs`:
 
-  - Store your session cookie in `config/config.exs`. You can find this by
-    inspecting your cookies after logging in to the advent of code website.
+  - Store your session cookie. You can find this by inspecting your cookies
+    after logging in to the advent of code website.
 
     ```elixir
     config :advent_of_code_utils, session: "<your cookie>"
@@ -84,6 +81,13 @@ you're impatient.
     config :advent_of_code_utils, time_calls?: true
     ```
 
+  - _(Optional)_ Set `gen_tests?` to `true` if you want `mix aoc.gen` to
+    generate unit test code.
+
+    ```elixir
+    config :advent_of_code_utils, gen_tests?: true
+    ```
+
   - _(Optional)_ Configure `iex` to display charlists as lists. This will prevent lists like
     `[99, 97, 116]` to show up as `'cat'`:
 
@@ -99,6 +103,7 @@ you're impatient.
     config :advent_of_code_utils,
       auto_compile?: true,
       time_calls?: true,
+      gen_tests?: true,
       session: "<your session cookie>"
 
     config :iex,
@@ -116,9 +121,9 @@ Now that you are set up, you can use `mix aoc` to work on today's challenge.
 The day and year of a challenge can be passed in various ways, so this project
 can still be used when working on older challenges.
 
-If you only want to use this application to fetch the input of  challenge,
-without generating any code, you can use `mix aoc.get` instead of `mix aoc`.
-Additionally, you can skip most of the optional steps above.
+If you only want to use this application to fetch the input of a challenge
+without generating any code, you can skip most of the optional steps above and
+use `mix aoc.get` instead of `mix aoc`.
 
 ## Example Input
 
