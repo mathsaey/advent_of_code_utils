@@ -66,14 +66,20 @@ defmodule Mix.Tasks.Aoc.Gen do
   - `--doctest` or `--no-doctest`: Enable or disable the creation of doctests.
   """
   @shortdoc "Generate AOC code skeleton"
-
   use Mix.Task
   import Mix.Generator
 
   alias AOC.Helpers
 
-  def run(args) do
-    {year, day, tests, doctests} = parse_args!(args)
+  @impl true
+  def run(args), do: args |> Helpers.parse_args!([:day, :year, :test, :doctest]) |> run_task()
+
+  def run_task(opts) do
+    day = opts[:day]
+    year = opts[:year]
+    tests = opts[:test] || Helpers.app_env_val(:gen_tests?, false)
+    doctests = Keyword.get(opts, :doctest, Helpers.app_env_val(:gen_doctests?, tests))
+
     validate_test_setup!(year, day, tests, doctests)
 
     solution_path = Helpers.code_path(year, day)
@@ -85,23 +91,6 @@ defmodule Mix.Tasks.Aoc.Gen do
       test_content = test_template(year: year, day: day)
       maybe_create_file(test_path, test_content)
     end
-  end
-
-  defp parse_args!(args) do
-    switches = [year: :integer, day: :integer, test: :boolean, doctest: :boolean]
-    aliases = [y: :year, d: :day, t: :test]
-
-    opts =
-      OptionParser.parse(args, aliases: aliases, strict: switches)
-      |> case do
-        {opts, [], []} -> opts
-        {_, [], [{flag, _} | _]} -> Mix.raise("Invalid option(s): #{inspect(flag)}")
-        {_, any, _} -> Mix.raise("Unexpected argument(s): #{any |> Enum.join(" ") |> inspect()}")
-      end
-
-    tests = opts[:test] || Helpers.app_env_val(:gen_tests?, false)
-    doctests = Keyword.get(opts, :doctest, Helpers.app_env_val(:gen_doctests?, tests))
-    {opts[:year] || Helpers.year(), opts[:day] || Helpers.day(), tests, doctests}
   end
 
   defp validate_test_setup!(year, day, tests, doctests) do

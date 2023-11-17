@@ -62,16 +62,17 @@ defmodule Mix.Tasks.Aoc do
   use Mix.Task
   alias AOC.Helpers
 
+  @impl true
   def run(args) do
-    {_, year, day, _} = Helpers.parse_args!(args)
-    do_try(Mix.Tasks.Aoc.Gen, "gen", args)
-    do_try(Mix.Tasks.Aoc.Get, "get", args)
-    Mix.shell().info("Today's challenge can be found at: #{url(year, day)}")
+    opts = Helpers.parse_args!(args, [:day, :year, :session, :example, :test, :doctest])
+    do_try(Mix.Tasks.Aoc.Gen, "gen", opts)
+    do_try(Mix.Tasks.Aoc.Get, "get", opts)
+    Mix.shell().info("Today's challenge can be found at: #{url(opts[:year], opts[:day])}")
   end
 
-  defp do_try(mod, name, args) do
+  defp do_try(mod, name, opts) do
     try do
-      mod.run(args)
+      mod.run_task(opts)
     rescue
       e in Mix.Error -> Mix.shell().info([:red, "* ", name, " error ", :reset, e.message])
     end

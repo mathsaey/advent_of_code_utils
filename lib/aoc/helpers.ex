@@ -67,26 +67,26 @@ defmodule AOC.Helpers do
   @spec example_string(pos_integer(), pos_integer()) :: String.t()
   def example_string(year, day), do: example_path(year, day) |> path_to_string()
 
-  def parse_args!(args) do
-    switches = [session: :string, year: :integer, day: :integer, example: :boolean]
-    aliases = [s: :session, y: :year, d: :day]
+  def parse_args!(args, accepted) do
+    aliases = [y: :year, d: :day, s: :session, t: :test]
 
-    opts =
-      case OptionParser.parse(args, aliases: aliases, strict: switches) do
-        {opts, [], []} -> opts
-        {_, [], any} -> Mix.raise("Invalid option(s): #{inspect(any)}")
-        {_, any, _} -> Mix.raise("Unexpected argument(s): #{inspect(any)}")
-      end
+    switches = [
+      day: :integer,
+      year: :integer,
+      session: :string,
+      example: :boolean,
+      test: :boolean,
+      doctest: :boolean
+    ]
 
-    session = app_env_val(:session, nil)
+    accepted_switches = Enum.filter(switches, fn {k, _} -> k in accepted end)
 
-    example =
-      Keyword.get(
-        opts,
-        :example,
-        app_env_val(:fetch_example?, true)
-      )
-
-    {opts[:session] || session, opts[:year] || year(), opts[:day] || day(), example}
+    case OptionParser.parse(args, aliases: aliases, strict: accepted_switches) do
+      {opts, [], []} -> opts
+      {_, [], [{flag, _} | _]} -> Mix.raise("Invalid option(s): #{inspect(flag)}")
+      {_, any, _} -> Mix.raise("Unexpected argument(s): #{any |> Enum.join(" ") |> inspect()}")
+    end
+    |> Keyword.put_new(:day, day())
+    |> Keyword.put_new(:year, year())
   end
 end

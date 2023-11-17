@@ -70,8 +70,15 @@ defmodule Mix.Tasks.Aoc.Get do
   use Mix.Task
   alias AOC.Helpers
 
-  def run(args) do
-    {session, year, day, example} = Helpers.parse_args!(args)
+  @impl true
+  def run(args), do: args |> Helpers.parse_args!([:day, :year, :session, :example]) |> run_task()
+
+  def run_task(opts) do
+    example = Keyword.get(opts, :example, Helpers.app_env_val(:fetch_example?, true))
+    session = opts[:session] || Helpers.app_env_val(:session, nil)
+    year = opts[:year]
+    day = opts[:day]
+
     example_path = Helpers.example_path(year, day)
     input_path = Helpers.input_path(year, day)
 
