@@ -7,7 +7,7 @@ defmodule AOC.HelpersTest do
   end
 
   test "day when set in application environment" do
-    Application.put_env(:advent_of_code_utils, :day, 42)
+    put_env(:day, 42)
     assert Helpers.day() == 42
   end
 
@@ -16,7 +16,7 @@ defmodule AOC.HelpersTest do
   end
 
   test "year when set in application environment" do
-    Application.put_env(:advent_of_code_utils, :year, 1991)
+    put_env(:year, 1991)
     assert Helpers.year() == 1991
   end
 
@@ -33,21 +33,21 @@ defmodule AOC.HelpersTest do
   @tag clear: :input_path
   test "input path" do
     assert Helpers.input_path(1991, 8) == "input/1991_8.txt"
-    Application.put_env(:advent_of_code_utils, :input_path, ":day_:year_input")
+    put_env(:input_path, ":day_:year_input")
     assert Helpers.input_path(1991, 8) == "8_1991_input"
   end
 
   @tag clear: :example_path
   test "example path" do
     assert Helpers.example_path(1991, 8) == "input/1991_8_example.txt"
-    Application.put_env(:advent_of_code_utils, :example_path, ":day_:year_example")
+    put_env(:example_path, ":day_:year_example")
     assert Helpers.example_path(1991, 8) == "8_1991_example"
   end
 
   @tag clear: :code_path
   test "code path" do
     assert Helpers.code_path(1991, 8) == "lib/1991/8.ex"
-    Application.put_env(:advent_of_code_utils, :code_path, ":day_:year.ex")
+    put_env(:code_path, ":day_:year.ex")
     assert Helpers.code_path(1991, 8) == "8_1991.ex"
   end
 

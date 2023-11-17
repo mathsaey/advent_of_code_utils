@@ -15,7 +15,15 @@ defmodule AOCUtilsCase do
       |> Enum.map(fn {k, _} -> Application.delete_env(:advent_of_code_utils, k) end)
 
       # Restore the values from before the test
-      Enum.map(store_env, fn {k, v} -> Application.put_env(:advent_of_code_utils, k, v) end)
+      Enum.map(store_env, fn {k, v} -> put_env(k, v) end)
     end)
   end
+
+  using do
+    quote do
+      import unquote(__MODULE__)
+    end
+  end
+
+  def put_env(key, val), do: Application.put_env(:advent_of_code_utils, key, val)
 end

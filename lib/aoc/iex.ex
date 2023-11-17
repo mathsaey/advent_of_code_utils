@@ -101,7 +101,7 @@ defmodule AOC.IEx do
   end
 
   defp maybe_compile() do
-    compile? = Application.get_env(:advent_of_code_utils, :auto_compile?, false)
+    compile? = Helpers.app_env_val(:auto_compile?, false)
     if(compile? and mix_started?(), do: IEx.Helpers.recompile())
   end
 
@@ -112,7 +112,7 @@ defmodule AOC.IEx do
   end
 
   defp maybe_timed_call(mod, fun, input) do
-    if Application.get_env(:advent_of_code_utils, :time_calls?, false) do
+    if Helpers.app_env_val(:time_calls?, false) do
       {time, res} = :timer.tc(mod, fun, input)
       IO.puts("⏱️ #{time / 1000} ms")
       res

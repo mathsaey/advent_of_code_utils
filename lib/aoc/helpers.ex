@@ -2,8 +2,10 @@ defmodule AOC.Helpers do
   @moduledoc false
   @aoc_time_zone "EST"
 
+  def app_env_val(key, default), do: Application.get_env(:advent_of_code_utils, key, default)
+
   defp time_zone do
-    case Application.get_env(:advent_of_code_utils, :time_zone, :local) do
+    case app_env_val(:time_zone, :local) do
       :local -> :local
       :aoc -> @aoc_time_zone
       zone when is_binary(zone) -> zone
@@ -17,8 +19,8 @@ defmodule AOC.Helpers do
     end
   end
 
-  def day, do: Application.get_env(:advent_of_code_utils, :day, now().day)
-  def year, do: Application.get_env(:advent_of_code_utils, :year, now().year)
+  def day, do: app_env_val(:day, now().day)
+  def year, do: app_env_val(:year, now().year)
 
   def module_name(year, day) do
     mod_year = "Y#{year}" |> String.to_atom()
@@ -38,20 +40,17 @@ defmodule AOC.Helpers do
   end
 
   def input_path(year, day) do
-    :advent_of_code_utils
-    |> Application.get_env(:input_path, "input/:year_:day.txt")
+    app_env_val(:input_path, "input/:year_:day.txt")
     |> expand_template(year, day)
   end
 
   def example_path(year, day) do
-    :advent_of_code_utils
-    |> Application.get_env(:example_path, "input/:year_:day_example.txt")
+    app_env_val(:example_path, "input/:year_:day_example.txt")
     |> expand_template(year, day)
   end
 
   def code_path(year, day) do
-    :advent_of_code_utils
-    |> Application.get_env(:code_path, "lib/:year/:day.ex")
+    app_env_val(:code_path, "lib/:year/:day.ex")
     |> expand_template(year, day)
   end
 
@@ -74,13 +73,13 @@ defmodule AOC.Helpers do
         {_, any, _} -> Mix.raise("Unexpected argument(s): #{inspect(any)}")
       end
 
-    session = Application.get_env(:advent_of_code_utils, :session, nil)
+    session = app_env_val(:session, nil)
 
     example =
       Keyword.get(
         opts,
         :example,
-        Application.get_env(:advent_of_code_utils, :fetch_example?, true)
+        app_env_val(:fetch_example?, true)
       )
 
     {opts[:session] || session, opts[:year] || year(), opts[:day] || day(), example}

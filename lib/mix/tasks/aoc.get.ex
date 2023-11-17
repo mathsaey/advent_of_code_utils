@@ -126,7 +126,7 @@ defmodule Mix.Tasks.Aoc.Get do
   end
 
   defp fetch(url, headers \\ []) do
-    ca_path = Application.get_env(:advent_of_code_utils, :ca_cert_path, "/etc/ssl/cert.pem")
+    ca_path = Helpers.app_env_val(:ca_cert_path, "/etc/ssl/cert.pem")
     headers = [user_agent() | headers]
 
     opts =

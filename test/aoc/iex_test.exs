@@ -10,14 +10,14 @@ defmodule AOC.IExTest do
   end
 
   test "calls with specified day" do
-    Application.put_env(:advent_of_code_utils, :year, 1991)
+    put_env(:year, 1991)
     assert p1("foo", day: 8) == "foo"
     assert p2("bar", day: 8) == "bar"
   end
 
   test "calls with no extra arguments" do
-    Application.put_env(:advent_of_code_utils, :year, 1991)
-    Application.put_env(:advent_of_code_utils, :day, 8)
+    put_env(:year, 1991)
+    put_env(:day, 8)
     assert p1("foo") == "foo"
     assert p2("bar") == "bar"
   end
@@ -35,8 +35,8 @@ defmodule AOC.IExTest do
   test "input path" do
     assert input_path(year: 1991, day: 8) == "test/input/1991_8.txt"
     assert example_path(year: 1991, day: 8) == "test/example/1991_8.txt"
-    Application.put_env(:advent_of_code_utils, :year, 2014)
-    Application.put_env(:advent_of_code_utils, :day, 10)
+    put_env(:year, 2014)
+    put_env(:day, 10)
     assert input_path() == "test/input/2014_10.txt"
     assert example_path() == "test/example/2014_10.txt"
   end
@@ -44,8 +44,8 @@ defmodule AOC.IExTest do
   test "input string" do
     assert input_string(year: 1991, day: 8) == "input line"
     assert example_string(year: 1991, day: 8) == "example line"
-    Application.put_env(:advent_of_code_utils, :year, 1991)
-    Application.put_env(:advent_of_code_utils, :day, 8)
+    put_env(:year, 1991)
+    put_env(:day, 8)
     assert input_string() == "input line"
     assert example_string() == "example line"
   end
