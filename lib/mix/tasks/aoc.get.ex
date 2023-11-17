@@ -27,7 +27,7 @@ defmodule Mix.Tasks.Aoc.Get do
   obtained by investigating your cookies after logging in on the advent of code website. The
   cookie can be stored inside your `config/config.exs` file (e.g.
   `config, :advent_of_code_utils, :session, "<your cookie here>"`) or it can be passed as a
-  command-line argument.  If no cookie is present, the input can not be fetched.
+  command-line argument.  If no cookie is present, the input cannot be fetched.
 
   ## Example input
 
@@ -39,13 +39,30 @@ defmodule Mix.Tasks.Aoc.Get do
   If you do not wish to fetch example input, you can pass the `--no-example` flag to this task, or
   you can set `fetch_example?` to `false` in the `advent_of_code_utils` application configuration.
 
-  ## Command-line arguments
+  ## Configuration
+
+  ### Application environment
+
+  The following [application configuration parameters](`Config`) can modify the behaviour of this
+  task:
+
+  - `session`: Advent of code sessions cookie.
+  - `day`: Specify the day. Defaults to the current day.
+  - `year`: Specify the year. Defaults to the current year.
+  - `time_zone`: Specify the time-zone used to determine the local time. Defaults to the time zone
+    of your computer.  Please refer to the [README](readme.html#time-zones) for additional
+    information.
+  - `input_path`: Determines where the input file is stored. Defaults to `"input/:year_:day.txt"`
+  - `example_path`: Determines where the example input is stored. Defaults to
+    `"input/:year_:day_example.txt"`
+
+  ### Command-line arguments
 
   The options below take precedence over values defined in the application configuration.
 
   - `-s` or `--session`: Specify the session cookie.
-  - `-y` or `--year`: Specify the year.
   - `-d` or `--day`: Specify the day.
+  - `-y` or `--year`: Specify the year.
   - `--no-example`: Do not fetch example input
   - `--example`: Fetch example input
   """

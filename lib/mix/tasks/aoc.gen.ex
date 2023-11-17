@@ -12,7 +12,7 @@ defmodule Mix.Tasks.Aoc.Gen do
   By default, this task only generates a solution module file. When `gen_tests?` is set to `true`
   in the application configuration (i.e. in `config/config.exs`), or when `--test` is passed as an
   option to this task, this task will also generate a unit test file. Moreover, it will also add
-  doctests to the generated solution module.
+  doctests to the solution module.
 
   If you do not wish to generate doctests, you can set `gen_doctests?` to `false` in the
   application configuration or pass the `--no-doctest` option to this task.
@@ -34,15 +34,35 @@ defmodule Mix.Tasks.Aoc.Gen do
 
   If tests are generated, they are stored in `test/<year>/<day>_test.exs`. This value can be
   modified by setting `test_path` in the application configuration. Note that, in order for the
-  test to work with `mix test`, the test path must end with `_test.exs`.
+  test to work with `mix test`, the test path must end in `_test.exs`.
 
-  ## Command-line arguments
+  ## Configuration
+
+  ### Application environment
+
+  The following [application configuration parameters](`Config`) can modify the behaviour of this
+  task:
+
+  - `day`: Specify the day. Defaults to the current day.
+  - `year`: Specify the year. Defaults to the current year.
+  - `time_zone`: Specify the time-zone used to determine the local time. Defaults to the time zone
+    of your computer.  Please refer to the [README](readme.html#time-zones) for additional
+    information.
+  - `gen_tests?`: Determines if test files are created. Defaults to `false`.
+  - `gen_doctests?`: Determines if doctests are generated. Defaults to the value of `gen_tests?`.
+  - `code_path`: Determines where the generated code file is stored. Defaults to
+    `"lib/:year/:day.ex"`.
+  - `code_path`: Determines where the generated test file is stored. Defaults to
+    `"test/:year/:day_test.exs"`
+
+  ### Command-line arguments
 
   The options below take precedence over values defined in the application configuration.
 
-  - `-y` or `--year`: Specify the year.
   - `-d` or `--day`: Specify the day.
+  - `-y` or `--year`: Specify the year.
   - `-t` or `--test`: Generate tests.
+  - `--no-test`: Do not generate tests.
   - `--doctest` or `--no-doctest`: Enable or disable the creation of doctests.
   """
   @shortdoc "Generate AOC code skeleton"
