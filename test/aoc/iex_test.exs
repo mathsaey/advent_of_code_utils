@@ -1,6 +1,7 @@
 defmodule AOC.IExTest do
   use AOCUtilsCase
   import AOC.IEx
+  import ExUnit.CaptureIO
 
   doctest AOC.IEx
 
@@ -48,5 +49,27 @@ defmodule AOC.IExTest do
     put_env(:day, 8)
     assert input_string() == "input line"
     assert example_string() == "example line"
+  end
+
+  describe "timing function calls" do
+    test "when specified as an option" do
+      stdout = capture_io(:stdio, fn -> p1("foo", time: true, year: 1991, day: 8) == "foo" end)
+      assert stdout =~ ~r"⏱️ \d+\.\d+ ms\n"
+    end
+
+    test "when specified in application env" do
+      put_env(:time_calls?, true)
+      stdout = capture_io(:stdio, fn -> p1("foo", year: 1991, day: 8) == "foo" end)
+      assert stdout =~ ~r"⏱️ \d+\.\d+ ms\n"
+    end
+
+    test "overrides application env" do
+      put_env(:time_calls?, true)
+      stdout = capture_io(:stdio, fn -> p1("foo", time: false, year: 1991, day: 8) == "foo" end)
+      assert stdout == ""
+      put_env(:time_calls?, false)
+      stdout = capture_io(:stdio, fn -> p1("foo", time: true, year: 1991, day: 8) == "foo" end)
+      assert stdout =~ ~r"⏱️ \d+\.\d+ ms\n"
+    end
   end
 end

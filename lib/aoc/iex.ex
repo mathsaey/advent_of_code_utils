@@ -108,11 +108,11 @@ defmodule AOC.IEx do
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
 
   defp call_p_fun(p, input, opts) do
-    opts |> mod() |> Code.ensure_loaded!() |> maybe_timed_call(p, [input])
+    opts |> mod() |> Code.ensure_loaded!() |> maybe_timed_call(p, [input], opts)
   end
 
-  defp maybe_timed_call(mod, fun, input) do
-    if Helpers.app_env_val(:time_calls?, false) do
+  defp maybe_timed_call(mod, fun, input, opts) do
+    if Keyword.get(opts, :time, Helpers.app_env_val(:time_calls?, false)) do
       {time, res} = :timer.tc(mod, fun, input)
       IO.puts("⏱️ #{time / 1000} ms")
       res
@@ -164,9 +164,13 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
 
+  The `time:` option can be used to control if the execution of `p1` will be timed. If it is not
+  present, the value of `:time_calls?` in the application environment (default: `false`) will be
+  respected.
+
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1(String.t(), year: pos_integer(), day: pos_integer()) :: any()
+  @spec p1(String.t(), year: pos_integer(), day: pos_integer(), time: boolean()) :: any()
   def p1(input, opts \\ []), do: call_p_fun(:p1, input, opts)
 
   @doc """
@@ -178,9 +182,13 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
 
+  The `time:` option can be used to control if the execution of `p2` will be timed. If it is not
+  present, the value of `:time_calls?` in the application environment (default: `false`) will be
+  respected.
+
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2(String.t(), year: pos_integer(), day: pos_integer()) :: any()
+  @spec p2(String.t(), year: pos_integer(), day: pos_integer(), time: boolean()) :: any()
   def p2(input, opts \\ []), do: call_p_fun(:p2, input, opts)
 
   @doc """
@@ -193,9 +201,13 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
 
+  The `time:` option can be used to control if the execution of `p1` will be timed. If it is not
+  present, the value of `:time_calls?` in the application environment (default: `false`) will be
+  respected.
+
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1e(year: pos_integer(), day: pos_integer()) :: any()
+  @spec p1e(year: pos_integer(), day: pos_integer(), time: boolean()) :: any()
   def p1e(opts \\ []), do: p1(example_string(opts), opts)
 
   @doc """
@@ -208,9 +220,13 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
 
+  The `time:` option can be used to control if the execution of `p1` will be timed. If it is not
+  present, the value of `:time_calls?` in the application environment (default: `false`) will be
+  respected.
+
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p1i(year: pos_integer(), day: pos_integer()) :: any()
+  @spec p1i(year: pos_integer(), day: pos_integer(), time: boolean()) :: any()
   def p1i(opts \\ []), do: p1(input_string(opts), opts)
 
   @doc """
@@ -223,9 +239,13 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
 
+  The `time:` option can be used to control if the execution of `p2` will be timed. If it is not
+  present, the value of `:time_calls?` in the application environment (default: `false`) will be
+  respected.
+
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2e(year: pos_integer(), day: pos_integer()) :: any()
+  @spec p2e(year: pos_integer(), day: pos_integer(), time: boolean()) :: any()
   def p2e(opts \\ []), do: p2(example_string(opts), opts)
 
   @doc """
@@ -238,9 +258,13 @@ defmodule AOC.IEx do
   environment or based on the local time. Refer to the module documentation for additional
   information.
 
+  The `time:` option can be used to control if the execution of `p2` will be timed. If it is not
+  present, the value of `:time_calls?` in the application environment (default: `false`) will be
+  respected.
+
   This function may cause recompilation if `auto_compile?` is enabled.
   """
-  @spec p2i(year: pos_integer(), day: pos_integer()) :: any()
+  @spec p2i(year: pos_integer(), day: pos_integer(), time: boolean()) :: any()
   def p2i(opts \\ []), do: p2(input_string(opts), opts)
 
   @doc """
