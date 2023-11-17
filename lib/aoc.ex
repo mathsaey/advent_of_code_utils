@@ -100,7 +100,6 @@ defmodule AOC do
   module, unless `doctest?: false` is provided as an option. Any other options (such as `async:
   true`) are passed to ExUnit.
 
-
   ## Examples
 
   ```
