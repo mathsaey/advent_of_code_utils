@@ -54,6 +54,11 @@ defmodule AOC.Helpers do
     |> expand_template(year, day)
   end
 
+  def test_path(year, day) do
+    app_env_val(:test_path, "test/:year/:day_test.exs")
+    |> expand_template(year, day)
+  end
+
   defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
 
   @spec input_string(pos_integer(), pos_integer()) :: String.t()

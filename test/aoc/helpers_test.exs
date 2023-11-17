@@ -51,6 +51,13 @@ defmodule AOC.HelpersTest do
     assert Helpers.code_path(1991, 8) == "8_1991.ex"
   end
 
+  @tag clear: :test_path
+  test "test path" do
+    assert Helpers.test_path(1991, 8) == "test/1991/8_test.exs"
+    put_env(:test_path, ":day_:year.ex")
+    assert Helpers.test_path(1991, 8) == "8_1991.ex"
+  end
+
   test "input string" do
     assert Helpers.input_string(1991, 8) == "input line"
   end
