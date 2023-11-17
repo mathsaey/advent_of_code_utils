@@ -28,7 +28,7 @@ defmodule AdventOfCodeUtils.MixProject do
 
   def application do
     [
-      extra_applications: [:inets, :iex, :eex]
+      extra_applications: [:inets, :iex, :eex, :ssl]
     ]
   end
 

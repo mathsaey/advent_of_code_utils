@@ -78,5 +78,5 @@ defmodule Mix.Tasks.Aoc do
   end
 
   @doc false
-  def url(year, day), do: to_charlist("http://adventofcode.com/#{year}/day/#{day}")
+  def url(year, day), do: ~c"https://adventofcode.com/#{year}/day/#{day}"
 end
