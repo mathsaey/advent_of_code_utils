@@ -93,6 +93,9 @@ defmodule AOC.IEx do
 
   config :advent_of_code_utils, time_calls?: true
   ```
+
+  This feature can also be enabled or disabled by passing `time: true` or `time: false` as an
+  option to `p1/2`, `p2/2`, `p1i/1`, `p1e/1`, `p2i/1` or `p2e/1`.
   """
   alias AOC.Helpers
 
