@@ -10,7 +10,7 @@ defmodule AOC.Case do
   The `use` statement expects a `year` and `day` option, which are used to generate the correct
   module tags and helper functions.
 
-  Consider using `AOC.aoc_test/4` instead of using this case template.
+  Consider using `AOC.aoc_test/4` instead of this case template.
 
   ## Module tags and filtering
 

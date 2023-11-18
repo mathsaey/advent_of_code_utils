@@ -167,8 +167,8 @@ of its functions as well.
 
 ### doctests
 
-`AOC.aoc_test/4` automatically calls the doctests of the solution module. You
-can thus use doctests if you like TDD:
+`AOC.aoc_test/4` automatically calls the doctests of the solution module.
+This enables you to write your solution module as follows:
 ```
 aoc <year>, <day> do
   @doc """
@@ -188,7 +188,7 @@ used to make `mix test` only run the (doc)tests you want. See `AOC.Case` for
 more infomation.
 
 #### Run the test of a specific day
-* `mix test --day:<day>`
+* `mix test --only day:<day>`
 #### Run the test of a specific day if your repository spans multiple years
 * `mix test --only aoc:<year>-<day>`
 * `mix test test/<year>/<day>_test.exs`

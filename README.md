@@ -40,7 +40,7 @@ input. Once ready, you can use `AOC.IEx.p1i/1` and `AOC.IEx.p2i/1` to run your
 solution on your puzzle input.
 
 The project also optionally supports automatically recompiling your mix project
-when using the aforementioned helpers, timing your solutions and boilerplate
+when using the aforementioned helpers, timing your solutions, and boilerplate
 generation for unit testing your solution modules. It also supports working on
 puzzles from previous days or years. Check out the
 [docs](https://hexdocs.pm/advent_of_code_utils/) or the
@@ -151,7 +151,7 @@ This problem can be solved by setting the `time_zone` option of
 determine the current day based on EST, the time zone of the advent of code
 servers. When it is said to `:local` (the default), your system time will be
 used. Alternatively, a valid time zone string can be supplied, in which case
-the project will use determine the current day based on the provided time zone.
+the project will determine the current day based on the provided time zone.
 
 ```elixir
 # Use the aoc timezone instead of local time

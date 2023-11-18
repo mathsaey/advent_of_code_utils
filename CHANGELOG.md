@@ -54,6 +54,7 @@ solution module.
 ### Detailed Changelog
 
 - Introduce `AOC.aoc_test/4`, `AOC.Case`.
+- Update `mix aoc.gen` to generate unit test files
 - Remove `example_path/1`, `input_path/1`, `example_string/1`,
   `input_string/1`, `example_stream/1`, `input_stream/1` from `AOC` module.
 - Remove `example_stream/1`, `input_stream/1` from `AOC.IEx`.

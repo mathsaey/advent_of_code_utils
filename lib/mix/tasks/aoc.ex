@@ -21,6 +21,8 @@ defmodule Mix.Tasks.Aoc do
 
   ## Configuration
 
+  ### Application environment
+
   The following [application configuration parameters](`Config`) can modify the behaviour of this
   task:
 
@@ -43,9 +45,7 @@ defmodule Mix.Tasks.Aoc do
   - `code_path`: Determines where `mix aoc.gen` stores the generated test file. Defaults to
   `"test/:year/:day_test.exs"`
 
-  ### Application environment
-
-  ## Command-line arguments
+  ### Command-line arguments
 
   - `-y` or `--year`: Specify the year.
   - `-d` or `--day`: Specify the day.
