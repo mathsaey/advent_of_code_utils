@@ -129,8 +129,11 @@ sources, using the first that matches.
    `config/config.exs`).
 3. The local year and month of day.
 
-## Writing (doc)tests
-{: .col-3}
+## Tests
+{: .col-2}
+
+Advent of Code utils offers optional support for generating and
+writing (doc)tests.
 
 ### Test modules
 
@@ -177,6 +180,22 @@ end
 ```
 `mix aoc.gen` can automatically generate doctests skeletons for your solution
 module.
+
+### Running the tests
+
+`AOC.aoc_test/4` injects several module tags into the test case, which can be
+used to make `mix test` only run the (doc)tests you want. See `AOC.Case` for
+more infomation.
+
+#### Run the test of a specific day
+* `mix test --day:<day>`
+#### Run the test of a specific day if your repository spans multiple years
+* `mix test --only aoc:<year>-<day>`
+* `mix test test/<year>/<day>_test.exs`
+#### Run all tests of a year
+* `mix test --only year:<year>`
+#### Run all tests
+* `mix test`
 
 ## Configuration & Setup
 
