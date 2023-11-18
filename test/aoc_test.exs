@@ -24,7 +24,7 @@ defmodule AocTest do
       end
 
       [%ExUnit.Test{tags: tags} | _] = Y1991.D8.AOCTest.__ex_unit__().tests
-      assert {:date, ~D[1991-12-08]} in tags
+      assert {:aoc, "1991-8"} in tags
       assert {:year, 1991} in tags
       assert {:day, 8} in tags
     end
