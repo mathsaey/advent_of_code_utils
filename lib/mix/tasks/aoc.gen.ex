@@ -17,6 +17,15 @@ defmodule Mix.Tasks.Aoc.Gen do
   If you do not wish to generate doctests, you can set `gen_doctests?` to `false` in the
   application configuration or pass the `--no-doctest` option to this task.
 
+  ### Generating tests later on
+
+  This task will never overwrite existing files. Therefore, if you run `mix aoc.gen --test` after
+  a previous run of `mix aoc.gen` (without `--test`), this task will create a unit test file and
+  leave the existing file alone. This is useful if you wish to add tests to existing code.
+
+  Note that adding the `--doctest` flag when a solution module has already been generated will not
+  work, as this task will never overwrite existing files.
+
   ## File locations
 
   By default, this task stores the generated code skeleton in `lib/<year>/<day>.ex`. If this file
