@@ -145,13 +145,13 @@ defmodule Mix.Tasks.Aoc.Gen do
     \"\"\"
 
     @doc \"\"\"
-        iex> p1(example_input())
+        iex> p1(example_string())
     \"\"\"
     <% end %>def p1(input) do
     end
 
     <%= if @doctests do %>@doc \"\"\"
-        iex> p2(example_input())
+        iex> p2(example_string())
     \"\"\"
     <% end %>def p2(input) do
     end
