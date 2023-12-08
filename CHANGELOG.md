@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.0.1
+
+- Make `mix aoc.gen` use `example_string()` instead of `example_input()`, which
+  doesn't exist.
+
 ## 4.0.0
 
 ### Overview
