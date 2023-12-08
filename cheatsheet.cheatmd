@@ -172,7 +172,7 @@ This enables you to write your solution module as follows:
 ```
 aoc <year>, <day> do
   @doc """
-      iex> p1(example_input())
+      iex> p1(example_string())
       # solution to part 1 here
   """
   def p1(input), do: ...
