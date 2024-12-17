@@ -51,8 +51,10 @@ defmodule AocTest do
       end
 
       assert Y1991.D8.AOCTest.input_path() == "test/input/1991_8.txt"
-      assert Y1991.D8.AOCTest.example_path() == "test/example/1991_8.txt"
+      assert Y1991.D8.AOCTest.example_path(0) == "test/example/1991_8_0.txt"
+      assert Y1991.D8.AOCTest.example_path() == "test/example/1991_8_0.txt"
       assert Y1991.D8.AOCTest.input_string() == "input line"
+      assert Y1991.D8.AOCTest.example_string(0) == "example line"
       assert Y1991.D8.AOCTest.example_string() == "example line"
     end
 
