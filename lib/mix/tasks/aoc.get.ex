@@ -79,12 +79,18 @@ defmodule Mix.Tasks.Aoc.Get do
     year = opts[:year]
     day = opts[:day]
 
-    example_path = Helpers.example_path(year, day)
     input_path = Helpers.input_path(year, day)
 
     start_applications()
+
+    if example do
+      fetch_examples(session, year, day)
+      |> Enum.each(fn {example, nth} ->
+        do_if_file_does_not_exists(Helpers.example_path(year, day, nth), fn -> example end)
+      end)
+    end
+
     do_if_file_does_not_exists(input_path, fn -> fetch_input(session, year, day) end)
-    if example, do: do_if_file_does_not_exists(example_path, fn -> fetch_example(year, day) end)
   end
 
   defp do_if_file_does_not_exists(path, fun) do
@@ -98,20 +104,22 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
-  defp fetch_example(year, day) do
-    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}", cookie(nil)) do
+  defp fetch_examples(session, year, day) do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}", cookie(session)) do
       {:ok, input} ->
-        find_example(input)
+        find_examples(input)
 
       :error ->
         Mix.raise("Could not fetch example input. Please ensure the challenge is available.")
     end
   end
 
-  defp find_example(html) do
+  defp find_examples(html) do
     with {:ok, html} <- Floki.parse_document(html),
-         [{"code", [], [str | _]} | _] when is_binary(str) <- Floki.find(html, "pre code") do
-      str
+         code_nodes <- Floki.find(html, "pre code") do
+      code_nodes
+      |> Stream.map(&join_text/1)
+      |> Stream.with_index()
     else
       _ ->
         Mix.shell().info([
@@ -126,8 +134,23 @@ defmodule Mix.Tasks.Aoc.Get do
           "Example input will be empty"
         ])
 
-        ""
+        []
     end
+  end
+
+  defp join_text(child) when is_binary(child), do: child
+
+  defp join_text({_type, _attributes, children}) when is_list(children) do
+    children
+    # IO data does not need to be flattened
+    |> Enum.map(&join_text/1)
+  end
+
+  defp join_text(other) do
+    # do not break on unexpected tokens
+    IO.warn(~s"element not recognized while parsing the challenge: #{IO.inspect(other)}")
+    # in case of unrecognized tokens, do not output ":ok"
+    []
   end
 
   defp fetch_input(nil, _, _) do
