@@ -110,6 +110,9 @@ defmodule AOC.IEx do
 
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
 
+  defp fetch_year_day_nth(opts),
+    do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day(), opts[:nth] || 0}
+
   defp call_p_fun(p, input, opts) do
     opts |> mod() |> Code.ensure_loaded!() |> maybe_timed_call(p, [input], opts)
   end
@@ -292,8 +295,8 @@ defmodule AOC.IEx do
   """
   @spec example_path(year: pos_integer(), day: pos_integer()) :: Path.t()
   def example_path(opts \\ []) do
-    {y, d} = fetch_year_day(opts)
-    Helpers.example_path(y, d)
+    {y, d, n} = fetch_year_day_nth(opts)
+    Helpers.example_path(y, d, n)
   end
 
   @doc """
@@ -322,7 +325,7 @@ defmodule AOC.IEx do
   """
   @spec example_string(year: pos_integer(), day: pos_integer()) :: String.t()
   def example_string(opts \\ []) do
-    {y, d} = fetch_year_day(opts)
-    Helpers.example_string(y, d)
+    {y, d, n} = fetch_year_day_nth(opts)
+    Helpers.example_string(y, d, n)
   end
 end
