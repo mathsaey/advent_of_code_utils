@@ -217,7 +217,7 @@ section of the [readme](readme.html).
 | `code_path` | `mix aoc.gen` | `"lib/:year/:day.ex"` |
 | `test_path` | `mix aoc.gen` | `"test/:year/:day_test.exs"` |
 | `input_path` | `AOC.IEx` `mix aoc.get` | `"input/:year_:day.txt"` |
-| `example_path` | `AOC.IEx` `mix aoc.get` | `"input/:year_:day_example.txt"` |
+| `example_path` | `AOC.IEx` `mix aoc.get` | `"input/:year_:day_example_:nth.txt"` |
 
 ### Other recommended tweaks
 

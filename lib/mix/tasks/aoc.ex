@@ -36,7 +36,7 @@ defmodule Mix.Tasks.Aoc do
   - `input_path`: Determines where `mix aoc.get` stores the input file. Defaults to
     `"input/:year_:day.txt"`
   - `example_path`: Determines where `mix aoc.get` stores the example input. Defaults to
-  `"input/:year_:day_example.txt"`
+  `"input/:year_:day_example_:nth.txt"`
   - `gen_tests?`: Determines if `mix aoc.gen` creates test files. Defaults to `false`.
   - `gen_doctests?`: Determines if `mix aoc.gen` creates doctests. Defaults to the value of
     `gen_tests?`.

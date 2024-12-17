@@ -91,8 +91,8 @@ defmodule AOC do
   Generate an advent of code test module for a given year and day.
 
   The generated module will be named `Y<year>.D<day>.AOCTest`. It will be tagged with the year,
-  day and date of the puzzle, and will contain helper functions, `input_path/0`, `example_path/0`,
-  `input_string/0` and `example_string/0` which can be used to access the example and puzzle
+  day and date of the puzzle, and will contain helper functions, `input_path/0`, `example_path/1`,
+  `input_string/0` and `example_string/1` which can be used to access the example and puzzle
   input, as described in `AOC.Case`.
 
   The generated module will import the solution module of the same date (unless `import?: false`

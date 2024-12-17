@@ -42,10 +42,10 @@ defmodule AOC.Case do
   fetch the input or example associated with the solution module. The following helpers are
   injected:
 
-  * `example_string/0`: Fetch the example input with trailing newlines removed.
+  * `example_string/1`: Fetch the n-th example input with trailing newlines removed.
   * `input_string/0`: Fetch the puzzle input, trailing newlines are removed.
   * `input_path/0`: Get the path to the puzzle input.
-  * `example_path/0`: Get the path to the example input.
+  * `example_path/1`: Get the path to the n-th example input.
   """
   use ExUnit.CaseTemplate
 
