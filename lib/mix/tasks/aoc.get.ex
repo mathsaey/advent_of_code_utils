@@ -1,18 +1,20 @@
 defmodule Mix.Tasks.Aoc.Get do
   @moduledoc """
-  Fetch the input and example input of the AOC challenge for a given day / year.
+  Fetch the input and each example input of the AOC challenge for a given day / year.
 
-  This mix task fetches the input and example input for the advent of code challenge of a specific
-  day. The day and year of the challenge can be passed as command-line arguments or be set in the
-  `advent_of_code_utils` application configuration. When neither is present, the current date is
-  used.
+  This mix task fetches the input and each example input for the advent of code challenge of a
+  specific day. The day and year of the challenge can be passed as command-line arguments or be
+  set in the `advent_of_code_utils` application configuration. When neither is present, the
+  current date is used.
 
   By default, this task stores the fetched input data in `input/<year>_<day>.txt`. The fetched
-  example is stored in `input/<year>_<day>_example.txt`. If a file already exists, the matching
+  examples are stored in `input/<year>_<day>_example_<nth>.txt` where `nth` is a progressive
+  number, starting from 0, that distinguish each example. If a file already exists, the matching
   input is not fetched. The destination paths can be modified by setting the value of
   `:input_path` or `:example_path` in the `advent_of_code_utils` application configuration. These
-  values should be set to a string which may contain `:year` and `:day`. These values will be
-  replaced by the day and year of which the input is fetched.
+  values should be set to a string which may contain `:year` and `:day` (and `:nth` for
+  `:example_path`). These values will be replaced by the day and year of which the input is
+  fetched and the progressive number.
 
   For instance, the following configuration will store the fetched input data in
   `my_input/<year>/<day>.input`:
@@ -23,18 +25,19 @@ defmodule Mix.Tasks.Aoc.Get do
 
   ## Session cookie
 
-  In order to fetch your input, this task needs your advent of code session cookie. This can be
-  obtained by investigating your cookies after logging in on the advent of code website. The
-  cookie can be stored inside your `config/config.exs` file (e.g.
+  In order to fetch your input (and the examples for part 2), this task needs your advent of code
+  session cookie. This can be obtained by investigating your cookies after logging in on the
+  advent of code website. The cookie can be stored inside your `config/config.exs` file (e.g.
   `config, :advent_of_code_utils, :session, "<your cookie here>"`) or it can be passed as a
-  command-line argument.  If no cookie is present, the input cannot be fetched.
+  command-line argument. If no cookie is present, the input cannot be fetched. Examples in part 1
+  can still be fetched.
 
   ## Example input
 
   The example input of a given day is fetched by parsing the challenge webpage of a given day and
-  returning the first code example found on that page. This is generally the example input of that
-  day. As this method is not foolproof, it is sometimes necessary to modify the example file by
-  hand.
+  returning the each code example found on that page. The first is generally the example input of
+  that day, but sometimes there could be many examples. As this method is not foolproof, it is
+  sometimes necessary to modify the example file by hand.
 
   If you do not wish to fetch example input, you can pass the `--no-example` flag to this task, or
   you can set `fetch_example?` to `false` in the `advent_of_code_utils` application configuration.
@@ -54,7 +57,7 @@ defmodule Mix.Tasks.Aoc.Get do
     information.
   - `input_path`: Determines where the input file is stored. Defaults to `"input/:year_:day.txt"`
   - `example_path`: Determines where the example input is stored. Defaults to
-    `"input/:year_:day_example.txt"`
+    `"input/:year_:day_example_:nth.txt"`
 
   ### Command-line arguments
 

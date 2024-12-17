@@ -85,6 +85,9 @@ iex> p1i(day: 8, year: 1991)
 iex> p1i(year: 1991)
 # Uses the current day of the month,
 # but in 1991
+iex> p1e(nth: 6)
+# Runs p1 of the current day
+# with 6-th example string (0-based)
 iex> p1("some input", day: 8)
 # Runs p1 of day 8 of the current
 # year with the provided input string
@@ -158,9 +161,9 @@ Inside the `aoc_test` module or inside the doctests, you can access the puzzle
 input and the example input using the following functions:
 
 - `input_string/0`
-- `example_string/0`
+- `example_string/1`
 - `input_path/0`
-- `example_path/0`
+- `example_path/1`
 
 `AOC.aoc_test/4` also `import/2`s the solution module, so you can access any
 of its functions as well.
