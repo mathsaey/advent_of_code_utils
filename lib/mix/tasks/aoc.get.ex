@@ -99,7 +99,7 @@ defmodule Mix.Tasks.Aoc.Get do
   end
 
   defp fetch_example(year, day) do
-    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}") do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}", cookie(nil)) do
       {:ok, input} ->
         find_example(input)
 
@@ -135,7 +135,7 @@ defmodule Mix.Tasks.Aoc.Get do
   end
 
   defp fetch_input(session, year, day) do
-    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}/input", [cookie(session)]) do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}/input", cookie(session)) do
       {:ok, input} ->
         input
 
@@ -149,7 +149,7 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
-  defp fetch(url, headers \\ []) do
+  defp fetch(url, headers) do
     ca_path = Helpers.app_env_val(:ca_cert_path, "/etc/ssl/cert.pem")
     headers = [user_agent() | headers]
 
@@ -170,7 +170,8 @@ defmodule Mix.Tasks.Aoc.Get do
   @ua_charlist to_charlist("#{@ua_name}/#{@ua_version} #{@ua_contact}")
 
   defp user_agent, do: {~c"User-Agent", @ua_charlist}
-  defp cookie(session), do: {~c"Cookie", to_charlist("session=#{session}")}
+  defp cookie(nil), do: []
+  defp cookie(session), do: [{~c"Cookie", to_charlist("session=#{session}")}]
 
   defp start_applications do
     :ok = Application.ensure_started(:inets)
