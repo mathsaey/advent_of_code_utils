@@ -3,7 +3,7 @@ defmodule AOC.HelpersTest do
   alias AOC.Helpers
 
   test "day without setting in application environment" do
-    assert Helpers.day() == NaiveDateTime.local_now().day()
+    assert Helpers.day() == NaiveDateTime.local_now().day
   end
 
   test "day when set in application environment" do
@@ -12,7 +12,7 @@ defmodule AOC.HelpersTest do
   end
 
   test "year without setting in application environment" do
-    assert Helpers.year() == NaiveDateTime.local_now().year()
+    assert Helpers.year() == NaiveDateTime.local_now().year
   end
 
   test "year when set in application environment" do
