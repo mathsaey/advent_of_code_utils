@@ -61,7 +61,9 @@ defmodule AOC.Case do
       def input_path, do: AOC.Helpers.input_path(unquote(year), unquote(day))
       def example_path(nth \\ 0), do: AOC.Helpers.example_path(unquote(year), unquote(day), nth)
       def input_string, do: AOC.Helpers.input_string(unquote(year), unquote(day))
-      def example_string(nth \\ 0), do: AOC.Helpers.example_string(unquote(year), unquote(day), nth)
+
+      def example_string(nth \\ 0),
+        do: AOC.Helpers.example_string(unquote(year), unquote(day), nth)
     end
   end
 end
