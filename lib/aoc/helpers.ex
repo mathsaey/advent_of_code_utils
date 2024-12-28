@@ -60,7 +60,8 @@ defmodule AOC.Helpers do
     |> expand_year_day_template(year, day)
   end
 
-  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
+  @spec path_to_string(Path.t()) :: String.t()
+  def path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
 
   @spec input_string(pos_integer(), pos_integer()) :: String.t()
   def input_string(year, day), do: input_path(year, day) |> path_to_string()

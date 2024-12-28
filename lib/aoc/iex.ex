@@ -331,4 +331,28 @@ defmodule AOC.IEx do
     {y, d, n} = fetch_year_day_n(opts)
     Helpers.example_string(y, d, n)
   end
+
+  @doc """
+  Show all available example strings.
+
+  This is useful to determine which example corresponds with which index.
+
+  If not present in the options list, `day` and `year` are fetched from the application
+  environment or based on the local time. Refer to the module documentation for additional
+  information.
+  """
+  def list_examples(opts \\ []) do
+    {y, d} = fetch_year_day(opts)
+
+    Stream.iterate(0, &(&1 + 1))
+    |> Stream.map(&Helpers.example_path(y, d, &1))
+    |> Enum.take_while(&File.exists?/1)
+    |> Enum.map(&Helpers.path_to_string/1)
+    |> Enum.with_index()
+    |> Enum.each(fn {str, idx} ->
+      [:blue,  "Example #{idx}:"] |> IO.ANSI.format() |> IO.puts()
+      IO.puts(str)
+      IO.puts("")
+    end)
+  end
 end
