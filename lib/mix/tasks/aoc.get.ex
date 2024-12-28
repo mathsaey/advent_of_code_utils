@@ -57,7 +57,7 @@ defmodule Mix.Tasks.Aoc.Get do
     information.
   - `input_path`: Determines where the input file is stored. Defaults to `"input/:year_:day.txt"`
   - `example_path`: Determines where the example input is stored. Defaults to
-    `"input/:year_:day_example_:nth.txt"`
+    `"input/:year_:day_example_:n.txt"`
 
   ### Command-line arguments
 
@@ -88,8 +88,8 @@ defmodule Mix.Tasks.Aoc.Get do
 
     if example do
       fetch_examples(session, year, day)
-      |> Enum.each(fn {example, nth} ->
-        do_if_file_does_not_exists(Helpers.example_path(year, day, nth), fn -> example end)
+      |> Enum.each(fn {example, n} ->
+        do_if_file_does_not_exists(Helpers.example_path(year, day, n), fn -> example end)
       end)
     end
 

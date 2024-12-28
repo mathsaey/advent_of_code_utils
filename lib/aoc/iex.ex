@@ -112,7 +112,7 @@ defmodule AOC.IEx do
 
   defp fetch_year_day_n(opts) do
     {y, d} = fetch_year_day(opts)
-    {y, d, opts[:nth] || 0}
+    {y, d, opts[:n] || 0}
   end
 
   defp call_p_fun(p, input, opts) do
@@ -292,12 +292,12 @@ defmodule AOC.IEx do
   Obtain the path of the n-th example input of the current puzzle.
 
   If not present in the options list, `day` and `year` are fetched from the application
-  environment or based on the local time, while `nth` defaults to `0`. Refer to the module
+  environment or based on the local time, while `n` defaults to `0`. Refer to the module
   documentation for additional information.
   """
-  @spec example_path(year: pos_integer(), day: pos_integer(), nth: non_neg_integer()) :: Path.t()
+  @spec example_path(year: pos_integer(), day: pos_integer(), n: non_neg_integer()) :: Path.t()
   def example_path(opts \\ []) do
-    {y, d, n} = fetch_year_day_nth(opts)
+    {y, d, n} = fetch_year_day_n(opts)
     Helpers.example_path(y, d, n)
   end
 
@@ -322,13 +322,13 @@ defmodule AOC.IEx do
   Trailing newlines are stripped from the example input string.
 
   If not present in the options list, `day` and `year` are fetched from the application
-  environment or based on the local time, while `nth` defaults to `0`. Refer to the module
+  environment or based on the local time, while `n` defaults to `0`. Refer to the module
   documentation for additional information.
   """
-  @spec example_string(year: pos_integer(), day: pos_integer(), nth: non_neg_integer()) ::
+  @spec example_string(year: pos_integer(), day: pos_integer(), n: non_neg_integer()) ::
           String.t()
   def example_string(opts \\ []) do
-    {y, d, n} = fetch_year_day_nth(opts)
+    {y, d, n} = fetch_year_day_n(opts)
     Helpers.example_string(y, d, n)
   end
 end

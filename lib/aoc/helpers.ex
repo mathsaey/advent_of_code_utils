@@ -44,10 +44,10 @@ defmodule AOC.Helpers do
     |> expand_year_day_template(year, day)
   end
 
-  def example_path(year, day, nth \\ 0) do
-    app_env_val(:example_path, "input/:year_:day_example_:nth.txt")
+  def example_path(year, day, n \\ 0) do
+    app_env_val(:example_path, "input/:year_:day_example_:n.txt")
     |> expand_year_day_template(year, day)
-    |> String.replace(":nth", Integer.to_string(nth))
+    |> String.replace(":n", Integer.to_string(n))
   end
 
   def code_path(year, day) do
@@ -66,7 +66,7 @@ defmodule AOC.Helpers do
   def input_string(year, day), do: input_path(year, day) |> path_to_string()
 
   @spec example_string(pos_integer(), pos_integer(), non_neg_integer()) :: String.t()
-  def example_string(year, day, nth \\ 0), do: example_path(year, day, nth) |> path_to_string()
+  def example_string(year, day, n \\ 0), do: example_path(year, day, n) |> path_to_string()
 
   def parse_args!(args, accepted) do
     aliases = [y: :year, d: :day, s: :session, t: :test]
