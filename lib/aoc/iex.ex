@@ -110,8 +110,10 @@ defmodule AOC.IEx do
 
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
 
-  defp fetch_year_day_nth(opts),
-    do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day(), opts[:nth] || 0}
+  defp fetch_year_day_n(opts) do
+    {y, d} = fetch_year_day(opts)
+    {y, d, opts[:nth] || 0}
+  end
 
   defp call_p_fun(p, input, opts) do
     opts |> mod() |> Code.ensure_loaded!() |> maybe_timed_call(p, [input], opts)
