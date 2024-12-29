@@ -33,31 +33,31 @@ defmodule AOC.Helpers do
     |> Module.concat(AOCTest)
   end
 
-  defp expand_template(template, year, day, nth \\ 0) do
+  defp expand_year_day_template(template, year, day) do
     template
     |> String.replace(":year", Integer.to_string(year))
     |> String.replace(":day", Integer.to_string(day))
-    |> String.replace(":nth", Integer.to_string(nth))
   end
 
   def input_path(year, day) do
     app_env_val(:input_path, "input/:year_:day.txt")
-    |> expand_template(year, day)
+    |> expand_year_day_template(year, day)
   end
 
   def example_path(year, day, nth \\ 0) do
     app_env_val(:example_path, "input/:year_:day_example_:nth.txt")
-    |> expand_template(year, day, nth)
+    |> expand_year_day_template(year, day)
+    |> String.replace(":nth", Integer.to_string(nth))
   end
 
   def code_path(year, day) do
     app_env_val(:code_path, "lib/:year/:day.ex")
-    |> expand_template(year, day)
+    |> expand_year_day_template(year, day)
   end
 
   def test_path(year, day) do
     app_env_val(:test_path, "test/:year/:day_test.exs")
-    |> expand_template(year, day)
+    |> expand_year_day_template(year, day)
   end
 
   defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
