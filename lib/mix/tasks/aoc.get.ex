@@ -144,14 +144,13 @@ defmodule Mix.Tasks.Aoc.Get do
   defp join_text(child) when is_binary(child), do: child
 
   defp join_text({_type, _attributes, children}) when is_list(children) do
-    children
-    # IO data does not need to be flattened
-    |> Enum.map(&join_text/1)
+    # IOdata does not need to be flattened
+    Enum.map(children, &join_text/1)
   end
 
   defp join_text(other) do
     # do not break on unexpected tokens
-    IO.warn(~s"element not recognized while parsing the challenge: #{IO.inspect(other)}")
+    IO.warn("Element not recognized while parsing the challenge: #{IO.inspect(other)}")
     # in case of unrecognized tokens, do not output ":ok"
     []
   end
