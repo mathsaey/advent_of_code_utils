@@ -8,13 +8,13 @@ defmodule Mix.Tasks.Aoc.Get do
   current date is used.
 
   By default, this task stores the fetched input data in `input/<year>_<day>.txt`. The fetched
-  examples are stored in `input/<year>_<day>_example_<nth>.txt` where `nth` is a progressive
+  examples are stored in `input/<year>_<day>_example_<n>.txt` where `n` is a progressive
   number, starting from 0, that distinguish each example. If a file already exists, the matching
   input is not fetched. The destination paths can be modified by setting the value of
   `:input_path` or `:example_path` in the `advent_of_code_utils` application configuration. These
-  values should be set to a string which may contain `:year` and `:day` (and `:nth` for
+  values should be set to a string which may contain `:year` and `:day` (and `:n` for
   `:example_path`). These values will be replaced by the day and year of which the input is
-  fetched and the progressive number.
+  fetched (and the progressive number for `:example_path`).
 
   For instance, the following configuration will store the fetched input data in
   `my_input/<year>/<day>.input`:
@@ -34,13 +34,16 @@ defmodule Mix.Tasks.Aoc.Get do
 
   ## Example input
 
-  The example input of a given day is fetched by parsing the challenge webpage of a given day and
-  returning the each code example found on that page. The first is generally the example input of
-  that day, but sometimes there could be many examples. As this method is not foolproof, it is
-  sometimes necessary to modify the example file by hand.
+  The example inputs of a given day are fetched by parsing the challenge webpage of the day and
+  storing each code block found on that page. The first code block is generally the example input
+  of that day, but sometimes, many code blocks, which may or may not contain useful examples, are
+  present.
 
   If you do not wish to fetch example input, you can pass the `--no-example` flag to this task, or
   you can set `fetch_example?` to `false` in the `advent_of_code_utils` application configuration.
+
+  If your session cookie is set, running `mix aoc.get` after successfully completing part 1 will
+  fetch and store any additional code blocks on the challenge webpage.
 
   ## Configuration
 

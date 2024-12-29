@@ -54,6 +54,7 @@ solution:
 - `AOC.IEx.example_path/1`
 - `AOC.IEx.input_string/1`
 - `AOC.IEx.example_string/1`
+- `AOC.IEx.list_examples/1`
 ### Mix tasks
 
 mix is used to fetch the input for a puzzle and to create boilerplate code.
@@ -66,6 +67,35 @@ mix is used to fetch the input for a puzzle and to create boilerplate code.
 
 #### Fetch + Generate
 * `mix aoc`
+
+## Handling Examples
+{: .col-2}
+
+When using `mix aoc.get` (or `mix aoc`), Advent of Code utils fetches all the
+code blocks on the puzzle page and stores them as examples.
+
+- Any code block on the puzzle page is treated as an example, so some false
+  positives may be present.
+- Running `mix aoc.get` after solving part 1 will fetch any new examples from
+  the puzzle page if your session cookie is set.
+- Example fetching can be disabled by passing `--no-example` to `mix aoc` or
+  `mix aoc.get`, or by setting `fetch_example?` to false.
+
+### Interacting with examples in iex
+
+```
+iex> p1e()
+# Runs p1 of the current day with the first example input.
+iex> p1e(n: 0)
+# Same as above, examples are numbered starting from 0
+iex> p1e(n: 3)
+# Run p1 of the current day on the 4th example found.
+iex> p2e(n: 3)
+# Run p2 of the current day on the 4th example found.
+iex> list_examples()
+# Show all available examples
+```
+
 
 ## Specifying time and date
 {: .col-2}
@@ -85,9 +115,6 @@ iex> p1i(day: 8, year: 1991)
 iex> p1i(year: 1991)
 # Uses the current day of the month,
 # but in 1991
-iex> p1e(nth: 6)
-# Runs p1 of the current day
-# with 6-th example string (0-based)
 iex> p1("some input", day: 8)
 # Runs p1 of day 8 of the current
 # year with the provided input string
@@ -175,7 +202,7 @@ This enables you to write your solution module as follows:
 ```
 aoc <year>, <day> do
   @doc """
-      iex> p1(example_string())
+      iex> p1(example_string(0))
       # solution to part 1 here
   """
   def p1(input), do: ...
@@ -213,6 +240,7 @@ section of the [readme](readme.html).
 | `year` | `AOC.IEx` `mix aoc.get` `mix aoc.gen` | Current year |
 | `time_zone` | `AOC.IEx` `mix aoc.get` `mix aoc.gen` | `:local` |
 | `session` | `mix aoc.get` | |
+| `fetch_example?` | `mix aoc.get` | `true` |
 | `auto_compile?` | `AOC.IEx` | `false` |
 | `time_calls?` | `AOC.IEx` | `false` |
 | `gen_tests?` | `mix aoc.gen` | `false` |
@@ -220,7 +248,7 @@ section of the [readme](readme.html).
 | `code_path` | `mix aoc.gen` | `"lib/:year/:day.ex"` |
 | `test_path` | `mix aoc.gen` | `"test/:year/:day_test.exs"` |
 | `input_path` | `AOC.IEx` `mix aoc.get` | `"input/:year_:day.txt"` |
-| `example_path` | `AOC.IEx` `mix aoc.get` | `"input/:year_:day_example_:nth.txt"` |
+| `example_path` | `AOC.IEx` `mix aoc.get` | `"input/:year_:day_example_:n.txt"` |
 
 ### Other recommended tweaks
 

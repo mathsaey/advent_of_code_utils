@@ -14,9 +14,9 @@ defmodule Mix.Tasks.Aoc do
 
   ## `mix aoc.get`
 
-  This task fetches the input and example input for a given day and year and stores it in
-  `input/<year>_<day>.txt` and `input/<year>_<day>_example.txt`. In order for this task to work,
-  your session cookie should be passed as a command line argument or set up in the
+  This task fetches the input and example inputs for a given day and year and stores it in
+  `input/<year>_<day>.txt` and `input/<year>_<day>_example_<n>.txt`. In order for this task to
+  work, your session cookie should be passed as a command line argument or set up in the
   `:advent_of_code_utils` application environment.
 
   ## Configuration
@@ -35,15 +35,15 @@ defmodule Mix.Tasks.Aoc do
     personal puzzle input.
   - `input_path`: Determines where `mix aoc.get` stores the input file. Defaults to
     `"input/:year_:day.txt"`
-  - `example_path`: Determines where `mix aoc.get` stores the example input. Defaults to
-  `"input/:year_:day_example_:n.txt"`
+  - `example_path`: Determines where `mix aoc.get` stores the example inputs. Defaults to
+    `"input/:year_:day_example_:n.txt"`
   - `gen_tests?`: Determines if `mix aoc.gen` creates test files. Defaults to `false`.
   - `gen_doctests?`: Determines if `mix aoc.gen` creates doctests. Defaults to the value of
     `gen_tests?`.
   - `code_path`: Determines where `mix aoc.gen` stores the generated code file. Defaults to
     `"lib/:year/:day.ex"`.
   - `code_path`: Determines where `mix aoc.gen` stores the generated test file. Defaults to
-  `"test/:year/:day_test.exs"`
+    `"test/:year/:day_test.exs"`
 
   ### Command-line arguments
 

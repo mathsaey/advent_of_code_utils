@@ -22,14 +22,25 @@ defmodule AOC.IEx do
   ## Functions in this module
 
   This module provides the `p1e/1`, `p1i/1`, `p2e/1` and `p2i/1` functions, which call your part
-  one or part two solution with the example (`p1e/1`, `p2e/1`) or puzzle input (`p1i/1`, `p2i/1`)
-  from within iex.  You can also use `p1/2` and `p2/2` to call the `p1` and `p2` functions of your
-  solution module directly.
+  one or part two solution with an example (`p1e/1`, `p2e/1`) or with the puzzle input (`p1i/1`,
+  `p2i/1`) from within iex.  You can also use `p1/2` and `p2/2` to call the `p1` and `p2`
+  functions of your solution module directly.
 
   `mod/1` can be used to obtain the current solution module, which is useful if you wish to test
   other functions in your solution module. Moreover, `example_path/1`, `input_path/1`,
   `example_string/1`, and `input_string/1`, can be used to experiment with the puzzle input and
   example input retrieved by `mix aoc.get` or `mix aoc` inside iex.
+
+  ## Specifying an example
+
+  `mix aoc.get` fetches every code block on the puzzle input webpage and treats it as an example.
+  These examples are stored on disk and can be accessed through the use of `p1e/1`, `p2e/1`,
+  `example_path/1` and `example_string/1`. By default, these functions use or return the first
+  code block found on the puzzle webpage. However, these functions accept an `n:` option, which
+  can be used to specify which example to use. `list_examples/1` can be used to obtain an overview
+  of all the available examples.
+
+  Note that running `mix aoc.get` after finishing part 1 may retrieve additional examples.
 
   ## Specifying the puzzle date
 

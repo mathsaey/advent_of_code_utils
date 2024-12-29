@@ -1,15 +1,15 @@
 # Changelog
 
-## 4.1.0??
+## 4.1.0
 
 - Make `mix aoc.get` fetch and store each example input, not just the first
-  (this is useful when several example are available or when part 2 supply
-  additional example)
-- Update `example_path/1` and `example_string/1` to accept an `:nth`
-  option to retrieve the n-th example (0-based).
+  (this is useful when several example are available or when part 2 supplies
+  additional examples)
+- Update `example_path/1` and `example_string/1` to accept an `:n` option to
+  retrieve the n-th example (0-based).
 - Update `AOC.Case` so that `example_path/1` and `example_string/1` optionally
   accept the index of the example to use.
-- Remove annoying warning on freshly generated aoc code about unused input.
+- Remove warning on freshly generated aoc code about unused input.
 
 ## 4.0.1
 
