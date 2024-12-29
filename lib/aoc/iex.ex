@@ -361,7 +361,7 @@ defmodule AOC.IEx do
     |> Enum.map(&Helpers.path_to_string/1)
     |> Enum.with_index()
     |> Enum.each(fn {str, idx} ->
-      [:blue,  "Example #{idx}:"] |> IO.ANSI.format() |> IO.puts()
+      [:blue, "Example #{idx}:"] |> IO.ANSI.format() |> IO.puts()
       IO.puts(str)
       IO.puts("")
     end)
