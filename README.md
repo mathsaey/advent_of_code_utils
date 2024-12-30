@@ -16,7 +16,7 @@ first of December 2020:
 $ mix aoc
 * Creating: lib/2020/1.ex
 * Creating: input/2020_1.txt
-* Creating: input/2020_1_example.txt
+* Creating: input/2020_1_example_0.txt
 Today's challenge can be found at: https://adventofcode.com/2020/day/1
 ```
 
@@ -27,17 +27,19 @@ import AOC
 
 aoc 2020, 1 do
   def p1(input) do
+    input
   end
 
   def p2(input) do
+    input
   end
 end
 ```
 
 While solving your challenge, you can use the `AOC.IEx.p1e/1` and
 `AOC.IEx.p2e/1` helpers in `iex` to test your solution so far with the example
-input. Once ready, you can use `AOC.IEx.p1i/1` and `AOC.IEx.p2i/1` to run your
-solution on your puzzle input.
+input(s). Once ready, you can use `AOC.IEx.p1i/1` and `AOC.IEx.p2i/1` to run
+your solution on your puzzle input.
 
 The project also optionally supports automatically recompiling your mix project
 when using the aforementioned helpers, timing your solutions, and boilerplate
@@ -128,8 +130,8 @@ use `mix aoc.get` instead of `mix aoc`.
 ## Example Input
 
 Besides fetching input, `mix aoc.get` and `mix aoc` will also fetch example
-input for the given day.  This is done by reading the first code example on the
-challenge webpage, which is generally that day's example input.
+input for the given day.  This is done by reading each code example on the
+challenge webpage and storing each with a progressive number (starting from 0).
 
 Since this method is not 100% reliable, you may you wish to disable this
 behaviour. This can be done by passing the `--no-example` flag to `mix aoc` or

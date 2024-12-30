@@ -33,7 +33,7 @@ defmodule AOC.Helpers do
     |> Module.concat(AOCTest)
   end
 
-  defp expand_template(template, year, day) do
+  defp expand_year_day_template(template, year, day) do
     template
     |> String.replace(":year", Integer.to_string(year))
     |> String.replace(":day", Integer.to_string(day))
@@ -41,31 +41,33 @@ defmodule AOC.Helpers do
 
   def input_path(year, day) do
     app_env_val(:input_path, "input/:year_:day.txt")
-    |> expand_template(year, day)
+    |> expand_year_day_template(year, day)
   end
 
-  def example_path(year, day) do
-    app_env_val(:example_path, "input/:year_:day_example.txt")
-    |> expand_template(year, day)
+  def example_path(year, day, n \\ 0) do
+    app_env_val(:example_path, "input/:year_:day_example_:n.txt")
+    |> expand_year_day_template(year, day)
+    |> String.replace(":n", Integer.to_string(n))
   end
 
   def code_path(year, day) do
     app_env_val(:code_path, "lib/:year/:day.ex")
-    |> expand_template(year, day)
+    |> expand_year_day_template(year, day)
   end
 
   def test_path(year, day) do
     app_env_val(:test_path, "test/:year/:day_test.exs")
-    |> expand_template(year, day)
+    |> expand_year_day_template(year, day)
   end
 
-  defp path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
+  @spec path_to_string(Path.t()) :: String.t()
+  def path_to_string(path), do: path |> File.read!() |> String.trim_trailing("\n")
 
   @spec input_string(pos_integer(), pos_integer()) :: String.t()
   def input_string(year, day), do: input_path(year, day) |> path_to_string()
 
-  @spec example_string(pos_integer(), pos_integer()) :: String.t()
-  def example_string(year, day), do: example_path(year, day) |> path_to_string()
+  @spec example_string(pos_integer(), pos_integer(), non_neg_integer()) :: String.t()
+  def example_string(year, day, n \\ 0), do: example_path(year, day, n) |> path_to_string()
 
   def parse_args!(args, accepted) do
     aliases = [y: :year, d: :day, s: :session, t: :test]

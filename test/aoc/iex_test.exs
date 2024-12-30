@@ -35,11 +35,11 @@ defmodule AOC.IExTest do
 
   test "input path" do
     assert input_path(year: 1991, day: 8) == "test/input/1991_8.txt"
-    assert example_path(year: 1991, day: 8) == "test/example/1991_8.txt"
+    assert example_path(year: 1991, day: 8, n: 7) == "test/example/1991_8_7.txt"
     put_env(:year, 2014)
     put_env(:day, 10)
     assert input_path() == "test/input/2014_10.txt"
-    assert example_path() == "test/example/2014_10.txt"
+    assert example_path() == "test/example/2014_10_0.txt"
   end
 
   test "input string" do

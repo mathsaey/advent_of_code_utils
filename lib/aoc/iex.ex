@@ -22,14 +22,25 @@ defmodule AOC.IEx do
   ## Functions in this module
 
   This module provides the `p1e/1`, `p1i/1`, `p2e/1` and `p2i/1` functions, which call your part
-  one or part two solution with the example (`p1e/1`, `p2e/1`) or puzzle input (`p1i/1`, `p2i/1`)
-  from within iex.  You can also use `p1/2` and `p2/2` to call the `p1` and `p2` functions of your
-  solution module directly.
+  one or part two solution with an example (`p1e/1`, `p2e/1`) or with the puzzle input (`p1i/1`,
+  `p2i/1`) from within iex.  You can also use `p1/2` and `p2/2` to call the `p1` and `p2`
+  functions of your solution module directly.
 
   `mod/1` can be used to obtain the current solution module, which is useful if you wish to test
   other functions in your solution module. Moreover, `example_path/1`, `input_path/1`,
   `example_string/1`, and `input_string/1`, can be used to experiment with the puzzle input and
   example input retrieved by `mix aoc.get` or `mix aoc` inside iex.
+
+  ## Specifying an example
+
+  `mix aoc.get` fetches every code block on the puzzle input webpage and treats it as an example.
+  These examples are stored on disk and can be accessed through the use of `p1e/1`, `p2e/1`,
+  `example_path/1` and `example_string/1`. By default, these functions use or return the first
+  code block found on the puzzle webpage. However, these functions accept an `n:` option, which
+  can be used to specify which example to use. `list_examples/1` can be used to obtain an overview
+  of all the available examples.
+
+  Note that running `mix aoc.get` after finishing part 1 may retrieve additional examples.
 
   ## Specifying the puzzle date
 
@@ -109,6 +120,11 @@ defmodule AOC.IEx do
   end
 
   defp fetch_year_day(opts), do: {opts[:year] || Helpers.year(), opts[:day] || Helpers.day()}
+
+  defp fetch_year_day_n(opts) do
+    {y, d} = fetch_year_day(opts)
+    {y, d, opts[:n] || 0}
+  end
 
   defp call_p_fun(p, input, opts) do
     opts |> mod() |> Code.ensure_loaded!() |> maybe_timed_call(p, [input], opts)
@@ -284,16 +300,16 @@ defmodule AOC.IEx do
   end
 
   @doc """
-  Obtain the path of the example input of the current puzzle.
+  Obtain the path of the n-th example input of the current puzzle.
 
   If not present in the options list, `day` and `year` are fetched from the application
-  environment or based on the local time. Refer to the module documentation for additional
-  information.
+  environment or based on the local time, while `n` defaults to `0`. Refer to the module
+  documentation for additional information.
   """
-  @spec example_path(year: pos_integer(), day: pos_integer()) :: Path.t()
+  @spec example_path(year: pos_integer(), day: pos_integer(), n: non_neg_integer()) :: Path.t()
   def example_path(opts \\ []) do
-    {y, d} = fetch_year_day(opts)
-    Helpers.example_path(y, d)
+    {y, d, n} = fetch_year_day_n(opts)
+    Helpers.example_path(y, d, n)
   end
 
   @doc """
@@ -317,12 +333,37 @@ defmodule AOC.IEx do
   Trailing newlines are stripped from the example input string.
 
   If not present in the options list, `day` and `year` are fetched from the application
+  environment or based on the local time, while `n` defaults to `0`. Refer to the module
+  documentation for additional information.
+  """
+  @spec example_string(year: pos_integer(), day: pos_integer(), n: non_neg_integer()) ::
+          String.t()
+  def example_string(opts \\ []) do
+    {y, d, n} = fetch_year_day_n(opts)
+    Helpers.example_string(y, d, n)
+  end
+
+  @doc """
+  Show all available example strings.
+
+  This is useful to determine which example corresponds with which index.
+
+  If not present in the options list, `day` and `year` are fetched from the application
   environment or based on the local time. Refer to the module documentation for additional
   information.
   """
-  @spec example_string(year: pos_integer(), day: pos_integer()) :: String.t()
-  def example_string(opts \\ []) do
+  def list_examples(opts \\ []) do
     {y, d} = fetch_year_day(opts)
-    Helpers.example_string(y, d)
+
+    Stream.iterate(0, &(&1 + 1))
+    |> Stream.map(&Helpers.example_path(y, d, &1))
+    |> Enum.take_while(&File.exists?/1)
+    |> Enum.map(&Helpers.path_to_string/1)
+    |> Enum.with_index()
+    |> Enum.each(fn {str, idx} ->
+      [:blue, "Example #{idx}:"] |> IO.ANSI.format() |> IO.puts()
+      IO.puts(str)
+      IO.puts("")
+    end)
   end
 end

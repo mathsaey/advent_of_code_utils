@@ -3,7 +3,7 @@ defmodule AOC.HelpersTest do
   alias AOC.Helpers
 
   test "day without setting in application environment" do
-    assert Helpers.day() == NaiveDateTime.local_now().day()
+    assert Helpers.day() == NaiveDateTime.local_now().day
   end
 
   test "day when set in application environment" do
@@ -12,7 +12,7 @@ defmodule AOC.HelpersTest do
   end
 
   test "year without setting in application environment" do
-    assert Helpers.year() == NaiveDateTime.local_now().year()
+    assert Helpers.year() == NaiveDateTime.local_now().year
   end
 
   test "year when set in application environment" do
@@ -39,9 +39,10 @@ defmodule AOC.HelpersTest do
 
   @tag clear: :example_path
   test "example path" do
-    assert Helpers.example_path(1991, 8) == "input/1991_8_example.txt"
-    put_env(:example_path, ":day_:year_example")
-    assert Helpers.example_path(1991, 8) == "8_1991_example"
+    assert Helpers.example_path(1991, 8) == "input/1991_8_example_0.txt"
+    assert Helpers.example_path(1991, 8, 1) == "input/1991_8_example_1.txt"
+    put_env(:example_path, ":n_:day_:year_example")
+    assert Helpers.example_path(1991, 8, 2) == "2_8_1991_example"
   end
 
   @tag clear: :code_path

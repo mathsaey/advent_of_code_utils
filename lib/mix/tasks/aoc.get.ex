@@ -1,18 +1,20 @@
 defmodule Mix.Tasks.Aoc.Get do
   @moduledoc """
-  Fetch the input and example input of the AOC challenge for a given day / year.
+  Fetch the input and each example input of the AOC challenge for a given day / year.
 
-  This mix task fetches the input and example input for the advent of code challenge of a specific
-  day. The day and year of the challenge can be passed as command-line arguments or be set in the
-  `advent_of_code_utils` application configuration. When neither is present, the current date is
-  used.
+  This mix task fetches the input and each example input for the advent of code challenge of a
+  specific day. The day and year of the challenge can be passed as command-line arguments or be
+  set in the `advent_of_code_utils` application configuration. When neither is present, the
+  current date is used.
 
   By default, this task stores the fetched input data in `input/<year>_<day>.txt`. The fetched
-  example is stored in `input/<year>_<day>_example.txt`. If a file already exists, the matching
+  examples are stored in `input/<year>_<day>_example_<n>.txt` where `n` is a progressive
+  number, starting from 0, that distinguish each example. If a file already exists, the matching
   input is not fetched. The destination paths can be modified by setting the value of
   `:input_path` or `:example_path` in the `advent_of_code_utils` application configuration. These
-  values should be set to a string which may contain `:year` and `:day`. These values will be
-  replaced by the day and year of which the input is fetched.
+  values should be set to a string which may contain `:year` and `:day` (and `:n` for
+  `:example_path`). These values will be replaced by the day and year of which the input is
+  fetched (and the progressive number for `:example_path`).
 
   For instance, the following configuration will store the fetched input data in
   `my_input/<year>/<day>.input`:
@@ -23,21 +25,25 @@ defmodule Mix.Tasks.Aoc.Get do
 
   ## Session cookie
 
-  In order to fetch your input, this task needs your advent of code session cookie. This can be
-  obtained by investigating your cookies after logging in on the advent of code website. The
-  cookie can be stored inside your `config/config.exs` file (e.g.
+  In order to fetch your input (and the examples for part 2), this task needs your advent of code
+  session cookie. This can be obtained by investigating your cookies after logging in on the
+  advent of code website. The cookie can be stored inside your `config/config.exs` file (e.g.
   `config, :advent_of_code_utils, :session, "<your cookie here>"`) or it can be passed as a
-  command-line argument.  If no cookie is present, the input cannot be fetched.
+  command-line argument. If no cookie is present, the input cannot be fetched. Examples in part 1
+  can still be fetched.
 
   ## Example input
 
-  The example input of a given day is fetched by parsing the challenge webpage of a given day and
-  returning the first code example found on that page. This is generally the example input of that
-  day. As this method is not foolproof, it is sometimes necessary to modify the example file by
-  hand.
+  The example inputs of a given day are fetched by parsing the challenge webpage of the day and
+  storing each code block found on that page. The first code block is generally the example input
+  of that day, but sometimes, many code blocks, which may or may not contain useful examples, are
+  present.
 
   If you do not wish to fetch example input, you can pass the `--no-example` flag to this task, or
   you can set `fetch_example?` to `false` in the `advent_of_code_utils` application configuration.
+
+  If your session cookie is set, running `mix aoc.get` after successfully completing part 1 will
+  fetch and store any additional code blocks on the challenge webpage.
 
   ## Configuration
 
@@ -54,7 +60,7 @@ defmodule Mix.Tasks.Aoc.Get do
     information.
   - `input_path`: Determines where the input file is stored. Defaults to `"input/:year_:day.txt"`
   - `example_path`: Determines where the example input is stored. Defaults to
-    `"input/:year_:day_example.txt"`
+    `"input/:year_:day_example_:n.txt"`
 
   ### Command-line arguments
 
@@ -79,12 +85,18 @@ defmodule Mix.Tasks.Aoc.Get do
     year = opts[:year]
     day = opts[:day]
 
-    example_path = Helpers.example_path(year, day)
     input_path = Helpers.input_path(year, day)
 
     start_applications()
+
+    if example do
+      fetch_examples(session, year, day)
+      |> Enum.each(fn {example, n} ->
+        do_if_file_does_not_exists(Helpers.example_path(year, day, n), fn -> example end)
+      end)
+    end
+
     do_if_file_does_not_exists(input_path, fn -> fetch_input(session, year, day) end)
-    if example, do: do_if_file_does_not_exists(example_path, fn -> fetch_example(year, day) end)
   end
 
   defp do_if_file_does_not_exists(path, fun) do
@@ -98,20 +110,22 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
-  defp fetch_example(year, day) do
-    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}") do
+  defp fetch_examples(session, year, day) do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}", cookie(session)) do
       {:ok, input} ->
-        find_example(input)
+        find_examples(input)
 
       :error ->
         Mix.raise("Could not fetch example input. Please ensure the challenge is available.")
     end
   end
 
-  defp find_example(html) do
+  defp find_examples(html) do
     with {:ok, html} <- Floki.parse_document(html),
-         [{"code", [], [str | _]} | _] when is_binary(str) <- Floki.find(html, "pre code") do
-      str
+         code_nodes <- Floki.find(html, "pre code") do
+      code_nodes
+      |> Stream.map(&join_text/1)
+      |> Stream.with_index()
     else
       _ ->
         Mix.shell().info([
@@ -126,8 +140,22 @@ defmodule Mix.Tasks.Aoc.Get do
           "Example input will be empty"
         ])
 
-        ""
+        []
     end
+  end
+
+  defp join_text(child) when is_binary(child), do: child
+
+  defp join_text({_type, _attributes, children}) when is_list(children) do
+    # IOdata does not need to be flattened
+    Enum.map(children, &join_text/1)
+  end
+
+  defp join_text(other) do
+    # do not break on unexpected tokens
+    IO.warn("Element not recognized while parsing the challenge: #{IO.inspect(other)}")
+    # in case of unrecognized tokens, do not output ":ok"
+    []
   end
 
   defp fetch_input(nil, _, _) do
@@ -135,7 +163,7 @@ defmodule Mix.Tasks.Aoc.Get do
   end
 
   defp fetch_input(session, year, day) do
-    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}/input", [cookie(session)]) do
+    case fetch(~c"#{Mix.Tasks.Aoc.url(year, day)}/input", cookie(session)) do
       {:ok, input} ->
         input
 
@@ -149,7 +177,7 @@ defmodule Mix.Tasks.Aoc.Get do
     end
   end
 
-  defp fetch(url, headers \\ []) do
+  defp fetch(url, headers) do
     ca_path = Helpers.app_env_val(:ca_cert_path, "/etc/ssl/cert.pem")
     headers = [user_agent() | headers]
 
@@ -170,7 +198,8 @@ defmodule Mix.Tasks.Aoc.Get do
   @ua_charlist to_charlist("#{@ua_name}/#{@ua_version} #{@ua_contact}")
 
   defp user_agent, do: {~c"User-Agent", @ua_charlist}
-  defp cookie(session), do: {~c"Cookie", to_charlist("session=#{session}")}
+  defp cookie(nil), do: []
+  defp cookie(session), do: [{~c"Cookie", to_charlist("session=#{session}")}]
 
   defp start_applications do
     :ok = Application.ensure_started(:inets)
