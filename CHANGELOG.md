@@ -1,12 +1,23 @@
 # Changelog
 
-## 4.1.0
+## 5.0.0
+
+### Overview
+
+This version adds support for running solutions against multiple example inputs
+in both iex and in test modules. Since this requires changing the naming scheme
+of example files, users who wrote tests that rely on example input must run
+`mix aoc.get` to fetch the examples for each day that uses example input in
+tests.
+
+### Detailed Changelog
 
 - Make `mix aoc.get` fetch and store each example input, not just the first
   (this is useful when several example are available or when part 2 supplies
   additional examples)
 - Update `example_path/1` and `example_string/1` to accept an `:n` option to
   retrieve the n-th example (0-based).
+- Add `AOC.IEx.list_examples/1` to show the available examples.
 - Update `AOC.Case` so that `example_path/1` and `example_string/1` optionally
   accept the index of the example to use.
 - Remove warning on freshly generated aoc code about unused input.
