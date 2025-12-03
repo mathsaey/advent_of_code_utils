@@ -57,6 +57,10 @@ defmodule AOC.IEx do
     current day or year is used by default. `p1(<input>, day: 8)` would, for instance, call part 1
     of day 8 of the current year.
 
+  - The year and day can be configured by setting the `AOC_DAY` and / or `AOC_YEAR` environment
+    variables. For instance, starting `iex` as follows: `AOC_DAY=8 iex -S mix` will set the day to
+    day 8.
+
   - The year and day can be configured through the `:advent_of_code_utils` application
     environment. For instance, you can set the year to `1991` and the day to `8` by placing the
     following in your `config/config.exs`:
@@ -69,15 +73,16 @@ defmodule AOC.IEx do
       year: 1991
     ```
 
-  Both of these options can be combined. You can, for instance, set the year in
-  `config/config.exs` and select the day when calling `p1/2` or any other function in this module.
+  These options can be combined. You can, for instance, set the year in `config/config.exs` and
+  select the day when calling `p1/2` or any other function in this module.
 
   To summarise, the day or year is determined according to the following rules:
 
   1. If year or day is passed as part of the keyword list argument, it is always used.
-  2. If `:year` or `:day` is present in the `:advent_of_code_utils` application environment, it is
+  2. If an `AOC_DAY` or `AOC_YEAR` environment variable exists, its value will be used.
+  3. If `:year` or `:day` is present in the `:advent_of_code_utils` application environment, it is
   used.
-  3. The `year` or `day` returned by `NaiveDateTime.local_now/0` or `DateTime.now/2` is used.
+  4. The `year` or `day` returned by `NaiveDateTime.local_now/0` or `DateTime.now/2` is used.
 
   ## Automatic recompilation
 

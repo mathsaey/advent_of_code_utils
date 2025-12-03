@@ -121,6 +121,16 @@ iex> p1("some input", day: 8)
 ```
 A day can be specified like this for all `AOC.IEx` functions.
 
+### Specifying year or day using environment variables
+
+The day or year may be set through the use of the `AOC_DAY` and `AOC_YEAR`
+environment variables.
+
+```
+AOC_DAY=8 mix aoc # Run `mix aoc` with day set to 8
+AOC_YEAR=1991 iex -S mix # Start `iex` with year 1991
+```
+
 ### Specifying year or day in `config.exs`
 
 Year or day may also be specified in the `config/config.exs` file:
@@ -155,9 +165,10 @@ Mix tasks and the `AOC.IEx` helpers use the year and date from the following
 sources, using the first that matches.
 
 1. Options passed as argument to a function or as a flag to a mix task.
-2. Year or day as specified in the application configuration (i.e. in
+2. Year or day passed as an environment variable.
+3. Year or day as specified in the application configuration (i.e. in
    `config/config.exs`).
-3. The local year and month of day.
+4. The local year and month of day.
 
 ## Tests
 {: .col-2}

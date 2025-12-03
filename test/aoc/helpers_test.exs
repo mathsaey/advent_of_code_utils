@@ -11,12 +11,38 @@ defmodule AOC.HelpersTest do
     assert Helpers.day() == 42
   end
 
+  test "day when set in system environment" do
+    on_exit(fn -> System.delete_env("AOC_DAY") end)
+    System.put_env("AOC_DAY", "42")
+    assert Helpers.day() == 42
+  end
+
+  test "day when set in system and application environment" do
+    on_exit(fn -> System.delete_env("AOC_DAY") end)
+    System.put_env("AOC_DAY", "42")
+    put_env(:day, 41)
+    assert Helpers.day() == 42
+  end
+
   test "year without setting in application environment" do
     assert Helpers.year() == NaiveDateTime.local_now().year
   end
 
   test "year when set in application environment" do
     put_env(:year, 1991)
+    assert Helpers.year() == 1991
+  end
+
+  test "year when set in system environment" do
+    on_exit(fn -> System.delete_env("AOC_YEAR") end)
+    System.put_env("AOC_YEAR", "1991")
+    put_env(:year, 1992)
+    assert Helpers.year() == 1991
+  end
+
+  test "year when set in system and application environment" do
+    on_exit(fn -> System.delete_env("AOC_YEAR") end)
+    System.put_env("AOC_YEAR", "1991")
     assert Helpers.year() == 1991
   end
 

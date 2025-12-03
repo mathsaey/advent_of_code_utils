@@ -19,8 +19,15 @@ defmodule AOC.Helpers do
     end
   end
 
-  def day, do: app_env_val(:day, now().day)
-  def year, do: app_env_val(:year, now().year)
+  defp from_sys_env(key) do
+    case System.get_env(key) do
+      nil -> nil
+      val -> String.to_integer(val)
+    end
+  end
+
+  def day, do: from_sys_env("AOC_DAY") || app_env_val(:day, now().day)
+  def year, do: from_sys_env("AOC_YEAR") || app_env_val(:year, now().year)
 
   def module_name(year, day) do
     mod_year = "Y#{year}" |> String.to_atom()
