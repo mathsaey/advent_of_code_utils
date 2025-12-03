@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.2
+
+- Enable setting day and year through environment variables `AOC_DAY`,
+  `AOC_YEAR`.
+
 ## 5.0.1
 
 - Update dependencies.
