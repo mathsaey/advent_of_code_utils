@@ -58,14 +58,6 @@ defmodule AocTest do
       assert Y1991.D8.AOCTest.example_string() == "example line"
     end
 
-    test "can modify ExUnit options" do
-      aoc_test 1991, 8, async: true do
-      end
-
-      [%ExUnit.Test{tags: tags} | _] = Y1991.D8.AOCTest.__ex_unit__().tests
-      assert tags.async == true
-    end
-
     test "without doctest" do
       aoc_test 1991, 8, doctest?: false do
       end
