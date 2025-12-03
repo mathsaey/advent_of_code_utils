@@ -12,8 +12,8 @@ jobs:
     name: Check type annotations with Dialyzer
     strategy:
       matrix:
-        otp: ['26.1']
-        elixir: ['1.15.7']
+        otp: ['28.2']
+        elixir: ['1.19.4']
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
@@ -30,14 +30,30 @@ jobs:
     name: Run tests
     strategy:
       matrix:
-        otp: ['24.3', '25.3', '26.1']
-        elixir: ['1.13.4', '1.14.5', '1.15.7']
+        otp: ['24.3.4', '25.3.2', '26.2.5', '27.3.4', '28.2']
+        elixir: ['1.15.8', '1.16.3', '1.17.3', '1.18.4', '1.19.4']
         # Exclude unsupported OTP/Elixir combinations
         exclude:
-          - otp: '26.1'
-            elixir: '1.13.4'
-          - otp: '26.1'
-            elixir: '1.14.1'
+          - elixir: '1.15.8'
+            otp: '27.3.4'
+          - elixir: '1.15.8'
+            otp: '28.2'
+          - elixir: '1.16.3'
+            otp: '27.3.4'
+          - elixir: '1.16.3'
+            otp: '28.2'
+          - elixir: '1.17.3'
+            otp: '24.3.4'
+          - elixir: '1.17.3'
+            otp: '28.2'
+          - elixir: '1.18.4'
+            otp: '24.3.4'
+          - elixir: '1.18.4'
+            otp: '28.2'
+          - elixir: '1.19.4'
+            otp: '24.3.4'
+          - elixir: '1.19.4'
+            otp: '25.3.2'
 
     steps:
       - uses: actions/checkout@v2
@@ -55,8 +71,8 @@ jobs:
     name: Check Elixir formatting
     strategy:
       matrix:
-        otp: ['26.1']
-        elixir: ['1.15.7']
+        otp: ['28.2']
+        elixir: ['1.19.4']
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
